@@ -8,6 +8,7 @@ export interface CourseManifest {
   language: string;
   modules: ModuleInfo[];
   currentModule: string;
+  version?: string; // Optional to maintain backward compatibility
 }
 
 export interface ModuleInfo {
