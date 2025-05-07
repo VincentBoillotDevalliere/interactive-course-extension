@@ -1,0 +1,40 @@
+{
+  "id": "03-conditionals",
+  "title": "Conditionals",
+  "exercises": [
+    {
+      "name": "isEven",
+      "description": "Check if a number is even",
+      "jsTemplate": "function isEven(num) {\n  // TODO: Return true if num is even, false otherwise\n  \n}",
+      "pyTemplate": "    # TODO: Return True if num is even, False otherwise\n    pass",
+      "jsTest": "    it(\"should return true for even numbers\", () => {\n      assert.strictEqual(isEven(2), true);\n      assert.strictEqual(isEven(4), true);\n      assert.strictEqual(isEven(100), true);\n    });\n    \n    it(\"should return false for odd numbers\", () => {\n      assert.strictEqual(isEven(1), false);\n      assert.strictEqual(isEven(3), false);\n      assert.strictEqual(isEven(99), false);\n    });",
+      "pyTest": "    def test_is_even(self):\n        self.assertTrue(isEven(2))\n        self.assertTrue(isEven(4))\n        self.assertTrue(isEven(100))\n        self.assertFalse(isEven(1))\n        self.assertFalse(isEven(3))\n        self.assertFalse(isEven(99))"
+    },
+    {
+      "name": "getGrade",
+      "description": "Return a letter grade based on a numerical score",
+      "jsTemplate": "function getGrade(score) {\n  // TODO: Return a letter grade based on the score\n  // 90-100: \"A\"\n  // 80-89: \"B\"\n  // 70-79: \"C\"\n  // 60-69: \"D\"\n  // Below 60: \"F\"\n  \n}",
+      "pyTemplate": "    # TODO: Return a letter grade based on the score\n    # 90-100: \"A\"\n    # 80-89: \"B\"\n    # 70-79: \"C\"\n    # 60-69: \"D\"\n    # Below 60: \"F\"\n    pass",
+      "jsTest": "    it(\"should return correct letter grades\", () => {\n      assert.strictEqual(getGrade(95), \"A\");\n      assert.strictEqual(getGrade(85), \"B\");\n      assert.strictEqual(getGrade(75), \"C\");\n      assert.strictEqual(getGrade(65), \"D\");\n      assert.strictEqual(getGrade(55), \"F\");\n    });",
+      "pyTest": "    def test_get_grade(self):\n        self.assertEqual(getGrade(95), \"A\")\n        self.assertEqual(getGrade(85), \"B\")\n        self.assertEqual(getGrade(75), \"C\")\n        self.assertEqual(getGrade(65), \"D\")\n        self.assertEqual(getGrade(55), \"F\")"
+    },
+    {
+      "name": "findMax",
+      "description": "Find the maximum of three numbers",
+      "jsTemplate": "function findMax(a, b, c) {\n  // TODO: Return the maximum of three numbers\n  \n}",
+      "pyTemplate": "    # TODO: Return the maximum of three numbers\n    pass",
+      "jsTest": "    it(\"should find the maximum of three numbers\", () => {\n      assert.strictEqual(findMax(1, 2, 3), 3);\n      assert.strictEqual(findMax(5, 2, 1), 5);\n      assert.strictEqual(findMax(1, 5, 2), 5);\n      assert.strictEqual(findMax(5, 5, 5), 5);\n    });",
+      "pyTest": "    def test_find_max(self):\n        self.assertEqual(findMax(1, 2, 3), 3)\n        self.assertEqual(findMax(5, 2, 1), 5)\n        self.assertEqual(findMax(1, 5, 2), 5)\n        self.assertEqual(findMax(5, 5, 5), 5)"
+    }
+  ],
+  "resources": {
+    "javascript": [
+      "https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/conditionals",
+      "https://javascript.info/ifelse"
+    ],
+    "python": [
+      "https://docs.python.org/3/tutorial/controlflow.html#if-statements",
+      "https://realpython.com/python-conditional-statements/"
+    ]
+  }
+}

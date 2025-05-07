@@ -1,0 +1,40 @@
+{
+  "id": "04-loops",
+  "title": "Loops",
+  "exercises": [
+    {
+      "name": "sumArray",
+      "description": "Calculate the sum of all elements in an array",
+      "jsTemplate": "function sumArray(arr) {\n  // TODO: Return the sum of all elements in the array\n  \n}",
+      "pyTemplate": "    # TODO: Return the sum of all elements in the list\n    pass",
+      "jsTest": "    it(\"should calculate the sum of array elements\", () => {\n      assert.strictEqual(sumArray([1, 2, 3]), 6);\n      assert.strictEqual(sumArray([5, 10, 15, 20]), 50);\n      assert.strictEqual(sumArray([]), 0);\n    });",
+      "pyTest": "    def test_sum_array(self):\n        self.assertEqual(sumArray([1, 2, 3]), 6)\n        self.assertEqual(sumArray([5, 10, 15, 20]), 50)\n        self.assertEqual(sumArray([]), 0)"
+    },
+    {
+      "name": "countOccurrences",
+      "description": "Count occurrences of an element in an array",
+      "jsTemplate": "function countOccurrences(arr, element) {\n  // TODO: Count how many times element appears in arr\n  \n}",
+      "pyTemplate": "    # TODO: Count how many times element appears in the list\n    pass",
+      "jsTest": "    it(\"should count occurrences correctly\", () => {\n      assert.strictEqual(countOccurrences([1, 2, 3, 2, 1], 1), 2);\n      assert.strictEqual(countOccurrences([1, 2, 3, 2, 1], 2), 2);\n      assert.strictEqual(countOccurrences([1, 2, 3, 2, 1], 4), 0);\n    });",
+      "pyTest": "    def test_count_occurrences(self):\n        self.assertEqual(countOccurrences([1, 2, 3, 2, 1], 1), 2)\n        self.assertEqual(countOccurrences([1, 2, 3, 2, 1], 2), 2)\n        self.assertEqual(countOccurrences([1, 2, 3, 2, 1], 4), 0)"
+    },
+    {
+      "name": "generateFibonacci",
+      "description": "Generate a Fibonacci sequence up to n elements",
+      "jsTemplate": "function generateFibonacci(n) {\n  // TODO: Return an array with the first n Fibonacci numbers\n  // The Fibonacci sequence starts with 0, 1 and each subsequent number\n  // is the sum of the two preceding ones\n  \n}",
+      "pyTemplate": "    # TODO: Return a list with the first n Fibonacci numbers\n    # The Fibonacci sequence starts with 0, 1 and each subsequent number\n    # is the sum of the two preceding ones\n    pass",
+      "jsTest": "    it(\"should generate the correct Fibonacci sequence\", () => {\n      assert.deepStrictEqual(generateFibonacci(1), [0]);\n      assert.deepStrictEqual(generateFibonacci(2), [0, 1]);\n      assert.deepStrictEqual(generateFibonacci(5), [0, 1, 1, 2, 3]);\n      assert.deepStrictEqual(generateFibonacci(8), [0, 1, 1, 2, 3, 5, 8, 13]);\n    });",
+      "pyTest": "    def test_generate_fibonacci(self):\n        self.assertEqual(generateFibonacci(1), [0])\n        self.assertEqual(generateFibonacci(2), [0, 1])\n        self.assertEqual(generateFibonacci(5), [0, 1, 1, 2, 3])\n        self.assertEqual(generateFibonacci(8), [0, 1, 1, 2, 3, 5, 8, 13])"
+    }
+  ],
+  "resources": {
+    "javascript": [
+      "https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Looping_code",
+      "https://javascript.info/while-for"
+    ],
+    "python": [
+      "https://docs.python.org/3/tutorial/controlflow.html#for-statements",
+      "https://realpython.com/python-for-loop/"
+    ]
+  }
+}

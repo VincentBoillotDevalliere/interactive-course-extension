@@ -1,0 +1,12 @@
+{
+  "resources": {
+    "javascript": [
+      "https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/JavaScript_basics",
+      "https://javascript.info/first-steps"
+    ],
+    "python": [
+      "https://docs.python.org/3/tutorial/introduction.html",
+      "https://www.learnpython.org/"
+    ]
+  }
+}

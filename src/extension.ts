@@ -1,9 +1,11 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
+import * as fs from 'fs';
 import { createCourse } from './commands/createCourse';
 import { runTests } from './commands/runTests';
 import { ModuleTreeProvider } from './views/moduleTreeProvider';
 import { CodeHighlighter } from './utils/codeHighlighter';
+import { createNewExerciseModule } from './commands/createExercise';
 
 export function activate(context: vscode.ExtensionContext) {
   console.log('🎓 Interactive Course Extension is now active!');
@@ -12,11 +14,28 @@ export function activate(context: vscode.ExtensionContext) {
   const codeHighlighter = new CodeHighlighter();
   context.subscriptions.push(codeHighlighter);
 
-  // Register commands
+  // Check if we're in development mode (not packaged yet)
+  const isDevMode = checkIfInDevelopmentMode(context);
+
+  // Register common commands
   context.subscriptions.push(
     vscode.commands.registerCommand('extension.createCourse', () => createCourse()),
     vscode.commands.registerCommand('extension.runTests', () => runTests())
   );
+  
+  // Register development-only commands
+  if (isDevMode) {
+    console.log('Running in development mode - enabling exercise creation features');
+    context.subscriptions.push(
+      vscode.commands.registerCommand('extension.createNewExercise', () => createNewExerciseModule())
+    );
+    
+    // Set context key for conditionally showing UI elements
+    vscode.commands.executeCommand('setContext', 'interactiveCourse.devMode', true);
+  } else {
+    // Ensure dev-only UI elements are hidden
+    vscode.commands.executeCommand('setContext', 'interactiveCourse.devMode', false);
+  }
   
   // Register tree view
   const moduleTreeProvider = new ModuleTreeProvider();
@@ -65,6 +84,9 @@ export function activate(context: vscode.ExtensionContext) {
         
         const doc = await vscode.workspace.openTextDocument(exUri);
         await vscode.window.showTextDocument(doc);
+        
+        // Automatically show Markdown preview alongside the editor
+        await vscode.commands.executeCommand('markdown.showPreview', exUri);
       } catch (error) {
         vscode.window.showErrorMessage(`Unable to open module: ${error}`);
       }
@@ -114,6 +136,29 @@ export function activate(context: vscode.ExtensionContext) {
       codeHighlighter.updateDecorations(vscode.window.activeTextEditor);
     }
   }
+}
+
+/**
+ * Check if the extension is running in development mode
+ * This helps us conditionally enable features that should only be available to the extension developer
+ */
+function checkIfInDevelopmentMode(context: vscode.ExtensionContext): boolean {
+  const extensionPath = context.extensionPath;
+  
+  // Check for the presence of package.json in the extension path
+  const packageJsonPath = path.join(extensionPath, 'package.json');
+  
+  if (fs.existsSync(packageJsonPath)) {
+    try {
+      // In development mode, the node_modules folder exists alongside package.json
+      const nodeModulesPath = path.join(extensionPath, 'node_modules');
+      return fs.existsSync(nodeModulesPath);
+    } catch (error) {
+      console.error('Error checking development mode:', error);
+    }
+  }
+  
+  return false;
 }
 
 export function deactivate() {}

@@ -1,0 +1,95 @@
+{
+    "id": "01-intro",
+    "title": "Introduction",
+    "exercises": [
+      {
+        "name": "declareVariable",
+        "description": "Declare a variable and return it",
+        "jsTemplate": "function declareVariable(value) {\n  // TODO: Declare a variable named x and assign it the passed value\n  // Then return x\n}",
+        "pyTemplate": "    # TODO: Assign the passed value to variable x\n    # Then return x\n    pass",
+        "jsTest": "    it(\"should return the declared variable value\", () => {\n      assert.strictEqual(declareVariable(5), 5);\n      assert.strictEqual(declareVariable('hello'), 'hello');\n    });",
+        "pyTest": "    def test_declare_variable(self):\n        self.assertEqual(declareVariable(5), 5)\n        self.assertEqual(declareVariable('hello'), 'hello')"
+      },
+      {
+        "name": "sayHello",
+        "description": "Return a simple greeting",
+        "jsTemplate": "function sayHello(name) {\n  // TODO: Return \"Hello, {name}!\" using string concatenation\n}",
+        "pyTemplate": "    # TODO: Return \"Hello, {name}!\" using string concatenation\n    pass",
+        "jsTest": "    it(\"should return a greeting with the name\", () => {\n      assert.strictEqual(sayHello(\"World\"), \"Hello, World!\");\n    });",
+        "pyTest": "    def test_say_hello(self):\n        self.assertEqual(sayHello(\"World\"), \"Hello, World!\")"
+      },
+      {
+        "name": "add",
+        "description": "Add two numbers",
+        "jsTemplate": "function add(a, b) {\n  // TODO: Return the sum of a and b\n}",
+        "pyTemplate": "    # TODO: Return the sum of a and b\n    pass",
+        "jsTest": "    it(\"should add two numbers\", () => {\n      assert.strictEqual(add(1, 2), 3);\n    });",
+        "pyTest": "    def test_add(self):\n        self.assertEqual(add(1, 2), 3)"
+      },
+      {
+        "name": "subtract",
+        "description": "Subtract b from a",
+        "jsTemplate": "function subtract(a, b) {\n  // TODO: Return a minus b\n}",
+        "pyTemplate": "    # TODO: Return a minus b\n    pass",
+        "jsTest": "    it(\"should subtract b from a\", () => {\n      assert.strictEqual(subtract(5, 3), 2);\n    });",
+        "pyTest": "    def test_subtract(self):\n        self.assertEqual(subtract(5, 3), 2)"
+      },
+      {
+        "name": "multiply",
+        "description": "Multiply two numbers",
+        "jsTemplate": "function multiply(a, b) {\n  // TODO: Return the product of a and b\n}",
+        "pyTemplate": "    # TODO: Return the product of a and b\n    pass",
+        "jsTest": "    it(\"should multiply two numbers\", () => {\n      assert.strictEqual(multiply(3, 4), 12);\n    });",
+        "pyTest": "    def test_multiply(self):\n        self.assertEqual(multiply(3, 4), 12)"
+      },
+      {
+        "name": "concatStrings",
+        "description": "Concatenate two strings",
+        "jsTemplate": "function concatStrings(a, b) {\n  // TODO: Return the two strings joined together\n}",
+        "pyTemplate": "    # TODO: Return the two strings joined together\n    pass",
+        "jsTest": "    it(\"should concatenate two strings\", () => {\n      assert.strictEqual(concatStrings(\"foo\", \"bar\"), \"foobar\");\n    });",
+        "pyTest": "    def test_concat_strings(self):\n        self.assertEqual(concatStrings(\"foo\", \"bar\"), \"foobar\")"
+      },
+      {
+        "name": "getStringLength",
+        "description": "Return the length of a string",
+        "jsTemplate": "function getStringLength(str) {\n  // TODO: Return the number of characters in str\n}",
+        "pyTemplate": "    # TODO: Return the number of characters in str\n    pass",
+        "jsTest": "    it(\"should return string length\", () => {\n      assert.strictEqual(getStringLength(\"hello\"), 5);\n    });",
+        "pyTest": "    def test_get_string_length(self):\n        self.assertEqual(getStringLength(\"hello\"), 5)"
+      },
+      {
+        "name": "isEven",
+        "description": "Check if a number is even",
+        "jsTemplate": "function isEven(n) {\n  // TODO: Return true if n is even, false otherwise\n}",
+        "pyTemplate": "    # TODO: Return True if n is even, False otherwise\n    pass",
+        "jsTest": "    it(\"should identify even numbers\", () => {\n      assert.strictEqual(isEven(2), true);\n      assert.strictEqual(isEven(3), false);\n    });",
+        "pyTest": "    def test_is_even(self):\n        self.assertTrue(isEven(2))\n        self.assertFalse(isEven(3))"
+      },
+      {
+        "name": "maxOfTwo",
+        "description": "Return the larger of two numbers",
+        "jsTemplate": "function maxOfTwo(a, b) {\n  // TODO: Return the greater of a and b\n}",
+        "pyTemplate": "    # TODO: Return the greater of a and b\n    pass",
+        "jsTest": "    it(\"should return the larger number\", () => {\n      assert.strictEqual(maxOfTwo(10, 5), 10);\n    });",
+        "pyTest": "    def test_max_of_two(self):\n        self.assertEqual(maxOfTwo(10, 5), 10)"
+      },
+      {
+        "name": "square",
+        "description": "Return the square of a number",
+        "jsTemplate": "function square(n) {\n  // TODO: Return n multiplied by itself\n}",
+        "pyTemplate": "    # TODO: Return n multiplied by itself\n    pass",
+        "jsTest": "    it(\"should square a number\", () => {\n      assert.strictEqual(square(3), 9);\n    });",
+        "pyTest": "    def test_square(self):\n        self.assertEqual(square(3), 9)"
+      }
+    ],
+    "resources": {
+      "javascript": [
+        "https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/JavaScript_basics"
+      ],
+      "python": [
+        "https://docs.python.org/3/tutorial/introduction.html"
+      ]
+    }
+  }
+  

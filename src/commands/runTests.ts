@@ -87,6 +87,9 @@ async function openNextModule(manifest: any) {
   try {
     const doc = await vscode.workspace.openTextDocument(exUri);
     await vscode.window.showTextDocument(doc);
+    
+    // Also automatically show Markdown preview alongside the editor
+    await vscode.commands.executeCommand('markdown.showPreview', exUri);
   } catch (error) {
     vscode.window.showErrorMessage(`Unable to open next module: ${error}`);
   }

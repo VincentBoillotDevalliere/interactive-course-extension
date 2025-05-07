@@ -11,11 +11,7 @@
     "Education",
     "Other"
   ],
-  "activationEvents": [
-    "onCommand:extension.createCourse",
-    "onCommand:extension.runTests",
-    "onView:courseModules"
-  ],
+
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
@@ -36,6 +32,11 @@
         "command": "extension.runModuleTests",
         "title": "Run Module Tests",
         "icon": "$(play)"
+      },
+      {
+        "command": "extension.createNewExercise",
+        "title": "Create New Exercise Module",
+        "icon": "$(add)"
       }
     ],
     "menus": {
@@ -45,12 +46,21 @@
         },
         {
           "command": "extension.runTests"
+        },
+        {
+          "command": "extension.createNewExercise",
+          "when": "interactiveCourse.devMode"
         }
       ],
       "view/title": [
         {
           "command": "extension.refreshModules",
           "when": "view == courseModules",
+          "group": "navigation"
+        },
+        {
+          "command": "extension.createNewExercise",
+          "when": "view == courseModules && interactiveCourse.devMode",
           "group": "navigation"
         }
       ],
