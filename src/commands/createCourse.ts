@@ -27,7 +27,7 @@ export async function createCourse() {
     return;
   }
 
-  // 3. Build manifest with multiple modules
+  // 3. Build manifest with multiple modules (but only first will be created initially)
   const modules = [
     { id: '01-intro', title: 'Introduction', status: 'active' },
     { id: '02-variables', title: 'Variables', status: 'locked' },
@@ -53,14 +53,13 @@ export async function createCourse() {
     return;
   }
 
-  // 5. Create modules
-  for (const module of modules) {
-    try {
-      await createModuleFiles(courseFolderUri, module, language, module.id === '01-intro');
-    } catch (error) {
-      vscode.window.showErrorMessage(`Error creating module files: ${error}`);
-      return;
-    }
+  // 5. Create only the first module initially
+  try {
+    // Only create the first module (index 0)
+    await createModuleFiles(courseFolderUri, modules[0], language, true);
+  } catch (error) {
+    vscode.window.showErrorMessage(`Error creating module files: ${error}`);
+    return;
   }
   
   // 6. Open first module
@@ -73,7 +72,7 @@ export async function createCourse() {
     vscode.window.showErrorMessage(`Error opening module file: ${error}`);
   }
 
-  vscode.window.showInformationMessage(`Course "${manifest.name}" created!`);
+  vscode.window.showInformationMessage(`Course "${manifest.name}" created! Complete the first module to unlock the next one.`);
   
   // 7. Refresh modules tree view
   vscode.commands.executeCommand('extension.refreshModules');
@@ -139,3 +138,6 @@ async function createModuleFiles(
   await vscode.workspace.fs.writeFile(mainUri, Buffer.from(mainContent, 'utf8'));
   await vscode.workspace.fs.writeFile(testUri, Buffer.from(testContent, 'utf8'));
 }
+
+// Export this helper function so it can be used by the ProgressManager
+export { createModuleFiles };

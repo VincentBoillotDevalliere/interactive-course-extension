@@ -1,5 +1,7 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
+import * as path from 'path';
+import { createModuleFiles } from '../commands/createCourse';
 
 export interface CourseManifest {
   name: string;
@@ -52,11 +54,46 @@ export class ProgressManager {
     
     // Unlock next module if available
     if (currentModuleIndex + 1 < manifest.modules.length) {
-      manifest.modules[currentModuleIndex + 1].status = 'active';
-      manifest.currentModule = manifest.modules[currentModuleIndex + 1].id;
+      const nextModule = manifest.modules[currentModuleIndex + 1];
+      nextModule.status = 'active';
+      manifest.currentModule = nextModule.id;
+      
+      // Generate the next module's files
+      await this.generateNextModuleFiles(manifest, nextModule);
     }
     
     await this.saveManifest(manifest);
     return manifest;
+  }
+
+  private async generateNextModuleFiles(manifest: CourseManifest, nextModule: ModuleInfo): Promise<void> {
+    try {
+      if (!this.manifestPath) { return; }
+      
+      const courseDir = path.dirname(this.manifestPath);
+      const courseUri = vscode.Uri.file(courseDir);
+      
+      // Check if the module directory already exists
+      const moduleUri = vscode.Uri.joinPath(courseUri, nextModule.id);
+      try {
+        await vscode.workspace.fs.stat(moduleUri);
+        // If we get here, the directory exists, so we don't need to create it
+        console.log(`Module ${nextModule.id} already exists, skipping creation`);
+        return;
+      } catch (err) {
+        // Directory doesn't exist, which is what we want - create it
+      }
+      
+      // Create the module files
+      await createModuleFiles(courseUri, nextModule, manifest.language, true);
+      
+      vscode.window.showInformationMessage(
+        `New module "${nextModule.title}" has been unlocked and generated!`
+      );
+      
+    } catch (error) {
+      console.error('Error generating next module files:', error);
+      vscode.window.showErrorMessage(`Error generating module: ${error}`);
+    }
   }
 }
