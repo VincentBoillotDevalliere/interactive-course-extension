@@ -1,0 +1,109 @@
+{
+  "name": "interactive-course-extension",
+  "displayName": "Interactive Course Extension",
+  "description": "A VS Code all-in-one extension to create and follow interactive programming courses.",
+  "version": "0.1.0",
+  "publisher": "yourName",
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+  "categories": [
+    "Education",
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:extension.createCourse",
+    "onCommand:extension.runTests",
+    "onView:courseModules"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "extension.createCourse",
+        "title": "Create Interactive Course"
+      },
+      {
+        "command": "extension.runTests",
+        "title": "Run Current Module Tests"
+      },
+      {
+        "command": "extension.refreshModules",
+        "title": "Refresh Course Modules",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "extension.runModuleTests",
+        "title": "Run Module Tests",
+        "icon": "$(play)"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "extension.createCourse"
+        },
+        {
+          "command": "extension.runTests"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "extension.refreshModules",
+          "when": "view == courseModules",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "extension.runModuleTests",
+          "when": "view == courseModules && viewItem =~ /active|completed/",
+          "group": "inline"
+        }
+      ]
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "courseExplorer",
+          "title": "Course Explorer",
+          "icon": "$(book)"
+        }
+      ]
+    },
+    "views": {
+      "courseExplorer": [
+        {
+          "id": "courseModules",
+          "name": "Course Modules"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "courseModules",
+        "contents": "No course found in this workspace.\n[Create a Course](command:extension.createCourse)"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "extension.runModuleTests",
+        "key": "ctrl+alt+t",
+        "mac": "cmd+alt+t",
+        "when": "editorTextFocus"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "postinstall": "node ./node_modules/vscode/bin/install"
+  },
+  "dependencies": {
+    "@types/node": "^22.15.14",
+    "@types/vscode": "^1.99.1",
+    "typescript": "^5.8.3",
+    "vscode-test": "^1.6.1"
+  }
+}
