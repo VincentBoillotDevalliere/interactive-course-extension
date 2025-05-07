@@ -36,13 +36,60 @@ export class TestRunner {
   private async runJavaScriptTests(testFilePath: string): Promise<boolean> {
     return new Promise<boolean>(async (resolve) => {
       try {
-        // Create a temporary file that imports the test framework and the test file
-        const frameworkPath = path.join(__dirname, '..', 'templates', 'testFramework.js');
+        // Create a temporary file that includes the test framework and imports the test file
         const tempTestFile = path.join(path.dirname(testFilePath), '_temp_test_runner.js');
         
+        // Create the test framework inline instead of importing from a separate file
         const content = `
-// Temporary test runner file
-require('${frameworkPath.replace(/\\/g, '\\\\')}');
+// Temporary test runner file with inline test framework
+
+// ===== BEGIN TEST FRAMEWORK =====
+// Global test results
+const testResults = {
+  total: 0,
+  passed: 0,
+  failed: 0,
+  failures: []
+};
+
+// Simple implementation of describe and it functions
+global.describe = function(description, callback) {
+  console.log("\\n📋 " + description);
+  callback();
+};
+
+global.it = function(testName, callback) {
+  testResults.total++;
+  try {
+    callback();
+    console.log("✅ " + testName);
+    testResults.passed++;
+  } catch (error) {
+    console.log("❌ " + testName);
+    console.log("   Error: " + error.message);
+    testResults.failed++;
+    testResults.failures.push({ name: testName, error: error.message });
+  }
+};
+
+// Simple implementation of assert methods
+const assert = require('assert');
+global.assert = assert;
+
+// Process exit handler
+process.on('exit', () => {
+  console.log('\\n📊 Test Summary:');
+  console.log("   Total: " + testResults.total);
+  console.log("   Passed: " + testResults.passed);
+  console.log("   Failed: " + testResults.failed);
+  
+  if (testResults.failed > 0) {
+    process.exit(1); // Exit with error if any tests failed
+  }
+});
+// ===== END TEST FRAMEWORK =====
+
+// Import the test file
 require('${testFilePath.replace(/\\/g, '\\\\')}');
 `;
         
