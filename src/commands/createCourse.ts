@@ -44,54 +44,58 @@ export async function createCourse() {
   };
   const manifestUri = vscode.Uri.joinPath(courseFolderUri, 'course.json');
 
-  // 4. Prepare modifications
-  const edit = new vscode.WorkspaceEdit();
-  edit.createFile(manifestUri, { ignoreIfExists: true });
-  edit.insert(
-    manifestUri,
-    new vscode.Position(0, 0),
-    JSON.stringify(manifest, null, 2)
-  );
+  // 4. Write manifest file directly to disk
+  try {
+    const manifestContent = JSON.stringify(manifest, null, 2);
+    await vscode.workspace.fs.writeFile(manifestUri, Buffer.from(manifestContent, 'utf8'));
+  } catch (error) {
+    vscode.window.showErrorMessage(`Error writing manifest file: ${error}`);
+    return;
+  }
 
   // 5. Create modules
   for (const module of modules) {
-    await createModuleFiles(edit, courseFolderUri, module, language, module.id === '01-intro');
+    try {
+      await createModuleFiles(courseFolderUri, module, language, module.id === '01-intro');
+    } catch (error) {
+      vscode.window.showErrorMessage(`Error creating module files: ${error}`);
+      return;
+    }
   }
-
-  // 6. Apply and open
-  await vscode.workspace.applyEdit(edit);
   
-  // 7. Open first module
+  // 6. Open first module
   const exUri = vscode.Uri.joinPath(courseFolderUri, '01-intro', 'exercise.md');
-  const doc = await vscode.workspace.openTextDocument(exUri);
-  await vscode.window.showTextDocument(doc);
+  
+  try {
+    const doc = await vscode.workspace.openTextDocument(exUri);
+    await vscode.window.showTextDocument(doc);
+  } catch (error) {
+    vscode.window.showErrorMessage(`Error opening module file: ${error}`);
+  }
 
   vscode.window.showInformationMessage(`Course "${manifest.name}" created!`);
   
-  // 8. Refresh modules tree view
+  // 7. Refresh modules tree view
   vscode.commands.executeCommand('extension.refreshModules');
 }
 
 async function createModuleFiles(
-  edit: vscode.WorkspaceEdit, 
   rootUri: vscode.Uri, 
   module: any, 
   language: string,
   isActive: boolean
 ) {
+  // Create module directory
   const moduleDir = vscode.Uri.joinPath(rootUri, module.id);
+  await vscode.workspace.fs.createDirectory(moduleDir);
+  
   const readmeUri = vscode.Uri.joinPath(moduleDir, 'exercise.md');
   const ext = language === 'javascript' ? 'js' : 'py';
   const mainUri = vscode.Uri.joinPath(moduleDir, `main.${ext}`);
   const testUri = vscode.Uri.joinPath(moduleDir, `tests.${ext}`);
   
-  // Create files
-  edit.createFile(readmeUri, { ignoreIfExists: true });
-  edit.createFile(mainUri, { ignoreIfExists: true });
-  edit.createFile(testUri, { ignoreIfExists: true });
-  
   // README content
-  edit.insert(readmeUri, new vscode.Position(0, 0), 
+  const readmeContent = 
     `# Module ${module.id}: ${module.title}\n\n` +
     `## Objectives\n\n` +
     `In this module, you will learn about ${module.title.toLowerCase()}.\n\n` +
@@ -100,8 +104,7 @@ async function createModuleFiles(
     `2. Implement the requested functions\n` +
     `3. Run the tests to validate your solution\n\n` +
     `## Resources\n\n` +
-    `- [Documentation](https://example.com)\n`
-  );
+    `- [Documentation](https://example.com)\n`;
   
   // Main file content
   const mainContent = language === 'javascript' 
@@ -112,8 +115,6 @@ async function createModuleFiles(
     : `# main.py file for module ${module.id}\n\n` +
       `def test_function():\n    \"\"\"\n    Function to implement\n    :return: True\n    \"\"\"\n` +
       `    # Write your code here\n    return False  # Change this\n`;
-  
-  edit.insert(mainUri, new vscode.Position(0, 0), mainContent);
   
   // Test content
   const testContent = language === 'javascript'
@@ -133,5 +134,8 @@ async function createModuleFiles(
       `if __name__ == '__main__':\n` +
       `    unittest.main()\n`;
   
-  edit.insert(testUri, new vscode.Position(0, 0), testContent);
+  // Write files directly to disk
+  await vscode.workspace.fs.writeFile(readmeUri, Buffer.from(readmeContent, 'utf8'));
+  await vscode.workspace.fs.writeFile(mainUri, Buffer.from(mainContent, 'utf8'));
+  await vscode.workspace.fs.writeFile(testUri, Buffer.from(testContent, 'utf8'));
 }
