@@ -1,95 +1,96 @@
 {
     "id": "01-intro",
-    "title": "Introduction",
+    "title": "Variables & Data Types",
     "exercises": [
       {
-        "name": "declareVariable",
-        "description": "Declare a variable and return it",
-        "jsTemplate": "function declareVariable(value) {\n  // TODO: Declare a variable named x and assign it the passed value\n  // Then return x\n}",
-        "pyTemplate": "    # TODO: Assign the passed value to variable x\n    # Then return x\n    pass",
-        "jsTest": "    it(\"should return the declared variable value\", () => {\n      assert.strictEqual(declareVariable(5), 5);\n      assert.strictEqual(declareVariable('hello'), 'hello');\n    });",
-        "pyTest": "    def test_declare_variable(self):\n        self.assertEqual(declareVariable(5), 5)\n        self.assertEqual(declareVariable('hello'), 'hello')"
+        "name": "declareVariables",
+        "description": "Declare variables of different data types",
+        "jsTemplate": "function declareVariables() {\n  // TODO: Declare the following variables with appropriate values:\n  // - A variable named 'count' with integer value 10\n  // - A variable named 'price' with float value 3.99\n  // - A constant named 'USERNAME' with string value \"student\"\n  // - A variable named 'isActive' with boolean value true\n  \n  // Return all variables in an object\n  return { count, price, USERNAME, isActive };\n}",
+        "pyTemplate": "def declareVariables():\n    # TODO: Declare the following variables with appropriate values:\n    # - A variable named 'count' with integer value 10\n    # - A variable named 'price' with float value 3.99\n    # - A constant named 'USERNAME' with string value \"student\"\n    # - A variable named 'is_active' with boolean value True\n    \n    # Return all variables in a dictionary\n    return {'count': count, 'price': price, 'USERNAME': USERNAME, 'is_active': is_active}",
+        "jsTest": "    it(\"should declare variables of different types\", () => {\n      const result = declareVariables();\n      assert.strictEqual(result.count, 10);\n      assert.strictEqual(result.price, 3.99);\n      assert.strictEqual(result.USERNAME, \"student\");\n      assert.strictEqual(result.isActive, true);\n    });\n    it(\"should declare USERNAME as a constant\", () => {\n      const result = declareVariables();\n      assert.throws(() => { result.USERNAME = \"teacher\"; }, TypeError);\n    });",
+        "pyTest": "    def test_declare_variables(self):\n        result = declareVariables()\n        self.assertEqual(result['count'], 10)\n        self.assertEqual(result['price'], 3.99)\n        self.assertEqual(result['USERNAME'], \"student\")\n        self.assertEqual(result['is_active'], True)"
       },
       {
-        "name": "sayHello",
-        "description": "Return a simple greeting",
-        "jsTemplate": "function sayHello(name) {\n  // TODO: Return \"Hello, {name}!\" using string concatenation\n}",
-        "pyTemplate": "    # TODO: Return \"Hello, {name}!\" using string concatenation\n    pass",
-        "jsTest": "    it(\"should return a greeting with the name\", () => {\n      assert.strictEqual(sayHello(\"World\"), \"Hello, World!\");\n    });",
-        "pyTest": "    def test_say_hello(self):\n        self.assertEqual(sayHello(\"World\"), \"Hello, World!\")"
+        "name": "typeConversion",
+        "description": "Convert between different data types",
+        "jsTemplate": "function typeConversion(numString, boolValue, floatValue) {\n  // TODO: Perform the following type conversions:\n  // 1. Convert numString (e.g., \"42\") to a number\n  // 2. Convert boolValue (e.g., true) to a string\n  // 3. Convert floatValue (e.g., 3.14) to an integer (removing decimal)\n  \n  // Return the converted values in an array: [convertedNumber, convertedString, convertedInteger]\n}",
+        "pyTemplate": "def typeConversion(numString, boolValue, floatValue):\n    # TODO: Perform the following type conversions:\n    # 1. Convert numString (e.g., \"42\") to a number\n    # 2. Convert boolValue (e.g., True) to a string\n    # 3. Convert floatValue (e.g., 3.14) to an integer (removing decimal)\n    \n    # Return the converted values in a list: [convertedNumber, convertedString, convertedInteger]\n    pass",
+        "jsTest": "    it(\"should convert between types correctly\", () => {\n      const result = typeConversion(\"42\", true, 3.14);\n      assert.strictEqual(result[0], 42);\n      assert.strictEqual(result[1], \"true\");\n      assert.strictEqual(result[2], 3);\n    });",
+        "pyTest": "    def test_type_conversion(self):\n        result = typeConversion(\"42\", True, 3.14)\n        self.assertEqual(result[0], 42)\n        self.assertEqual(result[1], \"True\")\n        self.assertEqual(result[2], 3)"
       },
       {
-        "name": "add",
-        "description": "Add two numbers",
-        "jsTemplate": "function add(a, b) {\n  // TODO: Return the sum of a and b\n}",
-        "pyTemplate": "    # TODO: Return the sum of a and b\n    pass",
-        "jsTest": "    it(\"should add two numbers\", () => {\n      assert.strictEqual(add(1, 2), 3);\n    });",
-        "pyTest": "    def test_add(self):\n        self.assertEqual(add(1, 2), 3)"
+        "name": "stringOperations",
+        "description": "Perform common string operations",
+        "jsTemplate": "function stringOperations(firstName, lastName) {\n  // TODO: Perform the following string operations:\n  // 1. Create a fullName by concatenating firstName and lastName with a space between\n  // 2. Create an email using the format: firstName.lastName@example.com (all lowercase)\n  // 3. Create a username by taking the first 3 characters of firstName + length of fullName\n  \n  // Return the values in an object: {fullName, email, username}\n}",
+        "pyTemplate": "def stringOperations(firstName, lastName):\n    # TODO: Perform the following string operations:\n    # 1. Create a fullName by concatenating firstName and lastName with a space between\n    # 2. Create an email using the format: firstName.lastName@example.com (all lowercase)\n    # 3. Create a username by taking the first 3 characters of firstName + length of fullName\n    \n    # Return the values in a dictionary: {'fullName': fullName, 'email': email, 'username': username}\n    pass",
+        "jsTest": "    it(\"should correctly perform string operations\", () => {\n      const result = stringOperations(\"John\", \"Doe\");\n      assert.strictEqual(result.fullName, \"John Doe\");\n      assert.strictEqual(result.email, \"john.doe@example.com\");\n      assert.strictEqual(result.username, \"Joh8\");\n    });",
+        "pyTest": "    def test_string_operations(self):\n        result = stringOperations(\"John\", \"Doe\")\n        self.assertEqual(result['fullName'], \"John Doe\")\n        self.assertEqual(result['email'], \"john.doe@example.com\")\n        self.assertEqual(result['username'], \"Joh8\")"
       },
       {
-        "name": "subtract",
-        "description": "Subtract b from a",
-        "jsTemplate": "function subtract(a, b) {\n  // TODO: Return a minus b\n}",
-        "pyTemplate": "    # TODO: Return a minus b\n    pass",
-        "jsTest": "    it(\"should subtract b from a\", () => {\n      assert.strictEqual(subtract(5, 3), 2);\n    });",
-        "pyTest": "    def test_subtract(self):\n        self.assertEqual(subtract(5, 3), 2)"
+        "name": "mathOperations",
+        "description": "Perform arithmetic operations and store results",
+        "jsTemplate": "function mathOperations(a, b) {\n  // TODO: Perform these operations and store the results in appropriately named variables\n  // 1. Calculate the sum of a and b\n  // 2. Calculate the difference (a minus b)\n  // 3. Calculate the product (a times b)\n  // 4. Calculate the quotient (a divided by b), rounded to 2 decimal places\n  // 5. Calculate the remainder (modulo) of a divided by b\n  \n  // Return results in an object with meaningful property names\n}",
+        "pyTemplate": "def mathOperations(a, b):\n    # TODO: Perform these operations and store the results in appropriately named variables\n    # 1. Calculate the sum of a and b\n    # 2. Calculate the difference (a minus b)\n    # 3. Calculate the product (a times b)\n    # 4. Calculate the quotient (a divided by b), rounded to 2 decimal places\n    # 5. Calculate the remainder (modulo) of a divided by b\n    \n    # Return results in a dictionary with meaningful keys\n    pass",
+        "jsTest": "    it(\"should perform correct math operations\", () => {\n      const result = mathOperations(10, 3);\n      assert.strictEqual(result.sum, 13);\n      assert.strictEqual(result.difference, 7);\n      assert.strictEqual(result.product, 30);\n      assert.strictEqual(result.quotient, 3.33);\n      assert.strictEqual(result.remainder, 1);\n    });",
+        "pyTest": "    def test_math_operations(self):\n        result = mathOperations(10, 3)\n        self.assertEqual(result['sum'], 13)\n        self.assertEqual(result['difference'], 7)\n        self.assertEqual(result['product'], 30)\n        self.assertEqual(result['quotient'], 3.33)\n        self.assertEqual(result['remainder'], 1)"
       },
       {
-        "name": "multiply",
-        "description": "Multiply two numbers",
-        "jsTemplate": "function multiply(a, b) {\n  // TODO: Return the product of a and b\n}",
-        "pyTemplate": "    # TODO: Return the product of a and b\n    pass",
-        "jsTest": "    it(\"should multiply two numbers\", () => {\n      assert.strictEqual(multiply(3, 4), 12);\n    });",
-        "pyTest": "    def test_multiply(self):\n        self.assertEqual(multiply(3, 4), 12)"
+        "name": "temperatureConverter",
+        "description": "Convert temperatures between Fahrenheit and Celsius",
+        "jsTemplate": "function temperatureConverter(celsius) {\n  // TODO: Convert the temperature from Celsius to Fahrenheit\n  // Formula: (celsius * 9/5) + 32\n  // Return the result rounded to one decimal place\n}",
+        "pyTemplate": "def temperatureConverter(celsius):\n    # TODO: Convert the temperature from Celsius to Fahrenheit\n    # Formula: (celsius * 9/5) + 32\n    # Return the result rounded to one decimal place\n    pass",
+        "jsTest": "    it(\"should convert temperatures correctly\", () => {\n      assert.strictEqual(temperatureConverter(0), 32.0);\n      assert.strictEqual(temperatureConverter(100), 212.0);\n      assert.strictEqual(temperatureConverter(25), 77.0);\n    });",
+        "pyTest": "    def test_temperature_converter(self):\n        self.assertEqual(temperatureConverter(0), 32.0)\n        self.assertEqual(temperatureConverter(100), 212.0)\n        self.assertEqual(temperatureConverter(25), 77.0)"
       },
       {
-        "name": "concatStrings",
-        "description": "Concatenate two strings",
-        "jsTemplate": "function concatStrings(a, b) {\n  // TODO: Return the two strings joined together\n}",
-        "pyTemplate": "    # TODO: Return the two strings joined together\n    pass",
-        "jsTest": "    it(\"should concatenate two strings\", () => {\n      assert.strictEqual(concatStrings(\"foo\", \"bar\"), \"foobar\");\n    });",
-        "pyTest": "    def test_concat_strings(self):\n        self.assertEqual(concatStrings(\"foo\", \"bar\"), \"foobar\")"
+        "name": "swapVariables",
+        "description": "Swap the values of two variables without using a third variable",
+        "jsTemplate": "function swapVariables(a, b) {\n  // TODO: Swap the values of a and b without using a temporary variable\n  // Return the swapped values as an array: [newA, newB]\n}",
+        "pyTemplate": "def swapVariables(a, b):\n    # TODO: Swap the values of a and b without using a temporary variable\n    # Return the swapped values as a list: [newA, newB]\n    pass",
+        "jsTest": "    it(\"should swap variable values\", () => {\n      assert.deepStrictEqual(swapVariables(5, 10), [10, 5]);\n      assert.deepStrictEqual(swapVariables('hello', 'world'), ['world', 'hello']);\n    });",
+        "pyTest": "    def test_swap_variables(self):\n        self.assertEqual(swapVariables(5, 10), [10, 5])\n        self.assertEqual(swapVariables('hello', 'world'), ['world', 'hello'])"
       },
       {
-        "name": "getStringLength",
-        "description": "Return the length of a string",
-        "jsTemplate": "function getStringLength(str) {\n  // TODO: Return the number of characters in str\n}",
-        "pyTemplate": "    # TODO: Return the number of characters in str\n    pass",
-        "jsTest": "    it(\"should return string length\", () => {\n      assert.strictEqual(getStringLength(\"hello\"), 5);\n    });",
-        "pyTest": "    def test_get_string_length(self):\n        self.assertEqual(getStringLength(\"hello\"), 5)"
+        "name": "buildCounter",
+        "description": "Create a counter function that tracks clicks",
+        "jsTemplate": "function buildCounter() {\n  // TODO: Create a counter that starts at 0\n  // Return an object with two methods:\n  // - click(): increments the counter by 1\n  // - getCount(): returns the current count\n}",
+        "pyTemplate": "def buildCounter():\n    # TODO: Create a counter that starts at 0\n    # Return a dictionary with two functions:\n    # - 'click': increments the counter by 1\n    # - 'getCount': returns the current count\n    pass",
+        "jsTest": "    it(\"should build a working counter\", () => {\n      const counter = buildCounter();\n      assert.strictEqual(counter.getCount(), 0);\n      counter.click();\n      assert.strictEqual(counter.getCount(), 1);\n      counter.click();\n      counter.click();\n      assert.strictEqual(counter.getCount(), 3);\n    });",
+        "pyTest": "    def test_build_counter(self):\n        counter = buildCounter()\n        self.assertEqual(counter['getCount'](), 0)\n        counter['click']()\n        self.assertEqual(counter['getCount'](), 1)\n        counter['click']()\n        counter['click']()\n        self.assertEqual(counter['getCount'](), 3)"
       },
       {
-        "name": "isEven",
-        "description": "Check if a number is even",
-        "jsTemplate": "function isEven(n) {\n  // TODO: Return true if n is even, false otherwise\n}",
-        "pyTemplate": "    # TODO: Return True if n is even, False otherwise\n    pass",
-        "jsTest": "    it(\"should identify even numbers\", () => {\n      assert.strictEqual(isEven(2), true);\n      assert.strictEqual(isEven(3), false);\n    });",
-        "pyTest": "    def test_is_even(self):\n        self.assertTrue(isEven(2))\n        self.assertFalse(isEven(3))"
+        "name": "formatMessage",
+        "description": "Format a message using template literals",
+        "jsTemplate": "function formatMessage(username, itemCount, total) {\n  // TODO: Create a message using template literals in this format:\n  // \"Hello, {username}! You have {itemCount} items in your cart. Total: ${total.toFixed(2)}.\"\n}",
+        "pyTemplate": "def formatMessage(username, itemCount, total):\n    # TODO: Create a message using f-strings in this format:\n    # \"Hello, {username}! You have {itemCount} items in your cart. Total: ${total:.2f}.\"\n    pass",
+        "jsTest": "    it(\"should format the message correctly\", () => {\n      assert.strictEqual(\n        formatMessage(\"Sam\", 3, 29.995), \n        \"Hello, Sam! You have 3 items in your cart. Total: $30.00.\"\n      );\n    });",
+        "pyTest": "    def test_format_message(self):\n        self.assertEqual(\n            formatMessage(\"Sam\", 3, 29.995),\n            \"Hello, Sam! You have 3 items in your cart. Total: $30.00.\"\n        )"
       },
       {
-        "name": "maxOfTwo",
-        "description": "Return the larger of two numbers",
-        "jsTemplate": "function maxOfTwo(a, b) {\n  // TODO: Return the greater of a and b\n}",
-        "pyTemplate": "    # TODO: Return the greater of a and b\n    pass",
-        "jsTest": "    it(\"should return the larger number\", () => {\n      assert.strictEqual(maxOfTwo(10, 5), 10);\n    });",
-        "pyTest": "    def test_max_of_two(self):\n        self.assertEqual(maxOfTwo(10, 5), 10)"
+        "name": "typeCheck",
+        "description": "Identify the data type of a value",
+        "jsTemplate": "function typeCheck(value) {\n  // TODO: Return the data type of the value as a string\n  // Possible return values: \"number\", \"string\", \"boolean\", \"object\", \"undefined\", \"null\"\n  // Note: For null values, return \"null\" (not \"object\")\n}",
+        "pyTemplate": "def typeCheck(value):\n    # TODO: Return the data type of the value as a string\n    # Possible return values: \"int\", \"float\", \"str\", \"bool\", \"list\", \"dict\", \"NoneType\"\n    pass",
+        "jsTest": "    it(\"should identify data types correctly\", () => {\n      assert.strictEqual(typeCheck(42), \"number\");\n      assert.strictEqual(typeCheck(\"hello\"), \"string\");\n      assert.strictEqual(typeCheck(true), \"boolean\");\n      assert.strictEqual(typeCheck(null), \"null\");\n      assert.strictEqual(typeCheck(undefined), \"undefined\");\n      assert.strictEqual(typeCheck([]), \"object\");\n    });",
+        "pyTest": "    def test_type_check(self):\n        self.assertEqual(typeCheck(42), \"int\")\n        self.assertEqual(typeCheck(3.14), \"float\")\n        self.assertEqual(typeCheck(\"hello\"), \"str\")\n        self.assertEqual(typeCheck(True), \"bool\")\n        self.assertEqual(typeCheck(None), \"NoneType\")\n        self.assertEqual(typeCheck([]), \"list\")\n        self.assertEqual(typeCheck({}), \"dict\")"
       },
       {
-        "name": "square",
-        "description": "Return the square of a number",
-        "jsTemplate": "function square(n) {\n  // TODO: Return n multiplied by itself\n}",
-        "pyTemplate": "    # TODO: Return n multiplied by itself\n    pass",
-        "jsTest": "    it(\"should square a number\", () => {\n      assert.strictEqual(square(3), 9);\n    });",
-        "pyTest": "    def test_square(self):\n        self.assertEqual(square(3), 9)"
+        "name": "validateInput",
+        "description": "Validate user input based on type and criteria",
+        "jsTemplate": "function validateInput(username, age, email) {\n  // TODO: Validate the following:\n  // 1. username must be a string with at least 3 characters\n  // 2. age must be a number between 18 and 120\n  // 3. email must contain an @ symbol\n  // Return an object with validation results for each field: {usernameValid, ageValid, emailValid}\n}",
+        "pyTemplate": "def validateInput(username, age, email):\n    # TODO: Validate the following:\n    # 1. username must be a string with at least 3 characters\n    # 2. age must be a number between 18 and 120\n    # 3. email must contain an @ symbol\n    # Return a dictionary with validation results for each field: {'usernameValid': bool, 'ageValid': bool, 'emailValid': bool}\n    pass",
+        "jsTest": "    it(\"should validate user input correctly\", () => {\n      const valid = validateInput(\"john\", 25, \"john@example.com\");\n      assert.deepStrictEqual(valid, {usernameValid: true, ageValid: true, emailValid: true});\n      \n      const invalid = validateInput(\"jo\", 15, \"johnexample.com\");\n      assert.deepStrictEqual(invalid, {usernameValid: false, ageValid: false, emailValid: false});\n    });",
+        "pyTest": "    def test_validate_input(self):\n        valid = validateInput(\"john\", 25, \"john@example.com\")\n        self.assertEqual(valid, {'usernameValid': True, 'ageValid': True, 'emailValid': True})\n        \n        invalid = validateInput(\"jo\", 15, \"johnexample.com\")\n        self.assertEqual(invalid, {'usernameValid': False, 'ageValid': False, 'emailValid': False})"
       }
     ],
     "resources": {
       "javascript": [
-        "https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/JavaScript_basics"
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types",
+        "https://developer.mozilla.org/en-US/docs/Learn/JavaScript/First_steps/Variables"
       ],
       "python": [
-        "https://docs.python.org/3/tutorial/introduction.html"
+        "https://docs.python.org/3/tutorial/introduction.html",
+        "https://realpython.com/python-variables/"
       ]
     }
   }
-  

@@ -85,11 +85,8 @@ async function openNextModule(manifest: any) {
   const exUri = vscode.Uri.joinPath(moduleDir, 'exercise.md');
   
   try {
-    const doc = await vscode.workspace.openTextDocument(exUri);
-    await vscode.window.showTextDocument(doc);
-    
-    // Also automatically show Markdown preview alongside the editor
-    await vscode.commands.executeCommand('markdown.showPreview', exUri);
+    // Open directly in preview mode
+    await vscode.commands.executeCommand('markdown.showPreviewToSide', exUri);
   } catch (error) {
     vscode.window.showErrorMessage(`Unable to open next module: ${error}`);
   }
