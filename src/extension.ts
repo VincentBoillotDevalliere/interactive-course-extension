@@ -6,6 +6,7 @@ import { runTests } from './commands/runTests';
 import { ModuleTreeProvider } from './views/moduleTreeProvider';
 import { CodeHighlighter } from './utils/codeHighlighter';
 import { createNewExerciseModule } from './commands/createExercise';
+import { createExerciseSolutionFile } from './commands/createSolutionFile';
 
 export function activate(context: vscode.ExtensionContext) {
   console.log('🎓 Interactive Course Extension is now active!');
@@ -20,7 +21,8 @@ export function activate(context: vscode.ExtensionContext) {
   // Register common commands
   context.subscriptions.push(
     vscode.commands.registerCommand('extension.createCourse', () => createCourse()),
-    vscode.commands.registerCommand('extension.runTests', () => runTests())
+    vscode.commands.registerCommand('extension.runTests', () => runTests()),
+    vscode.commands.registerCommand('extension.createSolutionFile', () => createExerciseSolutionFile())
   );
   
   // Register development-only commands
@@ -54,7 +56,22 @@ export function activate(context: vscode.ExtensionContext) {
       if (!moduleId && vscode.window.activeTextEditor) {
         // If no moduleId provided but we have an active editor, try to extract moduleId from file path
         const filePath = vscode.window.activeTextEditor.document.uri.fsPath;
-        const match = filePath.match(/[\\/](0\d-\w+)[\\/]/);
+        
+        // Check for moduleId in the file path
+        let match = filePath.match(/[\\/](0\d-\w+)[\\/]/);
+        
+        // Also check for exercises directory path pattern
+        if (!match) {
+          match = filePath.match(/[\\/]exercises[\\/](0\d-\w+)[\\/]/);
+        }
+        
+        // Also check for file name patterns like 01-variables-dataTypes-someFunction.js
+        if (!match) {
+          match = filePath.match(/(0\d-\w+)-\w+\.js/);
+        }
+        
+        console.log(`[DEBUG] Trying to extract moduleId from file path: ${filePath}, match: ${match ? match[1] : 'none'}`);
+        
         if (match && match[1]) {
           moduleId = match[1];
         }
@@ -102,7 +119,12 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.window.onDidChangeActiveTextEditor(editor => {
       if (editor) {
         const filePath = editor.document.uri.fsPath;
-        if (filePath.match(/[\\/](0\d-\w+)[\\/](main\.(js|py))$/)) {
+        
+        // Check if the path contains a module pattern like "01-variables-dataTypes" anywhere
+        if (filePath.match(/0\d-\w+/) || 
+            // Match any JavaScript file in the workspace
+            (filePath.endsWith('.js') && !filePath.includes('node_modules'))) {
+          console.log(`[DEBUG] Showing test button for file: ${filePath}`);
           testStatusBarItem.show();
           
           // Update code decorations
@@ -128,7 +150,12 @@ export function activate(context: vscode.ExtensionContext) {
   // Initialize status bar visibility and decorations
   if (vscode.window.activeTextEditor) {
     const filePath = vscode.window.activeTextEditor.document.uri.fsPath;
-    if (filePath.match(/[\\/](0\d-\w+)[\\/](main\.(js|py))$/)) {
+    
+    // Check if the path contains a module pattern like "01-variables-dataTypes" anywhere
+    if (filePath.match(/0\d-\w+/) || 
+        // Match any JavaScript file in the workspace
+        (filePath.endsWith('.js') && !filePath.includes('node_modules'))) {
+      console.log(`[DEBUG] Initially showing test button for file: ${filePath}`);
       testStatusBarItem.show();
       codeHighlighter.updateDecorations(vscode.window.activeTextEditor);
     }

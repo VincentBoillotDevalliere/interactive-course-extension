@@ -5,7 +5,7 @@ import * as path from 'path';
 export async function createCourse() {
   // 1. Language selection
   const language = await vscode.window.showQuickPick(
-    ['javascript', 'python'],
+    ['javascript'],
     { placeHolder: 'Choose a language' }
   );
   if (!language) { return; }
@@ -84,9 +84,7 @@ interface ExerciseFunctions {
   name: string;
   description: string;
   jsTemplate: string;
-  pyTemplate: string;
   jsTest: string;
-  pyTest: string;
   additionalFiles?: {
     fileName: string;
     description: string;
@@ -103,7 +101,6 @@ interface ExerciseAsset {
   exercises: ExerciseFunctions[];
   resources: {
     javascript: string[];
-    python: string[];
   };
 }
 
@@ -137,9 +134,7 @@ async function createModuleFiles(
   await vscode.workspace.fs.createDirectory(testsDir);
   
   // Create master index file that imports all modules
-  const indexContent = language === 'javascript'
-    ? generateJsIndexFile(module, exerciseContent)
-    : generatePyIndexFile(module, exerciseContent);
+  const indexContent = generateJsIndexFile(module, exerciseContent)
   
   const indexUri = vscode.Uri.joinPath(moduleDir, `index.${ext}`);
   await vscode.workspace.fs.writeFile(indexUri, Buffer.from(indexContent, 'utf8'));
@@ -161,26 +156,18 @@ async function createModuleFiles(
       
       // Create additional files for the exercise
       await createJsAdditionalFiles(exerciseDirUri, exercise);
-    } else {
-      // For Python, keep the original approach with a single file
-      const exerciseFileContent = generatePyExerciseContent(exercise);
-      const exerciseFileUri = vscode.Uri.joinPath(exercisesDir, `${safeFileName}.${ext}`);
-      await vscode.workspace.fs.writeFile(exerciseFileUri, Buffer.from(exerciseFileContent, 'utf8'));
     }
     
     // Create the test file for this exercise (same for both languages)
-    const testFileContent = language === 'javascript'
-      ? generateJsIndividualTestContent(module, exercise, safeFileName)
-      : generatePyIndividualTestContent(module, exercise, safeFileName);
+    const testFileContent = generateJsIndividualTestContent(module, exercise, safeFileName)
+      
     
     const testFileUri = vscode.Uri.joinPath(testsDir, `${safeFileName}.test.${ext}`);
     await vscode.workspace.fs.writeFile(testFileUri, Buffer.from(testFileContent, 'utf8'));
   }
   
   // Create a master test file that runs all tests
-  const masterTestContent = language === 'javascript'
-    ? generateJsMasterTestFile(module, exerciseContent)
-    : generatePyMasterTestFile(module, exerciseContent);
+  const masterTestContent = generateJsMasterTestFile(module, exerciseContent)
   
   const testUri = vscode.Uri.joinPath(moduleDir, `tests.${ext}`);
   await vscode.workspace.fs.writeFile(testUri, Buffer.from(masterTestContent, 'utf8'));
@@ -236,7 +223,7 @@ async function loadExerciseAssets(moduleId: string): Promise<ExerciseAsset | und
         id: chapterInfo.id,
         title: chapterInfo.title,
         exercises: exercises,
-        resources: chapterInfo.resources || { javascript: [], python: [] }
+        resources: chapterInfo.resources || { javascript: [] }
       };
     }
     
@@ -297,7 +284,7 @@ async function generateReadmeContent(module: any, ext: string, exerciseContent: 
       
       if (metadata && metadata.resources) {
         // Use language-specific resources if available
-        const resources = metadata.resources[ext === 'js' ? 'javascript' : 'python'] || [];
+        const resources = metadata.resources['javascript'] || [];
         if (resources.length > 0) {
           resources.forEach((link: string) => {
             const linkText = link.replace(/https?:\/\/([^\/]+)\/.*/, '$1'); // Extract domain name
@@ -337,9 +324,7 @@ async function getExerciseContent(moduleId: string, moduleTitle: string): Promis
       name: "defaultFunction",
       description: "A placeholder function that needs to be implemented",
       jsTemplate: "function defaultFunction() {\n  // TODO: Implement this function\n  \n}",
-      pyTemplate: "    # TODO: Implement this function\n    pass",
       jsTest: "    it(\"should be implemented\", () => {\n      assert.fail(\"Not implemented yet\");\n    });",
-      pyTest: "    def test_default_function(self):\n        self.fail(\"Function not implemented yet\")"
     }
   ];
 }
@@ -445,25 +430,6 @@ function generateJsIndexFile(module: any, exerciseFunctions: ExerciseFunctions[]
   return content;
 }
 
-/**
- * Generate Python index file that imports and exports all exercise functions
- */
-function generatePyIndexFile(module: any, exerciseFunctions: ExerciseFunctions[]): string {
-  let content = `# index.py for module ${module.id}: ${module.title}\n`;
-  content += `# This file imports and makes available all functions from individual exercise files\n\n`;
-  
-  // Import statements
-  exerciseFunctions.forEach(func => {
-    const safeFileName = getSafeFileName(func.name);
-    content += `from exercises.${safeFileName} import ${func.name}\n`;
-  });
-  
-  content += `\n# No need to explicitly export symbols in Python\n`;
-  content += `# All imported symbols are available when importing this file\n`;
-  
-  return content;
-}
-
 
 /**
  * Generate JavaScript content for an exercise directory's main file
@@ -531,25 +497,6 @@ function generateJsIndividualTestContent(module: any, exercise: ExerciseFunction
   return content;
 }
 
-/**
- * Generate Python test content for an individual exercise
- */
-function generatePyIndividualTestContent(module: any, exercise: ExerciseFunctions, fileName: string): string {
-  let content = `# Test file for ${exercise.name} in module ${module.id}\n`;
-  content += `import unittest\n`;
-  
-  // Import the function from its exercise file
-  content += `from exercises.${fileName} import ${exercise.name}\n\n`;
-  
-  // Create test class
-  const className = `Test${exercise.name.charAt(0).toUpperCase() + exercise.name.slice(1)}`;
-  content += `class ${className}(unittest.TestCase):\n`;
-  content += exercise.pyTest;
-  content += `\n\nif __name__ == '__main__':\n`;
-  content += `    unittest.main()\n`;
-  
-  return content;
-}
 
 /**
  * Generate a master JavaScript test file that runs all tests
@@ -581,56 +528,6 @@ function generateJsMasterTestFile(module: any, exerciseFunctions: ExerciseFuncti
   content += `mocha.run(failures => {\n`;
   content += `  process.exitCode = failures ? 1 : 0;\n`;
   content += `});\n`;
-  
-  return content;
-}
-
-/**
- * Generate a master Python test file that runs all tests
- */
-function generatePyMasterTestFile(module: any, exerciseFunctions: ExerciseFunctions[]): string {
-  let content = `# Master test file for module ${module.id}: ${module.title}\n`;
-  content += `# This file runs all tests for this module\n\n`;
-  
-  content += `import unittest\n`;
-  content += `import os\n`;
-  content += `import importlib\n`;
-  content += `import glob\n\n`;
-  
-  // Discover and load all test modules
-  content += `# Collect all tests from the tests directory\n`;
-  content += `def load_tests(loader, tests, pattern):\n`;
-  content += `    test_dir = os.path.join(os.path.dirname(__file__), 'tests')\n`;
-  content += `    test_files = glob.glob(os.path.join(test_dir, '*.test.py'))\n`;
-  content += `    \n`;
-  content += `    # Convert file paths to module names\n`;
-  content += `    for test_file in test_files:\n`;
-  content += `        module_name = os.path.basename(test_file)[:-3]  # Remove .py extension\n`;
-  content += `        module_path = f'tests.{module_name}'\n`;
-  content += `        try:\n`;
-  content += `            # Try to import the module and add its tests\n`;
-  content += `            module = importlib.import_module(module_path)\n`;
-  content += `            tests.addTests(loader.loadTestsFromModule(module))\n`;
-  content += `        except ImportError as e:\n`;
-  content += `            print(f'Error importing {module_path}: {e}')\n`;
-  content += `    \n`;
-  content += `    return tests\n\n`;
-  
-  content += `if __name__ == '__main__':\n`;
-  content += `    unittest.main()\n`;
-  
-  return content;
-}
-
-/**
- * Generate Python content for a single exercise file
- */
-function generatePyExerciseContent(exercise: ExerciseFunctions): string {
-  let content = '';
-  
-  content += `def ${exercise.name}:\n    """\n    ${exercise.description}\n    """\n`;
-  content += exercise.pyTemplate;
-  content += `\n\n`;
   
   return content;
 }
