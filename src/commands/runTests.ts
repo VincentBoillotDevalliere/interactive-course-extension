@@ -23,15 +23,42 @@ export async function runTests(specificModuleId?: string) {
   
   vscode.window.withProgress({
     location: vscode.ProgressLocation.Notification,
-    title: `Running tests for ${currentModule.title}`,
+    title: `Running tests for module: ${currentModule.title}`,
     cancellable: false
   }, async (progress) => {
-    progress.report({ increment: 0 });
+    progress.report({ 
+      increment: 0,
+      message: "Starting test runner..."
+    });
+
+    // Show an initial status message for beginners
+    const channel = vscode.window.createOutputChannel('Test Status');
+    channel.clear();
+    channel.appendLine('🔍 Examining your code and running tests...');
+    channel.appendLine('⏳ Please wait while we check your solution...');
+    channel.show();
+    
+    // Set up a progress animation with steps to make the process more engaging
+    const progressSteps = [
+      { increment: 10, message: "Analyzing your code..." },
+      { increment: 30, message: "Running tests..." },
+      { increment: 50, message: "Checking results..." },
+      { increment: 80, message: "Finalizing..." }
+    ];
+    
+    // Report progress at timed intervals for a more visual effect
+    for (const step of progressSteps) {
+      await new Promise(resolve => setTimeout(resolve, 600)); // Add a small delay
+      progress.report(step);
+    }
     
     try {
       const testRunner = new TestRunner(manifest.language);
       const success = await testRunner.runTests(currentModuleId);
-      progress.report({ increment: 100 });
+      progress.report({ increment: 100, message: "Complete!" });
+      
+      // Close the status channel as we're done
+      channel.dispose();
       
       if (success) {
         // Only update progress if testing the current active module

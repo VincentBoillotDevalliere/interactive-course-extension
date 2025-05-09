@@ -650,7 +650,14 @@ if (!allPassed) {
         // Set up output channel for test results
         const outputChannel = vscode.window.createOutputChannel('Test Results');
         outputChannel.show();
-        outputChannel.appendLine(`Running tests for module ${moduleId}...`);
+        
+        // Colorful header
+        outputChannel.appendLine('══════════════════════════════════════════════════════════════════════════════');
+        outputChannel.appendLine('                         🧪 RUNNING MODULE TESTS 🧪                            ');
+        outputChannel.appendLine('══════════════════════════════════════════════════════════════════════════════');
+        outputChannel.appendLine('');
+        outputChannel.appendLine(`📌 Module: ${moduleId}`);
+        outputChannel.appendLine('');
         
         // Read all JSON exercise files in the directory
         const files = await fs.promises.readdir(exercisesDir);
@@ -661,12 +668,17 @@ if (!allPassed) {
         );
         
         if (exerciseFiles.length === 0) {
-          outputChannel.appendLine('No exercise files found.');
+          outputChannel.appendLine('❌ No exercise files found for this module.');
+          outputChannel.appendLine('   Please check that you have the correct module ID and try again.');
           resolve(false);
           return;
         }
         
-        outputChannel.appendLine(`Found ${exerciseFiles.length} exercise files to test.`);
+        outputChannel.appendLine(`✅ Found ${exerciseFiles.length} exercise files to test:`);
+        exerciseFiles.forEach((file, index) => {
+          outputChannel.appendLine(`   ${index + 1}. ${file}`);
+        });
+        outputChannel.appendLine('');
         
         // Create a temporary directory for test files
         const tempDir = path.join(exercisesDir, '_temp_test_dir');
@@ -782,17 +794,55 @@ ${exercise.jsTest}
           console.error('Error removing temp directory:', err);
         }
         
-        // Show final results
-        outputChannel.appendLine(`\n\n📊 Overall Test Summary:`);
-        outputChannel.appendLine(`   Total Tests: ${totalTests} | ✅ Passed: ${passedTests} | ❌ Failed: ${totalTests - passedTests}`);
+        // Show final results with a visual summary
+        outputChannel.appendLine(`\n\n${'═'.repeat(70)}`);
+        outputChannel.appendLine(`📊 OVERALL TEST SUMMARY FOR MODULE: ${moduleId}`);
+        outputChannel.appendLine(`${'═'.repeat(70)}`);
+        
+        // Create a visual progress bar
+        const totalWidth = 50;
+        const passPercent = totalTests > 0 ? Math.round((passedTests / totalTests) * 100) : 0;
+        const passWidth = Math.round((passedTests / totalTests) * totalWidth);
+        const failWidth = totalWidth - passWidth;
+        
+        const progressBar = [
+          '  Progress: [' + '█'.repeat(passWidth) + ' '.repeat(failWidth) + '] ' + passPercent + '%'
+        ].join('\n');
+        
+        outputChannel.appendLine(progressBar);
+        outputChannel.appendLine(`  Total Tests: ${totalTests}`);
+        outputChannel.appendLine(`  ✅ Passed: ${passedTests}`);
+        outputChannel.appendLine(`  ❌ Failed: ${totalTests - passedTests}`);
+        outputChannel.appendLine(`${'─'.repeat(70)}`);
         
         if (allTestsPassed) {
-          outputChannel.appendLine('\n✅ All tests passed successfully!');
-          vscode.window.showInformationMessage('🎉 All tests passed! Ready to move to the next module.');
+          outputChannel.appendLine('\n🎉 ALL TESTS PASSED SUCCESSFULLY! 🎉');
+          outputChannel.appendLine('\n💡 NEXT STEPS:');
+          outputChannel.appendLine('  • Move on to the next module');
+          outputChannel.appendLine('  • Try optimizing your solution');
+          outputChannel.appendLine('  • Review what you\'ve learned');
+          
+          vscode.window.showInformationMessage('🎉 All tests passed! Ready to move to the next module.', 'Next Module')
+            .then(selection => {
+              if (selection === 'Next Module') {
+                vscode.commands.executeCommand('interactive-course.goToNextModule');
+              }
+            });
           resolve(true);
         } else {
-          outputChannel.appendLine('\n❌ Some tests failed. Review the output above for details.');
-          vscode.window.showWarningMessage('Some tests failed. Check the Test Results output for details.');
+          outputChannel.appendLine('\n❌ SOME TESTS FAILED');
+          outputChannel.appendLine('\n💡 HOW TO FIX:');
+          outputChannel.appendLine('  • Review the error details above');
+          outputChannel.appendLine('  • Check your code against the requirements');
+          outputChannel.appendLine('  • Fix one error at a time');
+          outputChannel.appendLine('  • Run the tests again after each fix');
+          
+          vscode.window.showWarningMessage('Some tests failed. Check the Test Results output for details.', 'View Details')
+            .then(selection => {
+              if (selection === 'View Details') {
+                outputChannel.show(true);
+              }
+            });
           resolve(false);
         }
         
@@ -805,12 +855,75 @@ ${exercise.jsTest}
   }
   
   /**
-   * Helper method to show test output in an output channel
+   * Helper method to show test output in an output channel with enhanced visual style
    */
   private showOutput(output: string) {
     const channel = vscode.window.createOutputChannel('Test Results');
     channel.clear();
-    channel.appendLine(output);
-    channel.show();
+    
+    // Add a visually appealing header with emojis
+    const header = [
+      '╔══════════════════════════════════════════════════════════════════════════════╗',
+      '║                           🧪 TEST RESULTS 🧪                                  ║',
+      '╚══════════════════════════════════════════════════════════════════════════════╝',
+      '',
+      '📘 GUIDE TO TEST RESULTS:',
+      '  ✅ = Test passed successfully       ❌ = Test failed (needs your attention)',
+      '  📋 = Group of related tests         📊 = Summary of test results',
+      '  💡 = Helpful hint to fix an issue   🏁 = Final result indicator',
+      '',
+      '══════════════════════════════════════════════════════════════════════════════',
+      ''
+    ].join('\n');
+    
+    // Format the output with visual enhancements
+    const formattedOutput = output.split('\n').map((line, index) => {
+      // Add some extra formatting to make important info stand out
+      if (line.includes('FAILED TESTS')) {
+        return `\n🔍 ${line}\n${'─'.repeat(70)}`;
+      } else if (line.includes('BEGINNER\'S GUIDE') || line.includes('NEXT STEPS')) {
+        return `\n📚 ${line}\n${'─'.repeat(70)}`;
+      } else if (line.includes('TEST RESULTS SUMMARY') || line.includes('TEST SUMMARY')) {
+        return `\n📊 ${line}\n${'─'.repeat(70)}`;
+      } else if (line.includes('✅') && line.includes('[T')) {
+        // Make passing tests more visually distinctive
+        return `${line}`;
+      } else if (line.includes('❌') && line.includes('[T')) {
+        // Make failing tests more visually distinctive
+        return `${line}`;
+      } else if (line.includes('Error:')) {
+        // Indent and format error messages for readability
+        return `    ${line}`;
+      } else if (line.includes('💡 Hint:')) {
+        // Make hints stand out
+        return `    ${line}`;
+      } else {
+        return line;
+      }
+    }).join('\n');
+    
+    channel.appendLine(header + formattedOutput);
+    
+    // Add beginner-friendly footer with detailed explanation
+    const footer = [
+      '',
+      '══════════════════════════════════════════════════════════════════════════════',
+      '📘 UNDERSTANDING YOUR TEST RESULTS:',
+      '  • Each test checks if your code does what it should do',
+      '  • Green checkmarks (✅) show that part of your code works correctly',
+      '  • Red X marks (❌) show that part of your code needs fixing',
+      '',
+      '💡 IF YOUR TESTS FAILED:',
+      '  1. Read the error messages carefully - they tell you what went wrong',
+      '  2. Look for the hints (💡) which explain how to fix common problems',
+      '  3. Fix one error at a time and run the tests again',
+      '  4. Remember: debugging is a normal part of coding!',
+      '',
+      '🎮 NEED HELP? Check out the exercise description or ask your instructor!',
+      '══════════════════════════════════════════════════════════════════════════════',
+    ].join('\n');
+    
+    channel.appendLine(footer);
+    channel.show(true); // Show in the foreground
   }
 }
