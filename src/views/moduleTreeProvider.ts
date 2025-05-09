@@ -1,14 +1,44 @@
 import * as vscode from 'vscode';
 import { ProgressManager, CourseManifest, ModuleInfo } from '../progression/progressManager';
+import { CourseUtils } from '../utils/courseUtils';
 
-export class ModuleTreeProvider implements vscode.TreeDataProvider<ModuleItem> {
+export class ModuleTreeProvider implements vscode.TreeDataProvider<ModuleItem>, vscode.Disposable {
   private _onDidChangeTreeData: vscode.EventEmitter<ModuleItem | undefined | null | void> = new vscode.EventEmitter<ModuleItem | undefined | null | void>();
   readonly onDidChangeTreeData: vscode.Event<ModuleItem | undefined | null | void> = this._onDidChangeTreeData.event;
   
   private progressManager: ProgressManager;
+  private activeModuleInEditor: string | undefined;
+  private _refreshInterval: NodeJS.Timer;
+  private _disposables: vscode.Disposable[] = [];
   
   constructor() {
     this.progressManager = new ProgressManager();
+    
+    // Set up interval to check if active editor is showing a different module
+    this._refreshInterval = setInterval(async () => {
+      const newModuleId = await CourseUtils.getCurrentModuleId();
+      if (newModuleId !== this.activeModuleInEditor) {
+        this.activeModuleInEditor = newModuleId;
+        this.refresh();
+      }
+    }, 5000); // Check every 5 seconds
+    
+    // Listen for editor changes
+    const editorChangeListener = vscode.window.onDidChangeActiveTextEditor(async () => {
+      const newModuleId = await CourseUtils.getCurrentModuleId();
+      if (newModuleId !== this.activeModuleInEditor) {
+        this.activeModuleInEditor = newModuleId;
+        this.refresh();
+      }
+    });
+    
+    this._disposables.push(editorChangeListener);
+  }
+  
+  // Implementation of vscode.Disposable
+  dispose() {
+    clearInterval(this._refreshInterval);
+    this._disposables.forEach(d => d.dispose());
   }
   
   refresh(): void {
@@ -33,11 +63,17 @@ export class ModuleTreeProvider implements vscode.TreeDataProvider<ModuleItem> {
   }
   
   private createModuleItem(module: ModuleInfo, manifest: CourseManifest): ModuleItem {
+    // Check if this module is highlighted in the editor but not yet the current module
+    const isHighlighted = module.id === this.activeModuleInEditor && module.id !== manifest.currentModule;
+    
     const isCurrent = module.id === manifest.currentModule;
     
     let contextValue = module.status;
     if (isCurrent) {
       contextValue += 'Current';
+    }
+    if (isHighlighted) {
+      contextValue += 'Highlighted';
     }
     
     const moduleItem = new ModuleItem(
@@ -47,7 +83,14 @@ export class ModuleTreeProvider implements vscode.TreeDataProvider<ModuleItem> {
       contextValue
     );
     
-    moduleItem.iconPath = this.getIconForStatus(module.status, isCurrent);
+    moduleItem.iconPath = this.getIconForStatus(module.status, isCurrent, isHighlighted);
+    
+    // Add a description for the module being edited
+    if (isHighlighted) {
+      moduleItem.description = `${module.id} (editing)`;
+    } else {
+      moduleItem.description = module.id;
+    }
     
     return moduleItem;
   }
@@ -58,11 +101,13 @@ export class ModuleTreeProvider implements vscode.TreeDataProvider<ModuleItem> {
       : vscode.TreeItemCollapsibleState.Collapsed;
   }
   
-  private getIconForStatus(status: string, isCurrent: boolean): vscode.ThemeIcon {
+  private getIconForStatus(status: string, isCurrent: boolean, isHighlighted: boolean): vscode.ThemeIcon {
     if (status === 'locked') {
       return new vscode.ThemeIcon('lock');
     } else if (status === 'completed') {
       return new vscode.ThemeIcon('check');
+    } else if (isHighlighted) {
+      return new vscode.ThemeIcon('edit');
     } else if (isCurrent) {
       return new vscode.ThemeIcon('play');
     } else {

@@ -7,6 +7,7 @@ import { ModuleTreeProvider } from './views/moduleTreeProvider';
 import { CodeHighlighter } from './utils/codeHighlighter';
 import { createNewExerciseModule } from './commands/createExercise';
 import { createExerciseSolutionFile } from './commands/createSolutionFile';
+import { CourseUtils } from './utils/courseUtils';
 
 export function activate(context: vscode.ExtensionContext) {
   console.log('🎓 Interactive Course Extension is now active!');
@@ -21,7 +22,21 @@ export function activate(context: vscode.ExtensionContext) {
   // Register common commands
   context.subscriptions.push(
     vscode.commands.registerCommand('extension.createCourse', () => createCourse()),
-    vscode.commands.registerCommand('extension.runTests', () => runTests()),
+    vscode.commands.registerCommand('extension.runTests', async () => {
+      const moduleId = await CourseUtils.getCurrentModuleId();
+      if (moduleId) {
+        runTests(moduleId);
+      } else {
+        vscode.window.showInformationMessage(
+          'No module detected for test execution. Please open a file from the module you want to test.',
+          'Create Course'
+        ).then(selection => {
+          if (selection === 'Create Course') {
+            vscode.commands.executeCommand('extension.createCourse');
+          }
+        });
+      }
+    }),
     vscode.commands.registerCommand('extension.createSolutionFile', () => createExerciseSolutionFile())
   );
   
@@ -42,7 +57,8 @@ export function activate(context: vscode.ExtensionContext) {
   // Register tree view
   const moduleTreeProvider = new ModuleTreeProvider();
   context.subscriptions.push(
-    vscode.window.registerTreeDataProvider('courseModules', moduleTreeProvider)
+    vscode.window.registerTreeDataProvider('courseModules', moduleTreeProvider),
+    moduleTreeProvider // Add the tree provider itself to be disposed
   );
   
   // Register refresh command for tree view
@@ -52,35 +68,38 @@ export function activate(context: vscode.ExtensionContext) {
   
   // Register run module tests command
   context.subscriptions.push(
-    vscode.commands.registerCommand('extension.runModuleTests', (moduleId) => {
-      if (!moduleId && vscode.window.activeTextEditor) {
-        // If no moduleId provided but we have an active editor, try to extract moduleId from file path
-        const filePath = vscode.window.activeTextEditor.document.uri.fsPath;
-        
-        // Check for moduleId in the file path
-        let match = filePath.match(/[\\/](0\d-\w+)[\\/]/);
-        
-        // Also check for exercises directory path pattern
-        if (!match) {
-          match = filePath.match(/[\\/]exercises[\\/](0\d-\w+)[\\/]/);
+    vscode.commands.registerCommand('extension.runModuleTests', async (moduleId) => {
+      try {
+        // If moduleId is not provided directly, try to determine it
+        if (!moduleId) {
+          moduleId = await CourseUtils.getCurrentModuleId();
+          console.log(`[DEBUG] Determined moduleId from context: ${moduleId}`);
         }
         
-        // Also check for file name patterns like 01-variables-dataTypes-someFunction.js
-        if (!match) {
-          match = filePath.match(/(0\d-\w+)-\w+\.js/);
+        if (moduleId) {
+          // Check if test files exist for this module
+          const testFiles = await CourseUtils.findModuleTestFiles(moduleId);
+          
+          if (testFiles.length > 0) {
+            console.log(`[DEBUG] Found ${testFiles.length} test files for module ${moduleId}`);
+            runTests(moduleId);
+          } else {
+            vscode.window.showWarningMessage(`No test files found for module '${moduleId}'.`);
+          }
+        } else {
+          // If still no moduleId, show a more helpful error message
+          vscode.window.showInformationMessage(
+            'No module detected for test execution. Please open a file from the module you want to test.',
+            'Create Course'
+          ).then(selection => {
+            if (selection === 'Create Course') {
+              vscode.commands.executeCommand('extension.createCourse');
+            }
+          });
         }
-        
-        console.log(`[DEBUG] Trying to extract moduleId from file path: ${filePath}, match: ${match ? match[1] : 'none'}`);
-        
-        if (match && match[1]) {
-          moduleId = match[1];
-        }
-      }
-      
-      if (moduleId) {
-        runTests(moduleId);
-      } else {
-        vscode.window.showErrorMessage('No module specified for test execution.');
+      } catch (error) {
+        console.error('Error running module tests:', error);
+        vscode.window.showErrorMessage(`Error running module tests: ${error}`);
       }
     })
   );

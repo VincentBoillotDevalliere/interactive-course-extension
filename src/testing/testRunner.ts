@@ -27,6 +27,46 @@ export class TestRunner {
     try {
       console.log(`[DEBUG] Finding test files for module ${moduleId}...`);
       
+      // Use CourseUtils to find test files
+      const { CourseUtils } = await import('../utils/courseUtils');
+      const testFiles = await CourseUtils.findModuleTestFiles(moduleId);
+      
+      console.log(`[DEBUG] Found ${testFiles.length} potential test files for module ${moduleId}`);
+      
+      // If we have test files from CourseUtils, use them
+      if (testFiles.length > 0) {
+        for (const testFile of testFiles) {
+          if (testFile.endsWith('.js') && this.language === 'javascript') {
+            // Detect if we're using multi-file structure
+            const dir = path.dirname(testFile);
+            const exercisesDir = path.join(dir, 'exercises');
+            const testsDir = path.join(dir, 'tests');
+            
+            if (fs.existsSync(exercisesDir) && fs.existsSync(testsDir)) {
+              return await this.runJavaScriptMultiTests(dir, testFile);
+            } else {
+              return await this.runJavaScriptTests(testFile);
+            }
+          } else if (testFile.endsWith('.py') && this.language === 'python') {
+            const dir = path.dirname(testFile);
+            const exercisesDir = path.join(dir, 'exercises');
+            const testsDir = path.join(dir, 'tests');
+            
+            if (fs.existsSync(exercisesDir) && fs.existsSync(testsDir)) {
+              return await this.runPythonMultiTests(dir, testFile);
+            } else {
+              return await this.runPythonTests(testFile);
+            }
+          } else if (testFile.endsWith('.json')) {
+            // Handle JSON exercise files
+            const exercisesDir = path.dirname(testFile);
+            return await this.runSplitExerciseTests(moduleId, exercisesDir);
+          }
+        }
+      }
+      
+      // Fall back to the original method if CourseUtils didn't find anything
+      
       // Find course directory (containing course.json)
       const files = await vscode.workspace.findFiles('**/course.json');
       
