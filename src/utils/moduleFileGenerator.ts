@@ -21,32 +21,32 @@ export async function createModuleFiles(
   const readmeContent = await generateReadme(module, ext, exerciseContent);
   await writeFile(moduleDir, 'exercise.md', readmeContent);
 
-  // 2. scaffold directories
-  const exercisesDir = vscode.Uri.joinPath(moduleDir, 'exercises');
+  // 2. scaffold test directory
   const testsDir = vscode.Uri.joinPath(moduleDir, 'tests');
-  await vscode.workspace.fs.createDirectory(exercisesDir);
   await vscode.workspace.fs.createDirectory(testsDir);
 
-  // 3. master index & master test
-  await writeFile(moduleDir, `index.${ext}`, generateIndex(module, exerciseContent));
-  await writeFile(moduleDir, `tests.${ext}`, generateMasterTest(module, exerciseContent));
+  // 3. Create exercises directory
+  const exercisesDir = vscode.Uri.joinPath(moduleDir, 'exercises');
+  await vscode.workspace.fs.createDirectory(exercisesDir);
 
-  // 4. individual exercises
+  // 4. Create individual exercise files in the exercises directory
   for (const exercise of exerciseContent) {
     const fileName = toSafeName(exercise.name);
 
-    // create exercise folder and main file
+    // create exercise file in the exercises directory
     if (language === 'javascript') {
-      const exDir = vscode.Uri.joinPath(exercisesDir, fileName);
-      await vscode.workspace.fs.createDirectory(exDir);
-      await writeFile(exDir, `index.${ext}`, generateExerciseMain(exercise));
-      await createExtras(exDir, exercise);
+      // Create a simplified file without imports to helper files
+      await writeFile(exercisesDir, `${fileName}.${ext}`, generateExerciseMainSimplified(exercise));
     }
 
     // create individual test file
     const testName = `${fileName}.test.${ext}`;
-    await writeFile(testsDir, testName, generateIndividualTest(module, exercise, fileName));
+    await writeFile(testsDir, testName, generateIndividualTestSimplified(module, exercise, fileName));
   }
+  
+  // 5. Create master index that imports from the exercises folder
+  await writeFile(moduleDir, `index.${ext}`, generateIndexSimplified(module, exerciseContent));
+  await writeFile(moduleDir, `tests.${ext}`, generateMasterTest(module, exerciseContent));
 }
 
 /**
@@ -106,13 +106,14 @@ async function generateReadme(
   }
 
   // fallback
-  return `# Module ${module.id}: ${module.title}\n\n## Instructions\n\n1. Open main.${ext}\n2. Implement the required functions\n3. Run tests to validate your solution`;
+  return `# Module ${module.id}: ${module.title}\n\n## Instructions\n\n1. Open exercises/${ext} files\n2. Implement the required functions\n3. Run tests to validate your solution`;
 }
 
+
 /**
- * Generate a master index file that imports/exports all exercises
+ * Generate a master index file that imports/exports all exercises from module-level files
  */
-function generateIndex(
+function generateIndexSimplified(
   module: { id: string; title: string },
   exerciseFunctions: ExerciseFunctions[]
 ): string {
@@ -121,7 +122,7 @@ function generateIndex(
 
   exerciseFunctions.forEach(func => {
     const safeName = toSafeName(func.name);
-    content += `const { ${func.name} } = require('./exercises/${safeName}/index');\n`;
+    content += `const { ${func.name} } = require('./exercises/${safeName}');\n`;
   });
 
   content += `\nmodule.exports = {\n`;
@@ -131,40 +132,28 @@ function generateIndex(
 }
 
 /**
- * Generate main exercise file with templates and imports
+ * Generate main exercise file without importing helper files
  */
-function generateExerciseMain(exercise: ExerciseFunctions): string {
-  let content = `/**\n * ${exercise.description}\n * Main file for the ${exercise.name} exercise.\n */\n`;
-
-  if (exercise.additionalFiles && exercise.additionalFiles.length > 0) {
-    content += '\n// Import helper functions from other files\n';
-    exercise.additionalFiles.forEach(file => {
-      const safe = toSafeName(file.fileName);
-      content += `const ${safe} = require('./${safe}');\n`;
-    });
-    content += '\n';
-  } else {
-    content += '\n// Import helper functions\n';
-    content += `const helperFunctions = require('./helper');\n`;
-    content += `const extraFunctions = require('./extra');\n\n`;
-  }
-
+function generateExerciseMainSimplified(exercise: ExerciseFunctions): string {
+  let content = `/**\n * ${exercise.description}\n */\n\n`;
   content += exercise.jsTemplate + '\n\n';
   content += `module.exports = { ${exercise.name} };\n`;
   return content;
 }
 
+
+
 /**
- * Generate an individual test file for one exercise
+ * Generate an individual test file for one exercise with simplified imports
  */
-function generateIndividualTest(
+function generateIndividualTestSimplified(
   module: { id: string; title: string },
   exercise: ExerciseFunctions,
   fileName: string
 ): string {
   let content = `// Test file for ${exercise.name} in module ${module.id}\n`;
   content += `const assert = require('assert');\n\n`;
-  content += `const { ${exercise.name} } = require('../exercises/${fileName}/index');\n\n`;
+  content += `const { ${exercise.name} } = require('../exercises/${fileName}');\n\n`;
   content += `describe('${exercise.name} Tests', () => {\n`;
   content += exercise.jsTest + '\n';
   content += `});\n`;
@@ -195,87 +184,3 @@ function generateMasterTest(
   return content;
 }
 
-/**
- * Create helper and extra files per exercise or use provided additionalFiles
- */
-async function createExtras(
-  exerciseDirUri: vscode.Uri,
-  exercise: ExerciseFunctions
-): Promise<void> {
-  if (!exercise.additionalFiles || exercise.additionalFiles.length === 0) {
-    const helperName = `${exercise.name}Helper`;
-    const helperContent = generateHelperFile(exercise, helperName);
-    await writeFile(exerciseDirUri, 'helper.js', helperContent);
-
-    const extraContent = generateAdditionalFile(
-      exercise,
-      'extra',
-      'Extra functionality for the exercise'
-    );
-    await writeFile(exerciseDirUri, 'extra.js', extraContent);
-  } else {
-    for (const file of exercise.additionalFiles) {
-      const safe = toSafeName(file.fileName);
-      const fileName = `${safe}.js`;
-      const content = generateAdditionalFile(
-        exercise,
-        safe,
-        file.description,
-        file.template || '',
-        file.dependencies || []
-      );
-      await writeFile(exerciseDirUri, fileName, content);
-    }
-  }
-}
-
-/**
- * Helper to create a default helper file
- */
-function generateHelperFile(
-  exercise: ExerciseFunctions,
-  helperName: string
-): string {
-  let content = `/**\n * Helper functions for ${exercise.name} exercise\n */\n\n`;
-  content += `/**\n * Example helper function for the ${exercise.name} exercise\n`;
-  content += ` * @param {any} data - The data to process\n`;
-  content += ` * @returns {any} The processed data\n */\n`;
-  content += `function ${helperName}(data) {\n  // Implement your helper function here\n  return data;\n}\n\n`;
-  content += `module.exports = { ${helperName} };\n`;
-  return content;
-}
-
-/**
- * Helper to create or template an additional file
- */
-function generateAdditionalFile(
-  exercise: ExerciseFunctions,
-  fileName: string,
-  description: string,
-  initialContent: string = '',
-  dependencies: string[] = []
-): string {
-  let content = `/**\n * ${description}\n * Additional file for the ${exercise.name} exercise.\n */\n\n`;
-
-  if (dependencies.length) {
-    content += '// Import dependencies\n';
-    dependencies.forEach(dep => {
-      const depSafe = toSafeName(dep);
-      content += `const ${depSafe} = require('./${depSafe}');\n`;
-    });
-    content += '\n';
-  }
-
-  if (initialContent) {
-    content += initialContent;
-  } else {
-    content += `// Add your implementation here\n\n`;
-    content += `/**\n * Example function for ${fileName}\n`;
-    content += ` * @param {any} data - Input data\n`;
-    content += ` * @returns {any} - Processed data\n */\n`;
-    content += `function ${fileName}Function(data) {\n  // Your implementation goes here\n  return data;\n}\n\n`;
-  }
-
-  content += `module.exports = { ${fileName}Function };\n`;
-  return content;
-}
