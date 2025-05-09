@@ -47,16 +47,6 @@ export class TestRunner {
             } else {
               return await this.runJavaScriptTests(testFile);
             }
-          } else if (testFile.endsWith('.py') && this.language === 'python') {
-            const dir = path.dirname(testFile);
-            const exercisesDir = path.join(dir, 'exercises');
-            const testsDir = path.join(dir, 'tests');
-            
-            if (fs.existsSync(exercisesDir) && fs.existsSync(testsDir)) {
-              return await this.runPythonMultiTests(dir, testFile);
-            } else {
-              return await this.runPythonTests(testFile);
-            }
           } else if (testFile.endsWith('.json')) {
             // Handle JSON exercise files
             const exercisesDir = path.dirname(testFile);
@@ -101,17 +91,13 @@ export class TestRunner {
             console.log(`[DEBUG] Using multi-file structure for module ${moduleId}`);
             if (this.language === 'javascript') {
               return await this.runJavaScriptMultiTests(dir, testFilePath);
-            } else if (this.language === 'python') {
-              return await this.runPythonMultiTests(dir, testFilePath);
-            }
+            } 
           } else {
             // Fall back to the original single-file structure
             console.log(`[DEBUG] Using single-file structure for module ${moduleId}`);
             if (this.language === 'javascript') {
               return await this.runJavaScriptTests(testFilePath);
-            } else if (this.language === 'python') {
-              return await this.runPythonTests(testFilePath);
-            }
+            } 
           }
         }
       }
@@ -123,8 +109,6 @@ export class TestRunner {
         
         if (this.language === 'javascript') {
           return await this.runSplitExerciseTests(moduleId, exercisesDir);
-        } else if (this.language === 'python') {
-          return await this.runPythonMultiTests(moduleId, exercisesDir);
         }
       }
       
@@ -310,149 +294,6 @@ require('${testFilePath.replace(/\\/g, '\\\\')}');
       }
     });
   }
-  
-  private async runPythonTests(testFilePath: string): Promise<boolean> {
-    return new Promise<boolean>(async (resolve) => {
-      try {
-        // Create a temporary wrapper to enhance test output
-        const moduleDir = path.dirname(testFilePath);
-        const tempTestFile = path.join(moduleDir, '_temp_python_test_runner.py');
-        
-        // Enhanced Python test wrapper
-        const content = `
-# Temporary Python test runner with enhanced reporting
-import unittest
-import sys
-import os
-import importlib.util
-from unittest.runner import TextTestResult
-from unittest.result import TestResult
-
-class EnhancedTestResult(TextTestResult):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.function_results = {}
-        
-    def startTest(self, test):
-        super().startTest(test)
-        test_name = test._testMethodName
-        function_name = test_name.replace('test_', '')
-        
-        # Initialize function tracking
-        if function_name not in self.function_results:
-            self.function_results[function_name] = {
-                'total': 0,
-                'passed': 0,
-                'failed': 0,
-                'errors': []
-            }
-        
-        self.function_results[function_name]['total'] += 1
-        
-    def addSuccess(self, test):
-        super().addSuccess(test)
-        test_name = test._testMethodName
-        function_name = test_name.replace('test_', '')
-        self.function_results[function_name]['passed'] += 1
-        
-    def addFailure(self, test, err):
-        super().addFailure(test, err)
-        test_name = test._testMethodName
-        function_name = test_name.replace('test_', '')
-        self.function_results[function_name]['failed'] += 1
-        self.function_results[function_name]['errors'].append({
-            'name': test_name,
-            'error': str(err[1])
-        })
-        
-    def addError(self, test, err):
-        super().addError(test, err)
-        test_name = test._testMethodName
-        function_name = test_name.replace('test_', '')
-        self.function_results[function_name]['failed'] += 1
-        self.function_results[function_name]['errors'].append({
-            'name': test_name,
-            'error': str(err[1])
-        })
-
-# Import the test module
-test_path = "${testFilePath.replace(/\\/g, '\\\\')}"
-module_name = os.path.basename(test_path).replace('.py', '')
-spec = importlib.util.spec_from_file_location(module_name, test_path)
-test_module = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(test_module)
-
-# Find test classes in the module
-test_suite = unittest.defaultTestLoader.loadTestsFromModule(test_module)
-
-# Run tests with enhanced reporting
-runner = unittest.TextTestRunner(resultclass=EnhancedTestResult, verbosity=2)
-result = runner.run(test_suite)
-
-# Print enhanced summary
-print("\\n📊 Test Summary:")
-print(f"   Total: {result.testsRun} | ✅ Passed: {result.testsRun - len(result.failures) - len(result.errors)} | ❌ Failed: {len(result.failures) + len(result.errors)}")
-
-print("\\n📝 Function Details:")
-for func, data in result.function_results.items():
-    status = '❌' if data['failed'] > 0 else '✅';
-    print(f"   {status} {func}: {data['passed']}/{data['total']} tests passed")
-
-if result.failures or result.errors:
-    print("\\n🔍 Failed Tests:")
-    for func, data in result.function_results.items():
-        if data['errors']:
-            for error in data['errors']:
-                print(f"   • {func}: {error['name']}")
-                print(f"     Error: {error['error']}")
-    
-    print("\\n💡 Hint: Review your implementation and ensure it meets all the requirements.")
-    sys.exit(1)
-else:
-    print("\\n🎉 All tests passed! Great job!")
-    sys.exit(0)
-`;
-        
-        await fs.promises.writeFile(tempTestFile, content);
-        
-        const process = cp.spawn('python', [tempTestFile]);
-        
-        let output = '';
-        process.stdout.on('data', (data) => {
-          output += data.toString();
-        });
-        
-        process.stderr.on('data', (data) => {
-          output += data.toString();
-        });
-        
-        process.on('close', async (code) => {
-          this.showOutput(output);
-          
-          // Clean up the temporary file
-          try {
-            await fs.promises.unlink(tempTestFile);
-          } catch (err) {
-            console.error('Error cleaning up temp file:', err);
-          }
-          
-          // Show success message if all tests passed
-          if (code === 0) {
-            vscode.window.showInformationMessage('🎉 All tests passed! Ready to move to the next module.');
-          } else {
-            vscode.window.showWarningMessage('Some tests failed. Check the Test Results output for details.');
-          }
-          
-          resolve(code === 0);
-        });
-      } catch (error: any) {
-        console.error('Error running Python tests:', error);
-        this.showOutput(`Error running tests: ${error.message}`);
-        resolve(false);
-      }
-    });
-  }
-  
   /**
    * Run JavaScript tests for modules with separate test files
    */
@@ -594,53 +435,7 @@ if (!allPassed) {
     });
   }
   
-  /**
-   * Run Python tests for modules with separate test files
-   */
-  private async runPythonMultiTests(moduleDir: string, masterTestFile: string): Promise<boolean> {
-    return new Promise<boolean>(async (resolve) => {
-      try {
-        // Use the master test file that discovers and runs all individual test files
-        console.log(`[DEBUG] Running Python tests from master file: ${masterTestFile}`);
-        
-        // Set up output channel for test results
-        const outputChannel = vscode.window.createOutputChannel('Test Results');
-        outputChannel.show();
-        outputChannel.appendLine(`Running tests for module at ${moduleDir}...`);
-        
-        // Run the tests using Python and capture output
-        const testProcess = cp.spawn('python', [masterTestFile], {
-          cwd: moduleDir,
-          shell: true
-        });
-        
-        testProcess.stdout.on('data', (data) => {
-          outputChannel.append(data.toString());
-        });
-        
-        testProcess.stderr.on('data', (data) => {
-          outputChannel.append(data.toString());
-        });
-        
-        testProcess.on('close', (code) => {
-          if (code === 0) {
-            outputChannel.appendLine('\n✅ All tests passed successfully!');
-            vscode.window.showInformationMessage('🎉 All tests passed! Ready to move to the next module.');
-            resolve(true);
-          } else {
-            outputChannel.appendLine(`\n❌ Tests failed with exit code: ${code}`);
-            vscode.window.showWarningMessage('Some tests failed. Check the Test Results output for details.');
-            resolve(false);
-          }
-        });
-      } catch (error) {
-        console.error(`Error running Python multi-tests: ${error}`);
-        vscode.window.showErrorMessage(`Error running tests: ${error}`);
-        resolve(false);
-      }
-    });
-  }
-  
+ 
   /**
    * Run tests for split exercise files
    */

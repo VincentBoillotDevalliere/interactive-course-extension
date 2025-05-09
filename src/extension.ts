@@ -5,8 +5,6 @@ import { createCourse } from './commands/createCourse';
 import { runTests } from './commands/runTests';
 import { ModuleTreeProvider } from './views/moduleTreeProvider';
 import { CodeHighlighter } from './utils/codeHighlighter';
-import { createNewExerciseModule } from './commands/createExercise';
-import { createExerciseSolutionFile } from './commands/createSolutionFile';
 import { CourseUtils } from './utils/courseUtils';
 
 export function activate(context: vscode.ExtensionContext) {
@@ -37,16 +35,11 @@ export function activate(context: vscode.ExtensionContext) {
         });
       }
     }),
-    vscode.commands.registerCommand('extension.createSolutionFile', () => createExerciseSolutionFile())
   );
   
   // Register development-only commands
   if (isDevMode) {
     console.log('Running in development mode - enabling exercise creation features');
-    context.subscriptions.push(
-      vscode.commands.registerCommand('extension.createNewExercise', () => createNewExerciseModule())
-    );
-    
     // Set context key for conditionally showing UI elements
     vscode.commands.executeCommand('setContext', 'interactiveCourse.devMode', true);
   } else {
