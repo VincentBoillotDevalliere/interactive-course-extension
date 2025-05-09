@@ -1,0 +1,9 @@
+{
+  "name": "calculateArea",
+  "description": "Create a function that calculates the area of a rectangle",
+  "jsTemplate": "function calculateArea(width, height) {\n  // TODO: Return the area of a rectangle (width * height)\n  \n}",
+  "pyTemplate": "def calculate_area(width, height):\n    # TODO: Return the area of a rectangle (width * height)\n    pass",
+  "jsTest": "    it(\"should calculate the area of a rectangle\", () => {\n      assert.strictEqual(calculateArea(5, 4), 20);\n      assert.strictEqual(calculateArea(3, 7), 21);\n      assert.strictEqual(calculateArea(10, 10), 100);\n    });",
+  "pyTest": "    def test_calculate_area(self):\n        self.assertEqual(calculate_area(5, 4), 20)\n        self.assertEqual(calculate_area(3, 7), 21)\n        self.assertEqual(calculate_area(10, 10), 100)",
+  "chapterId": "03-functions-modularCode"
+}

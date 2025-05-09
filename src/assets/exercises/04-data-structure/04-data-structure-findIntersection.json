@@ -1,0 +1,9 @@
+{
+  "name": "findIntersection",
+  "description": "Create a function that finds the intersection of two arrays (common elements)",
+  "jsTemplate": "function findIntersection(arr1, arr2) {\n  // TODO: Return an array containing elements that appear in both arrays\n  // The result should not contain duplicates\n  \n}",
+  "pyTemplate": "def find_intersection(arr1, arr2):\n    # TODO: Return a list containing elements that appear in both lists\n    # The result should not contain duplicates\n    pass",
+  "jsTest": "    it(\"should find the intersection of two arrays\", () => {\n      assert.deepStrictEqual(findIntersection([1, 2, 3, 4], [3, 4, 5, 6]).sort(), [3, 4]);\n      assert.deepStrictEqual(findIntersection([\"a\", \"b\", \"c\"], [\"b\", \"c\", \"d\"]).sort(), [\"b\", \"c\"]);\n      assert.deepStrictEqual(findIntersection([1, 1, 2, 2], [2, 2, 3, 3]).sort(), [2]);\n      assert.deepStrictEqual(findIntersection([1, 2], [3, 4]), []);\n    });",
+  "pyTest": "    def test_find_intersection(self):\n        self.assertEqual(sorted(find_intersection([1, 2, 3, 4], [3, 4, 5, 6])), [3, 4])\n        self.assertEqual(sorted(find_intersection([\"a\", \"b\", \"c\"], [\"b\", \"c\", \"d\"])), [\"b\", \"c\"])\n        self.assertEqual(sorted(find_intersection([1, 1, 2, 2], [2, 2, 3, 3])), [2])\n        self.assertEqual(find_intersection([1, 2], [3, 4]), [])",
+  "chapterId": "04-data-structure"
+}

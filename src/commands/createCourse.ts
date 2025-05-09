@@ -87,6 +87,13 @@ interface ExerciseFunctions {
   pyTemplate: string;
   jsTest: string;
   pyTest: string;
+  additionalFiles?: {
+    fileName: string;
+    description: string;
+    template?: string;
+    dependencies?: string[]; // Optional array of other files this file depends on
+  }[];
+  chapterId?: string; // For backward compatibility
 }
 
 // Interface for assets files structure
@@ -113,29 +120,72 @@ async function createModuleFiles(
   
   const readmeUri = vscode.Uri.joinPath(moduleDir, 'exercise.md');
   const ext = language === 'javascript' ? 'js' : 'py';
-  const mainUri = vscode.Uri.joinPath(moduleDir, `main.${ext}`);
-  const testUri = vscode.Uri.joinPath(moduleDir, `tests.${ext}`);
   
   // Get exercise content based on module ID
   const exerciseContent = await getExerciseContent(module.id, module.title);
   
   // Create exercise readme with more comprehensive content
   const readmeContent = await generateReadmeContent(module, ext, exerciseContent);
-  
-  // Main file content with multiple functions based on module
-  const mainContent = language === 'javascript' 
-    ? generateJsMainContent(module, exerciseContent)
-    : generatePyMainContent(module, exerciseContent);
-  
-  // Test content with multiple test cases
-  const testContent = language === 'javascript'
-    ? generateJsTestContent(module, exerciseContent)
-    : generatePyTestContent(module, exerciseContent);
-  
-  // Write files directly to disk
   await vscode.workspace.fs.writeFile(readmeUri, Buffer.from(readmeContent, 'utf8'));
-  await vscode.workspace.fs.writeFile(mainUri, Buffer.from(mainContent, 'utf8'));
-  await vscode.workspace.fs.writeFile(testUri, Buffer.from(testContent, 'utf8'));
+  
+  // Create an exercises directory to store individual exercise files
+  const exercisesDir = vscode.Uri.joinPath(moduleDir, 'exercises');
+  await vscode.workspace.fs.createDirectory(exercisesDir);
+  
+  // Create a tests directory to store individual test files
+  const testsDir = vscode.Uri.joinPath(moduleDir, 'tests');
+  await vscode.workspace.fs.createDirectory(testsDir);
+  
+  // Create master index file that imports all modules
+  const indexContent = language === 'javascript'
+    ? generateJsIndexFile(module, exerciseContent)
+    : generatePyIndexFile(module, exerciseContent);
+  
+  const indexUri = vscode.Uri.joinPath(moduleDir, `index.${ext}`);
+  await vscode.workspace.fs.writeFile(indexUri, Buffer.from(indexContent, 'utf8'));
+  
+  // Create individual files for each exercise
+  for (let i = 0; i < exerciseContent.length; i++) {
+    const exercise = exerciseContent[i];
+    const safeFileName = getSafeFileName(exercise.name);
+    
+    if (language === 'javascript') {
+      // For JavaScript, create a directory for each exercise to support multiple files
+      const exerciseDirUri = vscode.Uri.joinPath(exercisesDir, safeFileName);
+      await vscode.workspace.fs.createDirectory(exerciseDirUri);
+      
+      // Create the main implementation file (index.js) for this exercise
+      const mainFileContent = generateJsExerciseMainFile(exercise);
+      const mainFileUri = vscode.Uri.joinPath(exerciseDirUri, 'index.js');
+      await vscode.workspace.fs.writeFile(mainFileUri, Buffer.from(mainFileContent, 'utf8'));
+      
+      // Create additional files for the exercise
+      await createJsAdditionalFiles(exerciseDirUri, exercise);
+    } else {
+      // For Python, keep the original approach with a single file
+      const exerciseFileContent = generatePyExerciseContent(exercise);
+      const exerciseFileUri = vscode.Uri.joinPath(exercisesDir, `${safeFileName}.${ext}`);
+      await vscode.workspace.fs.writeFile(exerciseFileUri, Buffer.from(exerciseFileContent, 'utf8'));
+    }
+    
+    // Create the test file for this exercise (same for both languages)
+    const testFileContent = language === 'javascript'
+      ? generateJsIndividualTestContent(module, exercise, safeFileName)
+      : generatePyIndividualTestContent(module, exercise, safeFileName);
+    
+    const testFileUri = vscode.Uri.joinPath(testsDir, `${safeFileName}.test.${ext}`);
+    await vscode.workspace.fs.writeFile(testFileUri, Buffer.from(testFileContent, 'utf8'));
+  }
+  
+  // Create a master test file that runs all tests
+  const masterTestContent = language === 'javascript'
+    ? generateJsMasterTestFile(module, exerciseContent)
+    : generatePyMasterTestFile(module, exerciseContent);
+  
+  const testUri = vscode.Uri.joinPath(moduleDir, `tests.${ext}`);
+  await vscode.workspace.fs.writeFile(testUri, Buffer.from(masterTestContent, 'utf8'));
+  
+  console.log(`[DEBUG] Created module files at ${moduleDir.fsPath}: exercise.md, exercises/*, tests/*, index.${ext}, tests.${ext}`);
 }
 
 // Load exercise assets from files
@@ -148,17 +198,64 @@ async function loadExerciseAssets(moduleId: string): Promise<ExerciseAsset | und
     }
     
     const assetsPath = path.join(extensionPath, 'src', 'assets', 'exercises');
-    const assetFilePath = path.join(assetsPath, `${moduleId}.json`);
     
-    // Check if asset file exists
-    if (!fs.existsSync(assetFilePath)) {
-      console.warn(`No exercise asset found for module ${moduleId}`);
-      return undefined;
+    // First try the new directory structure (chapter folder)
+    const chapterFolderPath = path.join(assetsPath, moduleId);
+    const chapterInfoPath = path.join(chapterFolderPath, 'chapter-info.json');
+    
+    console.log(`[DEBUG] Loading exercise assets for module ${moduleId}`);
+    console.log(`[DEBUG] Chapter folder path: ${chapterFolderPath}`);
+    console.log(`[DEBUG] Chapter info path: ${chapterInfoPath}`);
+    console.log(`[DEBUG] Chapter folder exists: ${fs.existsSync(chapterFolderPath)}`);
+    console.log(`[DEBUG] Chapter info exists: ${fs.existsSync(chapterInfoPath)}`);
+    
+    // If the chapter directory and info file exist, use the new structure
+    if (fs.existsSync(chapterFolderPath) && fs.existsSync(chapterInfoPath)) {
+      console.log(`[DEBUG] Using new chapter structure for ${moduleId}`);
+      // Read chapter info
+      const chapterInfoContent = await fs.promises.readFile(chapterInfoPath, 'utf8');
+      const chapterInfo = JSON.parse(chapterInfoContent);
+      
+      // Read all exercise files in the chapter directory
+      const exerciseFiles = await fs.promises.readdir(chapterFolderPath);
+      const exerciseJsonFiles = exerciseFiles.filter(file => 
+        file.endsWith('.json') && file !== 'chapter-info.json'
+      );
+      
+      console.log(`[DEBUG] Found ${exerciseJsonFiles.length} exercise files in ${moduleId}`);
+      
+      // Load each exercise file
+      const exercises = await Promise.all(exerciseJsonFiles.map(async (file) => {
+        const exerciseFilePath = path.join(chapterFolderPath, file);
+        const exerciseContent = await fs.promises.readFile(exerciseFilePath, 'utf8');
+        return JSON.parse(exerciseContent);
+      }));
+      
+      // Combine into a complete asset
+      return {
+        id: chapterInfo.id,
+        title: chapterInfo.title,
+        exercises: exercises,
+        resources: chapterInfo.resources || { javascript: [], python: [] }
+      };
     }
     
-    // Read and parse the asset file
-    const assetContent = await fs.promises.readFile(assetFilePath, 'utf8');
-    return JSON.parse(assetContent) as ExerciseAsset;
+    // Fall back to the old structure if necessary
+    const legacyAssetFilePath = path.join(assetsPath, `${moduleId}.json`);
+    
+    console.log(`[DEBUG] Legacy asset file path: ${legacyAssetFilePath}`);
+    console.log(`[DEBUG] Legacy asset file exists: ${fs.existsSync(legacyAssetFilePath)}`);
+    
+    // Check if legacy asset file exists
+    if (fs.existsSync(legacyAssetFilePath)) {
+      console.log(`[DEBUG] Using legacy structure for ${moduleId}`);
+      // Read and parse the legacy asset file
+      const assetContent = await fs.promises.readFile(legacyAssetFilePath, 'utf8');
+      return JSON.parse(assetContent) as ExerciseAsset;
+    }
+    
+    console.warn(`No exercise asset found for module ${moduleId}`);
+    return undefined;
   } catch (error) {
     console.error(`Error loading exercise assets for ${moduleId}:`, error);
     return undefined;
@@ -223,82 +320,6 @@ async function generateReadmeContent(module: any, ext: string, exerciseContent: 
   }
 }
 
-// Generate JavaScript main file content
-function generateJsMainContent(module: any, exerciseFunctions: ExerciseFunctions[]): string {
-  let content = `// main.js file for module ${module.id}: ${module.title}\n\n`;
-  
-  // Add each function template
-  exerciseFunctions.forEach(func => {
-    content += `/**\n * ${func.description}\n */\n`;
-    content += func.jsTemplate;
-    content += `\n\n`;
-  });
-  
-  // Add exports at the end
-  content += `module.exports = {\n`;
-  const exports = exerciseFunctions.map(func => `  ${func.name}`).join(',\n');
-  content += exports + '\n};';
-  
-  return content;
-}
-
-// Generate Python main file content
-function generatePyMainContent(module: any, exerciseFunctions: ExerciseFunctions[]): string {
-  let content = `# main.py file for module ${module.id}: ${module.title}\n\n`;
-  
-  // Add each function template
-  exerciseFunctions.forEach(func => {
-    content += `def ${func.name}:\n    """\n    ${func.description}\n    """\n`;
-    content += func.pyTemplate;
-    content += `\n\n`;
-  });
-  
-  return content;
-}
-
-// Generate JavaScript test content
-function generateJsTestContent(module: any, exerciseFunctions: ExerciseFunctions[]): string {
-  let content = `// tests.js for module ${module.id}: ${module.title}\n`;
-  content += `const assert = require('assert');\n`;
-  
-  // Import the functions to test
-  content += `const { ${exerciseFunctions.map(f => f.name).join(', ')} } = require('./main');\n\n`;
-  
-  // Create test suite
-  content += `describe('${module.title} Tests', () => {\n`;
-  
-  // Add test cases for each function
-  exerciseFunctions.forEach(func => {
-    content += `  describe('${func.name}', () => {\n`;
-    content += func.jsTest;
-    content += `  });\n\n`;
-  });
-  
-  content += `});\n`;
-  return content;
-}
-
-// Generate Python test content
-function generatePyTestContent(module: any, exerciseFunctions: ExerciseFunctions[]): string {
-  let content = `# tests.py for module ${module.id}: ${module.title}\n`;
-  content += `import unittest\n`;
-  content += `from main import ${exerciseFunctions.map(f => f.name).join(', ')}\n\n`;
-  
-  // Create test class
-  const className = `Test${module.title.replace(/\s/g, '')}`;
-  content += `class ${className}(unittest.TestCase):\n`;
-  
-  // Add test methods for each function
-  exerciseFunctions.forEach(func => {
-    content += func.pyTest;
-    content += '\n';
-  });
-  
-  content += `\nif __name__ == '__main__':\n`;
-  content += `    unittest.main()\n`;
-  
-  return content;
-}
 
 // Get specific exercise content for each module
 async function getExerciseContent(moduleId: string, moduleTitle: string): Promise<ExerciseFunctions[]> {
@@ -333,30 +354,354 @@ async function discoverAvailableModules(): Promise<any[]> {
     }
     
     const assetsPath = path.join(extensionPath, 'src', 'assets', 'exercises');
+    console.log(`[DEBUG] Looking for modules in path: ${assetsPath}`);
     
-    // Read all JSON files in the exercises folder
     const files = await fs.promises.readdir(assetsPath);
-    const moduleFiles = files.filter(file => file.endsWith('.json'));
+    console.log(`[DEBUG] Found ${files.length} items in exercises directory:`, files);
     
-    // For each module file, load its metadata and add to modules array
-    const modules = await Promise.all(moduleFiles.map(async file => {
-      const filePath = path.join(assetsPath, file);
-      const content = await fs.promises.readFile(filePath, 'utf8');
-      const asset = JSON.parse(content) as ExerciseAsset;
+    const modules: any[] = [];
+    
+    // Process all items in the exercises folder
+    for (const item of files) {
+      const itemPath = path.join(assetsPath, item);
+      const stats = await fs.promises.stat(itemPath);
       
-      return {
-        id: asset.id,
-        title: asset.title,
-        status: 'locked' // Default status, can be changed later
-      };
-    }));
+      if (stats.isDirectory()) {
+        // If it's a directory, look for chapter-info.json
+        const chapterInfoPath = path.join(itemPath, 'chapter-info.json');
+        console.log(`[DEBUG] Checking for chapter info in: ${chapterInfoPath}`);
+        
+        if (fs.existsSync(chapterInfoPath)) {
+          const content = await fs.promises.readFile(chapterInfoPath, 'utf8');
+          const chapterInfo = JSON.parse(content);
+          console.log(`[DEBUG] Found chapter: ${chapterInfo.id}`);
+          
+          modules.push({
+            id: chapterInfo.id,
+            title: chapterInfo.title,
+            status: 'locked' // Default status
+          });
+        } else {
+          console.log(`[DEBUG] No chapter-info.json found in directory: ${item}`);
+        }
+      } else if (item.endsWith('.json')) {
+        // If it's a JSON file (legacy format), add it to modules
+        console.log(`[DEBUG] Processing legacy JSON file: ${item}`);
+        
+        const filePath = path.join(assetsPath, item);
+        const content = await fs.promises.readFile(filePath, 'utf8');
+        const asset = JSON.parse(content) as ExerciseAsset;
+        
+        modules.push({
+          id: asset.id,
+          title: asset.title,
+          status: 'locked' // Default status
+        });
+      }
+    }
     
+    console.log(`[DEBUG] Discovered ${modules.length} modules:`, modules);
     return modules;
   } catch (error) {
     console.error('Error discovering available modules:', error);
     return [];
   }
 }
+ 
+
 
 // Export this helper function so it can be used by the ProgressManager
 export { createModuleFiles };
+
+/**
+ * Helper function to convert function name to safe filename
+ */
+function getSafeFileName(functionName: string): string {
+  // Convert camelCase to kebab-case and remove any invalid characters
+  return functionName
+    .replace(/([a-z])([A-Z])/g, '$1-$2')
+    .toLowerCase()
+    .replace(/[^a-z0-9-]/g, '');
+}
+
+/**
+ * Generate JS index file that imports and exports all exercise functions
+ */
+function generateJsIndexFile(module: any, exerciseFunctions: ExerciseFunctions[]): string {
+  let content = `// index.js for module ${module.id}: ${module.title}\n`;
+  content += `// This file imports and exports all functions from individual exercise files\n\n`;
+  
+  // Import statements
+  exerciseFunctions.forEach(func => {
+    const safeFileName = getSafeFileName(func.name);
+    content += `const { ${func.name} } = require('./exercises/${safeFileName}/index');\n`;
+  });
+  
+  content += '\n// Export all functions\n';
+  content += 'module.exports = {\n';
+  const exports = exerciseFunctions.map(func => `  ${func.name}`).join(',\n');
+  content += exports + '\n};';
+  
+  return content;
+}
+
+/**
+ * Generate Python index file that imports and exports all exercise functions
+ */
+function generatePyIndexFile(module: any, exerciseFunctions: ExerciseFunctions[]): string {
+  let content = `# index.py for module ${module.id}: ${module.title}\n`;
+  content += `# This file imports and makes available all functions from individual exercise files\n\n`;
+  
+  // Import statements
+  exerciseFunctions.forEach(func => {
+    const safeFileName = getSafeFileName(func.name);
+    content += `from exercises.${safeFileName} import ${func.name}\n`;
+  });
+  
+  content += `\n# No need to explicitly export symbols in Python\n`;
+  content += `# All imported symbols are available when importing this file\n`;
+  
+  return content;
+}
+
+
+/**
+ * Generate JavaScript content for an exercise directory's main file
+ */
+function generateJsExerciseMainFile(exercise: ExerciseFunctions): string {
+  let content = '';
+  
+  content += `/**\n * ${exercise.description}\n * Main file for the ${exercise.name} exercise.\n */\n`;
+  
+  // Add imports for additional files if they exist
+  if (exercise.additionalFiles && exercise.additionalFiles.length > 0) {
+    content += '\n// Import helper functions from other files\n';
+    exercise.additionalFiles.forEach(file => {
+      const safeFileName = getSafeFileName(file.fileName);
+      content += `const ${safeFileName}Functions = require('./${safeFileName}');\n`;
+    });
+    content += '\n';
+  } else {
+    // Default imports for the standard helper and extra files
+    content += '\n// Import helper functions\n';
+    content += `const helperFunctions = require('./helper');\n`;
+    content += `const extraFunctions = require('./extra');\n\n`;
+  }
+  
+  content += exercise.jsTemplate;
+  content += `\n\n`;
+  
+  // Add exports
+  content += `module.exports = { ${exercise.name} };\n`;
+  
+  return content;
+}
+
+/**
+ * Generate a helper JavaScript file template
+ */
+function generateJsHelperFile(exercise: ExerciseFunctions, helperName: string): string {
+  let content = '';
+  
+  content += `/**\n * Helper functions for ${exercise.name} exercise\n */\n\n`;
+  content += `/**\n * Example helper function for the ${exercise.name} exercise\n * @param {any} data - The data to process\n * @returns {any} The processed data\n */\n`;
+  content += `function ${helperName}(data) {\n  // Implement your helper function here\n  return data;\n}\n\n`;
+  
+  // Add exports
+  content += `module.exports = { ${helperName} };\n`;
+  
+  return content;
+}
+
+/**
+ * Generate JavaScript test content for an individual exercise
+ */
+function generateJsIndividualTestContent(module: any, exercise: ExerciseFunctions, fileName: string): string {
+  let content = `// Test file for ${exercise.name} in module ${module.id}\n`;
+  content += `const assert = require('assert');\n\n`;
+  
+  // Import the function from its exercise file
+  content += `const { ${exercise.name} } = require('../exercises/${fileName}/index');\n\n`;
+  
+  // Create test suite
+  content += `describe('${exercise.name} Tests', () => {\n`;
+  content += exercise.jsTest;
+  content += `});\n`;
+  
+  return content;
+}
+
+/**
+ * Generate Python test content for an individual exercise
+ */
+function generatePyIndividualTestContent(module: any, exercise: ExerciseFunctions, fileName: string): string {
+  let content = `# Test file for ${exercise.name} in module ${module.id}\n`;
+  content += `import unittest\n`;
+  
+  // Import the function from its exercise file
+  content += `from exercises.${fileName} import ${exercise.name}\n\n`;
+  
+  // Create test class
+  const className = `Test${exercise.name.charAt(0).toUpperCase() + exercise.name.slice(1)}`;
+  content += `class ${className}(unittest.TestCase):\n`;
+  content += exercise.pyTest;
+  content += `\n\nif __name__ == '__main__':\n`;
+  content += `    unittest.main()\n`;
+  
+  return content;
+}
+
+/**
+ * Generate a master JavaScript test file that runs all tests
+ */
+function generateJsMasterTestFile(module: any, exerciseFunctions: ExerciseFunctions[]): string {
+  let content = `// Master test file for module ${module.id}: ${module.title}\n`;
+  content += `// This file runs all tests for this module\n\n`;
+  
+  // Import the test framework
+  content += `const Mocha = require('mocha');\n`;
+  content += `const path = require('path');\n`;
+  content += `const fs = require('fs');\n\n`;
+  
+  // Create mocha instance
+  content += `// Create mocha instance\n`;
+  content += `const mocha = new Mocha();\n\n`;
+  
+  // Add all test files
+  content += `// Add all test files\n`;
+  content += `const testDir = path.join(__dirname, 'tests');\n`;
+  content += `fs.readdirSync(testDir)\n`;
+  content += `  .filter(file => file.endsWith('.test.js'))\n`;
+  content += `  .forEach(file => {\n`;
+  content += `    mocha.addFile(path.join(testDir, file));\n`;
+  content += `  });\n\n`;
+  
+  // Run the tests
+  content += `// Run the tests\n`;
+  content += `mocha.run(failures => {\n`;
+  content += `  process.exitCode = failures ? 1 : 0;\n`;
+  content += `});\n`;
+  
+  return content;
+}
+
+/**
+ * Generate a master Python test file that runs all tests
+ */
+function generatePyMasterTestFile(module: any, exerciseFunctions: ExerciseFunctions[]): string {
+  let content = `# Master test file for module ${module.id}: ${module.title}\n`;
+  content += `# This file runs all tests for this module\n\n`;
+  
+  content += `import unittest\n`;
+  content += `import os\n`;
+  content += `import importlib\n`;
+  content += `import glob\n\n`;
+  
+  // Discover and load all test modules
+  content += `# Collect all tests from the tests directory\n`;
+  content += `def load_tests(loader, tests, pattern):\n`;
+  content += `    test_dir = os.path.join(os.path.dirname(__file__), 'tests')\n`;
+  content += `    test_files = glob.glob(os.path.join(test_dir, '*.test.py'))\n`;
+  content += `    \n`;
+  content += `    # Convert file paths to module names\n`;
+  content += `    for test_file in test_files:\n`;
+  content += `        module_name = os.path.basename(test_file)[:-3]  # Remove .py extension\n`;
+  content += `        module_path = f'tests.{module_name}'\n`;
+  content += `        try:\n`;
+  content += `            # Try to import the module and add its tests\n`;
+  content += `            module = importlib.import_module(module_path)\n`;
+  content += `            tests.addTests(loader.loadTestsFromModule(module))\n`;
+  content += `        except ImportError as e:\n`;
+  content += `            print(f'Error importing {module_path}: {e}')\n`;
+  content += `    \n`;
+  content += `    return tests\n\n`;
+  
+  content += `if __name__ == '__main__':\n`;
+  content += `    unittest.main()\n`;
+  
+  return content;
+}
+
+/**
+ * Generate Python content for a single exercise file
+ */
+function generatePyExerciseContent(exercise: ExerciseFunctions): string {
+  let content = '';
+  
+  content += `def ${exercise.name}:\n    """\n    ${exercise.description}\n    """\n`;
+  content += exercise.pyTemplate;
+  content += `\n\n`;
+  
+  return content;
+}
+
+/**
+ * Generate an additional JavaScript file for an exercise
+ * This can be used to extend exercises with more files as needed
+ */
+function generateJsAdditionalFile(exercise: ExerciseFunctions, fileName: string, description: string, initialContent: string = '', dependencies: string[] = []): string {
+  let content = '';
+  
+  content += `/**\n * ${description}\n * Additional file for the ${exercise.name} exercise.\n */\n\n`;
+  
+  // Add imports for dependencies if provided
+  if (dependencies && dependencies.length > 0) {
+    content += '// Import dependencies\n';
+    dependencies.forEach(dep => {
+      const safeDep = getSafeFileName(dep);
+      content += `const ${safeDep}Functions = require('./${safeDep}');\n`;
+    });
+    content += '\n';
+  }
+  
+  // Add initial content if provided, otherwise add a template
+  if (initialContent) {
+    content += initialContent;
+  } else {
+    content += `// Add your implementation here\n\n`;
+    content += `/**\n * Example function for ${fileName}\n * @param {any} data - Input data\n * @returns {any} - Processed data\n */\n`;
+    content += `function ${fileName}Function(data) {\n  // Your implementation goes here\n  return data;\n}\n\n`;
+  }
+  
+  // Add exports
+  content += `module.exports = {\n  ${fileName}Function\n};\n`;
+  
+  return content;
+}
+
+/**
+ * Create additional JavaScript files for an exercise
+ * @param exerciseDirUri The URI of the exercise directory
+ * @param exercise The exercise definition
+ */
+async function createJsAdditionalFiles(exerciseDirUri: vscode.Uri, exercise: ExerciseFunctions): Promise<void> {
+  // Always create a default helper file if no additional files are defined
+  if (!exercise.additionalFiles || exercise.additionalFiles.length === 0) {
+    // Create a helper file as an example of splitting functionality
+    const helperName = `${exercise.name}Helper`;
+    const helperFileContent = generateJsHelperFile(exercise, helperName);
+    const helperFileUri = vscode.Uri.joinPath(exerciseDirUri, 'helper.js');
+    await vscode.workspace.fs.writeFile(helperFileUri, Buffer.from(helperFileContent, 'utf8'));
+    
+    // Generate a default extra JavaScript file as an example
+    const additionalFileContent = generateJsAdditionalFile(exercise, 'extra', 'Extra functionality for the exercise');
+    const additionalFileUri = vscode.Uri.joinPath(exerciseDirUri, 'extra.js');
+    await vscode.workspace.fs.writeFile(additionalFileUri, Buffer.from(additionalFileContent, 'utf8'));
+    return;
+  }
+  
+  // Create each additional file specified in the exercise
+  for (const additionalFile of exercise.additionalFiles) {
+    const safeFileName = getSafeFileName(additionalFile.fileName);
+    const fileName = `${safeFileName}.js`;
+    
+    // Generate content for this additional file
+    const fileContent = additionalFile.template 
+      ? generateJsAdditionalFile(exercise, safeFileName, additionalFile.description, additionalFile.template, additionalFile.dependencies)
+      : generateJsAdditionalFile(exercise, safeFileName, additionalFile.description, '', additionalFile.dependencies);
+    
+    // Create the file
+    const fileUri = vscode.Uri.joinPath(exerciseDirUri, fileName);
+    await vscode.workspace.fs.writeFile(fileUri, Buffer.from(fileContent, 'utf8'));
+  }
+}

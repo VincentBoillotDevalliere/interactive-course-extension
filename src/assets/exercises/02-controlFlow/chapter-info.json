@@ -1,0 +1,18 @@
+{
+  "id": "02-controlFlow",
+  "title": "Control Flow",
+  "resources": {
+    "javascript": [
+      "https://developer.mozilla.org/en-US/docs/Learn/JavaScript/First_steps/Variables",
+      "https://javascript.info/variables",
+      "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects",
+      "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array"
+    ],
+    "python": [
+      "https://docs.python.org/3/tutorial/introduction.html#numbers",
+      "https://realpython.com/python-variables/",
+      "https://docs.python.org/3/tutorial/datastructures.html",
+      "https://realpython.com/python-dicts/"
+    ]
+  }
+}

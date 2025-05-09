@@ -1,0 +1,9 @@
+{
+  "name": "filterAndTransform",
+  "description": "Filter and transform an array of numbers",
+  "jsTemplate": "function filterAndTransform(numbers) {\n  // TODO: Create and return a new array from the input array\n  // that filters out negative numbers and doubles the positive ones\n  // Example: [1, -2, 3, -4, 5] \u2192 [2, 6, 10]\n  \n}",
+  "pyTemplate": "def filterAndTransform(numbers):\n    # TODO: Create and return a new list from the input list\n    # that filters out negative numbers and doubles the positive ones\n    # Example: [1, -2, 3, -4, 5] \u2192 [2, 6, 10]\n    pass",
+  "jsTest": "    it(\"should filter out negative numbers and double the positive ones\", () => {\n      assert.deepStrictEqual(filterAndTransform([1, -2, 3, -4, 5]), [2, 6, 10]);\n      assert.deepStrictEqual(filterAndTransform([-1, -2, -3]), []);\n      assert.deepStrictEqual(filterAndTransform([10, 20, 30]), [20, 40, 60]);\n      assert.deepStrictEqual(filterAndTransform([]), []);\n    });",
+  "pyTest": "    def test_filter_and_transform(self):\n        self.assertEqual(filterAndTransform([1, -2, 3, -4, 5]), [2, 6, 10])\n        self.assertEqual(filterAndTransform([-1, -2, -3]), [])\n        self.assertEqual(filterAndTransform([10, 20, 30]), [20, 40, 60])\n        self.assertEqual(filterAndTransform([]), [])",
+  "chapterId": "02-controlFlow"
+}

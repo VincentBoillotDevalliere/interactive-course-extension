@@ -1,0 +1,9 @@
+{
+  "name": "countOccurrences",
+  "description": "Write a function to count occurrences of a value in an array",
+  "jsTemplate": "function countOccurrences(arr, target) {\n  // TODO: Count and return the number of times target appears in the array\n  \n}",
+  "pyTemplate": "def count_occurrences(arr, target):\n    # TODO: Count and return the number of times target appears in the array\n    pass",
+  "jsTest": "    it(\"should count occurrences of a value in an array\", () => {\n      assert.strictEqual(countOccurrences([1, 2, 3, 1, 4, 1], 1), 3);\n      assert.strictEqual(countOccurrences([1, 2, 3, 4, 5], 6), 0);\n      assert.strictEqual(countOccurrences([5, 5, 5, 5], 5), 4);\n      assert.strictEqual(countOccurrences([], 1), 0);\n    });",
+  "pyTest": "    def test_count_occurrences(self):\n        self.assertEqual(count_occurrences([1, 2, 3, 1, 4, 1], 1), 3)\n        self.assertEqual(count_occurrences([1, 2, 3, 4, 5], 6), 0)\n        self.assertEqual(count_occurrences([5, 5, 5, 5], 5), 4)\n        self.assertEqual(count_occurrences([], 1), 0)",
+  "chapterId": "05-basic-algorithm"
+}

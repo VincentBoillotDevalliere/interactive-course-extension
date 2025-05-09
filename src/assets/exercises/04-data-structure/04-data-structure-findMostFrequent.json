@@ -1,0 +1,9 @@
+{
+  "name": "findMostFrequent",
+  "description": "Find the most frequently occurring element in an array",
+  "jsTemplate": "function findMostFrequent(arr) {\n  // TODO: Return the most frequent element in the array\n  // If there are multiple elements with the same highest frequency, return any one of them\n  // If the array is empty, return null\n  \n}",
+  "pyTemplate": "def find_most_frequent(arr):\n    # TODO: Return the most frequent element in the list\n    # If there are multiple elements with the same highest frequency, return any one of them\n    # If the list is empty, return None\n    pass",
+  "jsTest": "    it(\"should find the most frequent element\", () => {\n      assert.strictEqual(findMostFrequent([1, 2, 3, 2, 1, 1]), 1);\n      assert.strictEqual(findMostFrequent([\"a\", \"b\", \"c\", \"b\"]), \"b\");\n      \n      // Test with tied frequencies\n      const result = findMostFrequent([1, 2, 3, 1, 2, 3]);\n      assert.ok(result === 1 || result === 2 || result === 3);\n      \n      assert.strictEqual(findMostFrequent([]), null);\n    });",
+  "pyTest": "    def test_find_most_frequent(self):\n        self.assertEqual(find_most_frequent([1, 2, 3, 2, 1, 1]), 1)\n        self.assertEqual(find_most_frequent([\"a\", \"b\", \"c\", \"b\"]), \"b\")\n        \n        # Test with tied frequencies\n        result = find_most_frequent([1, 2, 3, 1, 2, 3])\n        self.assertTrue(result in [1, 2, 3])\n        \n        self.assertIsNone(find_most_frequent([]))",
+  "chapterId": "04-data-structure"
+}

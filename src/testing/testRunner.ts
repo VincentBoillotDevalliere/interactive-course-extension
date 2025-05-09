@@ -20,11 +20,28 @@ export class TestRunner {
       const testFileExt = this.language === 'javascript' ? 'js' : 'py';
       const testFilePath = path.join(moduleDir, `tests.${testFileExt}`);
       
-      if (this.language === 'javascript') {
-        return await this.runJavaScriptTests(testFilePath);
-      } else if (this.language === 'python') {
-        return await this.runPythonTests(testFilePath);
+      // Check if exercise directory structure exists
+      const exercisesDir = path.join(moduleDir, 'exercises');
+      const testsDir = path.join(moduleDir, 'tests');
+      
+      // If we have the new multi-file structure
+      if (fs.existsSync(exercisesDir) && fs.existsSync(testsDir)) {
+        console.log(`[DEBUG] Using multi-file structure for module ${moduleId}`);
+        if (this.language === 'javascript') {
+          return await this.runJavaScriptMultiTests(moduleDir, testFilePath);
+        } else if (this.language === 'python') {
+          return await this.runPythonMultiTests(moduleDir, testFilePath);
+        }
+      } else {
+        // Fall back to the original single-file structure
+        console.log(`[DEBUG] Using single-file structure for module ${moduleId}`);
+        if (this.language === 'javascript') {
+          return await this.runJavaScriptTests(testFilePath);
+        } else if (this.language === 'python') {
+          return await this.runPythonTests(testFilePath);
+        }
       }
+      
       return false;
     } catch (error) {
       console.error(error);
@@ -318,6 +335,110 @@ else:
       } catch (error: any) {
         console.error('Error running Python tests:', error);
         this.showOutput(`Error running tests: ${error.message}`);
+        resolve(false);
+      }
+    });
+  }
+  
+  /**
+   * Run JavaScript tests for modules with separate test files
+   */
+  private async runJavaScriptMultiTests(moduleDir: string, masterTestFile: string): Promise<boolean> {
+    return new Promise<boolean>(async (resolve) => {
+      try {
+        // Use the master test file that runs all individual test files
+        console.log(`[DEBUG] Running JavaScript tests from master file: ${masterTestFile}`);
+        
+        // Set up output channel for test results
+        const outputChannel = vscode.window.createOutputChannel('Test Results');
+        outputChannel.show();
+        outputChannel.appendLine(`Running tests for module at ${moduleDir}...`);
+        
+        // Run the tests using Node.js and capture output
+        const testProcess = cp.spawn('node', [masterTestFile], {
+          cwd: moduleDir,
+          shell: true
+        });
+        
+        let testOutput = '';
+        let errorOutput = '';
+        
+        testProcess.stdout.on('data', (data) => {
+          const output = data.toString();
+          testOutput += output;
+          outputChannel.append(output);
+        });
+        
+        testProcess.stderr.on('data', (data) => {
+          const output = data.toString();
+          errorOutput += output;
+          outputChannel.append(output);
+        });
+        
+        testProcess.on('close', (code) => {
+          if (code === 0) {
+            outputChannel.appendLine('\n✅ All tests passed successfully!');
+            resolve(true);
+          } else {
+            outputChannel.appendLine(`\n❌ Tests failed with exit code: ${code}`);
+            resolve(false);
+          }
+        });
+      } catch (error) {
+        console.error(`Error running JavaScript multi-tests: ${error}`);
+        vscode.window.showErrorMessage(`Error running tests: ${error}`);
+        resolve(false);
+      }
+    });
+  }
+  
+  /**
+   * Run Python tests for modules with separate test files
+   */
+  private async runPythonMultiTests(moduleDir: string, masterTestFile: string): Promise<boolean> {
+    return new Promise<boolean>(async (resolve) => {
+      try {
+        // Use the master test file that discovers and runs all individual test files
+        console.log(`[DEBUG] Running Python tests from master file: ${masterTestFile}`);
+        
+        // Set up output channel for test results
+        const outputChannel = vscode.window.createOutputChannel('Test Results');
+        outputChannel.show();
+        outputChannel.appendLine(`Running tests for module at ${moduleDir}...`);
+        
+        // Run the tests using Python and capture output
+        const testProcess = cp.spawn('python', [masterTestFile], {
+          cwd: moduleDir,
+          shell: true
+        });
+        
+        let testOutput = '';
+        let errorOutput = '';
+        
+        testProcess.stdout.on('data', (data) => {
+          const output = data.toString();
+          testOutput += output;
+          outputChannel.append(output);
+        });
+        
+        testProcess.stderr.on('data', (data) => {
+          const output = data.toString();
+          errorOutput += output;
+          outputChannel.append(output);
+        });
+        
+        testProcess.on('close', (code) => {
+          if (code === 0) {
+            outputChannel.appendLine('\n✅ All tests passed successfully!');
+            resolve(true);
+          } else {
+            outputChannel.appendLine(`\n❌ Tests failed with exit code: ${code}`);
+            resolve(false);
+          }
+        });
+      } catch (error) {
+        console.error(`Error running Python multi-tests: ${error}`);
+        vscode.window.showErrorMessage(`Error running tests: ${error}`);
         resolve(false);
       }
     });

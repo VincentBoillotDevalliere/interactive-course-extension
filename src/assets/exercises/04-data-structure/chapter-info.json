@@ -1,0 +1,17 @@
+{
+  "id": "04-data-structure",
+  "title": "Data Structures",
+  "resources": {
+    "javascript": [
+      "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures",
+      "https://javascript.info/array",
+      "https://javascript.info/object",
+      "https://javascript.info/map-set"
+    ],
+    "python": [
+      "https://docs.python.org/3/tutorial/datastructures.html",
+      "https://realpython.com/python-data-structures/",
+      "https://realpython.com/python-sets/"
+    ]
+  }
+}

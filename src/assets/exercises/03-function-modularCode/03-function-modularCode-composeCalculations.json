@@ -1,0 +1,9 @@
+{
+  "name": "composeCalculations",
+  "description": "Create a function that composes multiple calculations",
+  "jsTemplate": "function double(x) {\n  return x * 2;\n}\n\nfunction addFive(x) {\n  return x + 5;\n}\n\nfunction square(x) {\n  return x * x;\n}\n\nfunction composeCalculations(x, operations) {\n  // TODO: Apply each function in the operations array to the input value in sequence\n  // Example: composeCalculations(3, [double, addFive]) should return 11 (double(3) = 6, then addFive(6) = 11)\n  \n}",
+  "pyTemplate": "def double(x):\n    return x * 2\n\ndef add_five(x):\n    return x + 5\n\ndef square(x):\n    return x * x\n\ndef compose_calculations(x, operations):\n    # TODO: Apply each function in the operations list to the input value in sequence\n    # Example: compose_calculations(3, [double, add_five]) should return 11 (double(3) = 6, then add_five(6) = 11)\n    pass",
+  "jsTest": "    it(\"should correctly compose functions in sequence\", () => {\n      assert.strictEqual(composeCalculations(3, [double, addFive]), 11);       // (3*2)+5 = 11\n      assert.strictEqual(composeCalculations(3, [double, square]), 36);         // (3*2)^2 = 36\n      assert.strictEqual(composeCalculations(3, [addFive, double, square]), 256); // ((3+5)*2)^2 = 256\n      assert.strictEqual(composeCalculations(3, []), 3);                        // No operations = return original\n    });",
+  "pyTest": "    def test_compose_calculations(self):\n        self.assertEqual(compose_calculations(3, [double, add_five]), 11)       # (3*2)+5 = 11\n        self.assertEqual(compose_calculations(3, [double, square]), 36)         # (3*2)^2 = 36\n        self.assertEqual(compose_calculations(3, [add_five, double, square]), 256) # ((3+5)*2)^2 = 256\n        self.assertEqual(compose_calculations(3, []), 3)                        # No operations = return original",
+  "chapterId": "03-functions-modularCode"
+}

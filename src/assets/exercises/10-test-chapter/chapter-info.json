@@ -1,0 +1,12 @@
+{
+  "id": "10-test-chapter",
+  "title": "Test Chapter",
+  "resources": {
+    "javascript": [
+      "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+    ],
+    "python": [
+      "https://www.python.org/doc/"
+    ]
+  }
+}

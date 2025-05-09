@@ -1,0 +1,9 @@
+{
+  "name": "validateInput",
+  "description": "Validate user input based on type and criteria",
+  "jsTemplate": "function validateInput(username, age, email) {\n  // TODO: Validate the following:\n  // 1. username must be a string with at least 3 characters\n  // 2. age must be a number between 18 and 120\n  // 3. email must contain an @ symbol\n  // Return an object with validation results for each field: {usernameValid, ageValid, emailValid}\n}",
+  "pyTemplate": "def validateInput(username, age, email):\n    # TODO: Validate the following:\n    # 1. username must be a string with at least 3 characters\n    # 2. age must be a number between 18 and 120\n    # 3. email must contain an @ symbol\n    # Return a dictionary with validation results for each field: {'usernameValid': bool, 'ageValid': bool, 'emailValid': bool}\n    pass",
+  "jsTest": "    it(\"should validate user input correctly\", () => {\n      const valid = validateInput(\"john\", 25, \"john@example.com\");\n      assert.deepStrictEqual(valid, {usernameValid: true, ageValid: true, emailValid: true});\n      \n      const invalid = validateInput(\"jo\", 15, \"johnexample.com\");\n      assert.deepStrictEqual(invalid, {usernameValid: false, ageValid: false, emailValid: false});\n    });",
+  "pyTest": "    def test_validate_input(self):\n        valid = validateInput(\"john\", 25, \"john@example.com\")\n        self.assertEqual(valid, {'usernameValid': True, 'ageValid': True, 'emailValid': True})\n        \n        invalid = validateInput(\"jo\", 15, \"johnexample.com\")\n        self.assertEqual(invalid, {'usernameValid': False, 'ageValid': False, 'emailValid': False})",
+  "chapterId": "01-variables-dataTypes"
+}

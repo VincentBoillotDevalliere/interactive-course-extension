@@ -1,0 +1,15 @@
+{
+  "id": "05-basic-algorithm",
+  "title": "Basic Algorithms",
+  "resources": {
+    "javascript": [
+      "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Loops_and_iteration",
+      "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions"
+    ],
+    "python": [
+      "https://docs.python.org/3/tutorial/controlflow.html#defining-functions",
+      "https://realpython.com/python-algorithms/",
+      "https://www.geeksforgeeks.org/searching-algorithms/"
+    ]
+  }
+}

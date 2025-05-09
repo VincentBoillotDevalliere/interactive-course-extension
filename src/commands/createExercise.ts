@@ -103,9 +103,21 @@ async function openExerciseFiles(moduleId: string) {
             throw new Error('Could not find extension path');
         }
         
-        const exerciseFile = vscode.Uri.file(`${extensionPath}/src/assets/exercises/${moduleId}.json`);
-        const markdownFile = vscode.Uri.file(`${extensionPath}/src/assets/templates/markdown/${moduleId}.md`);
+        // New structure paths
+        const chapterInfoFile = vscode.Uri.file(`${extensionPath}/src/assets/exercises/${moduleId}/chapter-info.json`);
+        const markdownFile = vscode.Uri.file(`${extensionPath}/src/assets/templates/chapters/${moduleId}.md`);
         const metadataFile = vscode.Uri.file(`${extensionPath}/src/assets/templates/metadata/${moduleId}.json`);
+        
+        // Get the first exercise file
+        const chapterDir = `${extensionPath}/src/assets/exercises/${moduleId}`;
+        const fs = require('fs');
+        const files = fs.readdirSync(chapterDir);
+        const exerciseFiles = files.filter((file: string) => file.startsWith(moduleId) && file.endsWith('.json'));
+        
+        // If no exercise files found, use the chapter-info.json
+        const exerciseFile = exerciseFiles.length > 0 
+            ? vscode.Uri.file(`${chapterDir}/${exerciseFiles[0]}`)
+            : chapterInfoFile;
         
         // Open all files in editor
         const exerciseDoc = await vscode.workspace.openTextDocument(exerciseFile);
@@ -114,9 +126,13 @@ async function openExerciseFiles(moduleId: string) {
         const markdownDoc = await vscode.workspace.openTextDocument(markdownFile);
         await vscode.window.showTextDocument(markdownDoc, { viewColumn: vscode.ViewColumn.Beside });
         
-        // Open metadata in a third column
-        const metadataDoc = await vscode.workspace.openTextDocument(metadataFile);
-        await vscode.window.showTextDocument(metadataDoc, { viewColumn: vscode.ViewColumn.Two });
+        // Try to open metadata in a third column if it exists
+        try {
+            const metadataDoc = await vscode.workspace.openTextDocument(metadataFile);
+            await vscode.window.showTextDocument(metadataDoc, { viewColumn: vscode.ViewColumn.Two });
+        } catch (err) {
+            // Metadata file may not exist, that's okay
+        }
         
         // Focus back on the exercise file
         await vscode.window.showTextDocument(exerciseDoc, { viewColumn: vscode.ViewColumn.One });

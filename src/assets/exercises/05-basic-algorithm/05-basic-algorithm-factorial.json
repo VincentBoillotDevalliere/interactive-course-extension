@@ -1,0 +1,9 @@
+{
+  "name": "factorial",
+  "description": "Implement a recursive function to calculate the factorial of a number",
+  "jsTemplate": "function factorial(n) {\n  // TODO: Implement a recursive factorial function\n  // n! = n * (n-1)! with 0! = 1! = 1\n  \n}",
+  "pyTemplate": "def factorial(n):\n    # TODO: Implement a recursive factorial function\n    # n! = n * (n-1)! with 0! = 1! = 1\n    pass",
+  "jsTest": "    it(\"should calculate factorial recursively\", () => {\n      assert.strictEqual(factorial(0), 1);\n      assert.strictEqual(factorial(1), 1);\n      assert.strictEqual(factorial(5), 120);\n      assert.strictEqual(factorial(8), 40320);\n    });",
+  "pyTest": "    def test_factorial(self):\n        self.assertEqual(factorial(0), 1)\n        self.assertEqual(factorial(1), 1)\n        self.assertEqual(factorial(5), 120)\n        self.assertEqual(factorial(8), 40320)",
+  "chapterId": "05-basic-algorithm"
+}

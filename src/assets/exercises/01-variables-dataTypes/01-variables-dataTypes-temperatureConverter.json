@@ -1,0 +1,9 @@
+{
+  "name": "temperatureConverter",
+  "description": "Convert temperatures between Fahrenheit and Celsius",
+  "jsTemplate": "function temperatureConverter(celsius) {\n  // TODO: Convert the temperature from Celsius to Fahrenheit\n  // Formula: (celsius * 9/5) + 32\n  // Return the result rounded to one decimal place\n}",
+  "pyTemplate": "def temperatureConverter(celsius):\n    # TODO: Convert the temperature from Celsius to Fahrenheit\n    # Formula: (celsius * 9/5) + 32\n    # Return the result rounded to one decimal place\n    pass",
+  "jsTest": "    it(\"should convert temperatures correctly\", () => {\n      assert.strictEqual(temperatureConverter(0), 32.0);\n      assert.strictEqual(temperatureConverter(100), 212.0);\n      assert.strictEqual(temperatureConverter(25), 77.0);\n    });",
+  "pyTest": "    def test_temperature_converter(self):\n        self.assertEqual(temperatureConverter(0), 32.0)\n        self.assertEqual(temperatureConverter(100), 212.0)\n        self.assertEqual(temperatureConverter(25), 77.0)",
+  "chapterId": "01-variables-dataTypes"
+}

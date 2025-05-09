@@ -1,0 +1,9 @@
+{
+  "name": "testExercise",
+  "description": "A test exercise to verify our chapter structure",
+  "chapterId": "10-test-chapter",
+  "jsTemplate": "function testExercise() {\n  // TODO: Implement this function\n  return 'Hello from test chapter';\n}",
+  "pyTemplate": "def testExercise():\n    # TODO: Implement this function\n    return 'Hello from test chapter'",
+  "jsTest": "    it(\"should return greeting\", () => {\n      assert.strictEqual(testExercise(), 'Hello from test chapter');\n    });",
+  "pyTest": "    def test_test_exercise(self):\n        self.assertEqual(testExercise(), 'Hello from test chapter')"
+}

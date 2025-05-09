@@ -13,13 +13,19 @@ export async function loadMarkdownTemplate(templateName: string): Promise<string
             throw new Error('Could not find extension path');
         }
         
-        // Look for the markdown template file
-        const templatePath = path.join(extensionPath, 'src', 'assets', 'templates', 'markdown', `${templateName}.md`);
+        // Look for the markdown template file - first try in chapters directory
+        let templatePath = path.join(extensionPath, 'src', 'assets', 'templates', 'chapters', `${templateName}.md`);
         
-        // Check if template file exists
+        // Check if template file exists in chapters directory
         if (!fs.existsSync(templatePath)) {
-            console.warn(`No markdown template found for ${templateName}`);
-            return undefined;
+            // If not found, try legacy path in markdown directory
+            templatePath = path.join(extensionPath, 'src', 'assets', 'templates', 'markdown', `${templateName}.md`);
+            
+            // Check if template file exists in markdown directory
+            if (!fs.existsSync(templatePath)) {
+                console.warn(`No markdown template found for ${templateName}`);
+                return undefined;
+            }
         }
         
         // Read the markdown file
@@ -95,24 +101,53 @@ export async function createExerciseTemplate(
     try {
         const extensionPath = getExtensionPath();
         
-        // 1. Create exercise JSON file
+        // 1. Create chapter directory and chapter info file 
         const exercisesPath = path.join(extensionPath, 'src', 'assets', 'exercises');
-        const exerciseFile = path.join(exercisesPath, `${moduleId}.json`);
+        const chapterDir = path.join(exercisesPath, moduleId);
         
-        const exerciseContent = {
+        // Create the chapter directory if it doesn't exist
+        if (!fs.existsSync(chapterDir)) {
+            await fs.promises.mkdir(chapterDir, { recursive: true });
+        }
+        
+        // Create chapter info file
+        const chapterInfoFile = path.join(chapterDir, 'chapter-info.json');
+        
+        const chapterInfo = {
             id: moduleId,
             title: moduleTitle,
-            exercises: exercises,
             resources: resources
         };
         
         await fs.promises.writeFile(
-            exerciseFile, 
-            JSON.stringify(exerciseContent, null, 2)
+            chapterInfoFile, 
+            JSON.stringify(chapterInfo, null, 2)
         );
         
-        // 2. Create markdown template file (optional)
-        const markdownPath = path.join(extensionPath, 'src', 'assets', 'templates', 'markdown');
+        // 2. Create individual exercise files
+        for (const exercise of exercises) {
+            const exerciseFile = path.join(chapterDir, `${moduleId}-${exercise.name}.json`);
+            
+            // Add chapter ID to the exercise
+            const exerciseContent = {
+                ...exercise,
+                chapterId: moduleId
+            };
+            
+            await fs.promises.writeFile(
+                exerciseFile, 
+                JSON.stringify(exerciseContent, null, 2)
+            );
+        }
+        
+        // 3. Create markdown template file
+        const markdownPath = path.join(extensionPath, 'src', 'assets', 'templates', 'chapters');
+        
+        // Create the chapters directory if it doesn't exist
+        if (!fs.existsSync(markdownPath)) {
+            await fs.promises.mkdir(markdownPath, { recursive: true });
+        }
+        
         const markdownFile = path.join(markdownPath, `${moduleId}.md`);
         
         // Use base template as a starting point

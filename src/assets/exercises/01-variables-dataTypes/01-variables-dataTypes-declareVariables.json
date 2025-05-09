@@ -1,0 +1,9 @@
+{
+  "name": "declareVariables",
+  "description": "Declare variables of different data types",
+  "jsTemplate": "function declareVariables() {\n  // TODO: Declare the following variables with appropriate values:\n  // - A variable named 'count' with integer value 10\n  // - A variable named 'price' with float value 3.99\n  // - A constant named 'USERNAME' with string value \"student\"\n  // - A variable named 'isActive' with boolean value true\n  \n  // Return all variables in an object\n  return { count, price, USERNAME, isActive };\n}",
+  "pyTemplate": "def declareVariables():\n    # TODO: Declare the following variables with appropriate values:\n    # - A variable named 'count' with integer value 10\n    # - A variable named 'price' with float value 3.99\n    # - A constant named 'USERNAME' with string value \"student\"\n    # - A variable named 'is_active' with boolean value True\n    \n    # Return all variables in a dictionary\n    return {'count': count, 'price': price, 'USERNAME': USERNAME, 'is_active': is_active}",
+  "jsTest": "    it(\"should declare variables of different types\", () => {\n      const result = declareVariables();\n      assert.strictEqual(result.count, 10);\n      assert.strictEqual(result.price, 3.99);\n      assert.strictEqual(result.USERNAME, \"student\");\n      assert.strictEqual(result.isActive, true);\n    });\n    it(\"should declare USERNAME as a constant\", () => {\n      const result = declareVariables();\n      assert.throws(() => { result.USERNAME = \"teacher\"; }, TypeError);\n    });",
+  "pyTest": "    def test_declare_variables(self):\n        result = declareVariables()\n        self.assertEqual(result['count'], 10)\n        self.assertEqual(result['price'], 3.99)\n        self.assertEqual(result['USERNAME'], \"student\")\n        self.assertEqual(result['is_active'], True)",
+  "chapterId": "01-variables-dataTypes"
+}

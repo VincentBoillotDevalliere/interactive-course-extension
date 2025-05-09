@@ -1,0 +1,16 @@
+{
+  "id": "03-functions-modularCode",
+  "title": "Functions & Modular Code",
+  "resources": {
+    "javascript": [
+      "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions",
+      "https://javascript.info/function-basics",
+      "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions"
+    ],
+    "python": [
+      "https://docs.python.org/3/tutorial/controlflow.html#defining-functions",
+      "https://realpython.com/defining-your-own-python-function/",
+      "https://docs.python.org/3/howto/functional.html"
+    ]
+  }
+}

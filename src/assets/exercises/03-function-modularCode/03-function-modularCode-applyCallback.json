@@ -1,0 +1,9 @@
+{
+  "name": "applyCallback",
+  "description": "Create a function that applies a callback to a number",
+  "jsTemplate": "function applyCallback(num, callback) {\n  // TODO: Return the result of the callback function when passed the number\n  \n}",
+  "pyTemplate": "def apply_callback(num, callback):\n    # TODO: Return the result of the callback function when passed the number\n    pass",
+  "jsTest": "    it(\"should apply the callback to the number\", () => {\n      const double = (x) => x * 2;\n      const square = (x) => x * x;\n      const add10 = (x) => x + 10;\n      \n      assert.strictEqual(applyCallback(5, double), 10);\n      assert.strictEqual(applyCallback(3, square), 9);\n      assert.strictEqual(applyCallback(5, add10), 15);\n    });",
+  "pyTest": "    def test_apply_callback(self):\n        def double(x): return x * 2\n        def square(x): return x * x\n        def add10(x): return x + 10\n        \n        self.assertEqual(apply_callback(5, double), 10)\n        self.assertEqual(apply_callback(3, square), 9)\n        self.assertEqual(apply_callback(5, add10), 15)",
+  "chapterId": "03-functions-modularCode"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "reverseArray",
+  "description": "Write a function to reverse an array without using built-in reverse methods",
+  "jsTemplate": "function reverseArray(arr) {\n  // TODO: Return a new array with elements in reverse order\n  // Do not modify the original array\n  // Don't use built-in methods like reverse()\n  \n}",
+  "pyTemplate": "def reverse_array(arr):\n    # TODO: Return a new array with elements in reverse order\n    # Do not modify the original array\n    # Don't use built-in methods like reverse() or slicing with [::-1]\n    pass",
+  "jsTest": "    it(\"should reverse an array without using built-in methods\", () => {\n      const original = [1, 2, 3, 4, 5];\n      const result = reverseArray(original);\n      \n      assert.deepStrictEqual(result, [5, 4, 3, 2, 1]);\n      assert.deepStrictEqual(original, [1, 2, 3, 4, 5]); // Original should be unchanged\n      \n      assert.deepStrictEqual(reverseArray([]), []);\n      assert.deepStrictEqual(reverseArray([1]), [1]);\n    });",
+  "pyTest": "    def test_reverse_array(self):\n        original = [1, 2, 3, 4, 5]\n        result = reverse_array(original)\n        \n        self.assertEqual(result, [5, 4, 3, 2, 1])\n        self.assertEqual(original, [1, 2, 3, 4, 5])  # Original should be unchanged\n        \n        self.assertEqual(reverse_array([]), [])\n        self.assertEqual(reverse_array([1]), [1])",
+  "chapterId": "05-basic-algorithm"
+}

@@ -44,6 +44,19 @@ Chaque module comprend :
 - **main.js/py** : Fichier de code à compléter par l'apprenant
 - **tests.js/py** : Tests unitaires qui valident la solution
 
+## Structure des fichiers d'extension
+
+L'extension organise le contenu pédagogique selon la structure suivante :
+
+### Chapitres et exercices
+- `/src/assets/templates/chapters/` - Contient les fichiers Markdown de chaque chapitre
+- `/src/assets/exercises/[chapter-id]/` - Contient les exercices JSON pour chaque chapitre:
+  - `chapter-info.json` - Métadonnées du chapitre (titre, ressources)
+  - `[chapter-id]-[exercise-name].json` - Fichiers individuels d'exercices
+
+Chaque chapitre peut contenir plusieurs exercices, permettant une progression plus granulaire
+de l'apprentissage.
+
 ## Langages supportés
 
 - JavaScript

@@ -1,0 +1,9 @@
+{
+  "name": "calculateRectangleProperties",
+  "description": "Calculate area and perimeter of a rectangle",
+  "jsTemplate": "function calculateRectangleProperties(length, width) {\n  // TODO: Return an object with:\n  // - area: the area of the rectangle (length \u00d7 width)\n  // - perimeter: the perimeter of the rectangle (2 \u00d7 (length + width))\n  // - isSquare: boolean indicating if the rectangle is a square (length === width)\n  \n}",
+  "pyTemplate": "def calculateRectangleProperties(length, width):\n    # TODO: Return a dictionary with:\n    # - area: the area of the rectangle (length \u00d7 width)\n    # - perimeter: the perimeter of the rectangle (2 \u00d7 (length + width))\n    # - is_square: boolean indicating if the rectangle is a square (length == width)\n    pass",
+  "jsTest": "    it(\"should calculate rectangle properties correctly\", () => {\n      const square = calculateRectangleProperties(5, 5);\n      assert.strictEqual(square.area, 25);\n      assert.strictEqual(square.perimeter, 20);\n      assert.strictEqual(square.isSquare, true);\n      \n      const rectangle = calculateRectangleProperties(4, 6);\n      assert.strictEqual(rectangle.area, 24);\n      assert.strictEqual(rectangle.perimeter, 20);\n      assert.strictEqual(rectangle.isSquare, false);\n    });",
+  "pyTest": "    def test_calculate_rectangle_properties(self):\n        square = calculateRectangleProperties(5, 5)\n        self.assertEqual(square[\"area\"], 25)\n        self.assertEqual(square[\"perimeter\"], 20)\n        self.assertEqual(square[\"is_square\"], True)\n        \n        rectangle = calculateRectangleProperties(4, 6)\n        self.assertEqual(rectangle[\"area\"], 24)\n        self.assertEqual(rectangle[\"perimeter\"], 20)\n        self.assertEqual(rectangle[\"is_square\"], False)",
+  "chapterId": "02-controlFlow"
+}
