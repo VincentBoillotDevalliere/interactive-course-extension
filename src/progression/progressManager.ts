@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
-import { createModuleFiles } from '../commands/createCourse';
+import { createModuleFiles } from '../utils/moduleFileGenerator';
 
 export interface CourseManifest {
   name: string;
