@@ -26,6 +26,12 @@ export async function discoverAvailableModules(): Promise<{ id: string; title: s
       modules.push({ id: asset.id, title: asset.title, status: 'locked' });
     }
   }
+  
+  // Set the first module as active instead of locked
+  if (modules.length > 0) {
+    modules[0].status = 'active';
+    console.log('Set first module as active:', modules[0].id);
+  }
 
   return modules;
 }

@@ -27,6 +27,12 @@ export async function createCourse() {
 
   // 3. Discover modules & write manifest
   const modules = await discoverAvailableModules();
+  
+  // Make sure the first module is active
+  if (modules.length > 0) {
+    modules[0].status = 'active';
+  }
+  
   const manifest = {
     name: `Programming Course - ${language[0].toUpperCase() + language.slice(1)}`,
     language,
@@ -55,7 +61,7 @@ export async function createCourse() {
       const readmeUri = vscode.Uri.joinPath(courseFolderUri, 'README.md');
       try {
         const readmeDoc = await vscode.workspace.openTextDocument(readmeUri);
-        const readmeEditor = await vscode.window.showTextDocument(readmeDoc);
+        await vscode.window.showTextDocument(readmeDoc);
         // Open it in preview mode
         await vscode.commands.executeCommand('markdown.showPreviewToSide', readmeUri);
       } catch (readmeErr) {

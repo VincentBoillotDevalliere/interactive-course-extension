@@ -74,7 +74,7 @@
       "view/item/context": [
         {
           "command": "extension.runModuleTests",
-          "when": "view == courseModules && (viewItem =~ /active|completed/ || viewItem == 'current')",
+          "when": "view == courseModules && (viewItem =~ /active|completed/ || viewItem == 'current' || viewItem =~ /^locked/ || viewItem =~ /lockedCurrent/ || viewItem =~ /lockedHighlighted/)",
           "group": "inline"
         }
       ],

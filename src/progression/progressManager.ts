@@ -34,7 +34,22 @@ export class ProgressManager {
       
       this.manifestPath = files[0].fsPath;
       const data = await fs.promises.readFile(this.manifestPath, 'utf8');
-      return JSON.parse(data) as CourseManifest;
+      const manifest = JSON.parse(data) as CourseManifest;
+      
+      // Ensure the first module is always set to 'active'
+      if (manifest.modules && manifest.modules.length > 0) {
+        // Check if all modules are locked, which might indicate an issue
+        const allLocked = manifest.modules.every(m => m.status === 'locked');
+        if (allLocked) {
+          manifest.modules[0].status = 'active';
+          manifest.currentModule = manifest.modules[0].id;
+          // Save the fixed manifest
+          await this.saveManifest(manifest);
+          console.log('Fixed manifest: Set first module as active');
+        }
+      }
+      
+      return manifest;
     } catch (error) {
       console.error('Error loading manifest:', error);
       return undefined;

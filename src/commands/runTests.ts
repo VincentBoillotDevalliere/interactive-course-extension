@@ -21,6 +21,15 @@ export async function runTests(specificModuleId?: string) {
     return;
   }
   
+  // Ensure first module is always testable
+  const isFirstModule = manifest.modules.indexOf(currentModule) === 0;
+  
+  // Allow running tests regardless of module status if it's the first module
+  if (currentModule.status === 'locked' && !isFirstModule) {
+    vscode.window.showWarningMessage('This module is locked. Complete previous modules first.');
+    return;
+  }
+  
   vscode.window.withProgress({
     location: vscode.ProgressLocation.Notification,
     title: `Running tests for module: ${currentModule.title}`,

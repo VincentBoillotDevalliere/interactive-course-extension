@@ -128,8 +128,9 @@ class ModuleItem extends vscode.TreeItem {
     this.tooltip = `Module: ${label}`;
     this.description = moduleId;
     
-    // Only allow opening non-locked modules
+    // Set the command based on module status
     if (contextValue !== 'locked') {
+      // Allow opening non-locked modules
       this.command = {
         command: 'extension.openModule',
         title: 'Open module',
