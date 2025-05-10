@@ -5,7 +5,7 @@ import { createModuleFiles } from '../utils/moduleFileGenerator';
 
 export interface CourseManifest {
   name: string;
-  language: string;
+  language: 'javascript' | 'python';
   modules: ModuleInfo[];
   currentModule: string;
   version?: string; // Optional to maintain backward compatibility

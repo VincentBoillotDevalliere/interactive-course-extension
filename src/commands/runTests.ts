@@ -3,6 +3,7 @@ import { ProgressManager } from '../progression/progressManager';
 import { TestRunner } from '../testing/testRunner';
 import * as path from 'path';
 
+
 export async function runTests(specificModuleId?: string) {
   const progressManager = new ProgressManager();
   const manifest = await progressManager.loadManifest();
