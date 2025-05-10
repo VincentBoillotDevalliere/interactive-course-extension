@@ -51,12 +51,20 @@ export async function createCourse() {
     try {
       await createModuleFiles(courseFolderUri, modules[0], language, true);
 
-      const exUri = vscode.Uri.joinPath(courseFolderUri, modules[0].id, 'exercise.md');
-      const doc = await vscode.workspace.openTextDocument(exUri);
-      await vscode.window.showTextDocument(doc);
+      // First open the getting-started guide
+      const readmeUri = vscode.Uri.joinPath(courseFolderUri, 'README.md');
+      try {
+        const readmeDoc = await vscode.workspace.openTextDocument(readmeUri);
+        const readmeEditor = await vscode.window.showTextDocument(readmeDoc);
+        // Open it in preview mode
+        await vscode.commands.executeCommand('markdown.showPreviewToSide', readmeUri);
+      } catch (readmeErr) {
+        console.error('Error opening README:', readmeErr);
+        // Continue even if README can't be opened
+      }
 
       vscode.window.showInformationMessage(
-        `Course "${manifest.name}" created! Complete the first module to unlock the next one.`
+        `Course "${manifest.name}" created! Check out the getting-started guide first.`
       );
     } catch (err) {
       vscode.window.showErrorMessage(`Error creating/opening module: ${err}`);

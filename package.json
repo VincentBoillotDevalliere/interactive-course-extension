@@ -1,6 +1,6 @@
 {
   "name": "interactive-course-extension",
-  "displayName": "Interactive Course Extension",
+  "displayName": "LearnForge",
   "description": "A VS Code all-in-one extension to create and follow interactive programming courses.",
   "version": "0.1.0",
   "publisher": "yourName",
@@ -16,30 +16,30 @@
     "commands": [
       {
         "command": "extension.createCourse",
-        "title": "Create Interactive Course"
+        "title": "LearnForge: Create Interactive Course"
       },
       {
         "command": "extension.runTests",
-        "title": "Run Current Module Tests"
+        "title": "LearnForge: Run Current Module Tests"
       },
       {
         "command": "extension.refreshModules",
-        "title": "Refresh Course Modules",
+        "title": "LearnForge: Refresh Course Modules",
         "icon": "$(refresh)"
       },
       {
         "command": "extension.runModuleTests",
-        "title": "Run Module Tests",
+        "title": "LearnForge: Run Module Tests",
         "icon": "$(play)"
       },
       {
         "command": "extension.createNewExercise",
-        "title": "Create New Exercise Module",
+        "title": "LearnForge: Create New Exercise Module",
         "icon": "$(add)"
       },
       {
         "command": "extension.createSolutionFile",
-        "title": "Create Solution File from Exercise",
+        "title": "LearnForge: Create Solution File from Exercise",
         "icon": "$(file-code)"
       }
     ],
@@ -74,7 +74,7 @@
       "view/item/context": [
         {
           "command": "extension.runModuleTests",
-          "when": "view == courseModules && viewItem =~ /active|completed/",
+          "when": "view == courseModules && (viewItem =~ /active|completed/ || viewItem == 'current')",
           "group": "inline"
         }
       ],

@@ -109,7 +109,7 @@ export function activate(context: vscode.ExtensionContext) {
         }
         
         const courseDir = path.dirname(files[0].fsPath);
-        const exUri = vscode.Uri.file(path.join(courseDir, moduleId, 'exercise.md'));
+        const exUri = vscode.Uri.file(path.join(courseDir, moduleId, 'lesson.md'));
         
         // Open directly in preview mode instead of opening the document first
         await vscode.commands.executeCommand('markdown.showPreviewToSide', exUri);

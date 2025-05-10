@@ -109,7 +109,7 @@ async function openNextModule(manifest: any) {
   }
   
   const moduleDir = vscode.Uri.joinPath(courseDir, manifest.currentModule);
-  const exUri = vscode.Uri.joinPath(moduleDir, 'exercise.md');
+  const exUri = vscode.Uri.joinPath(moduleDir, 'lesson.md');
   
   try {
     // Open directly in preview mode

@@ -17,9 +17,17 @@ export async function createModuleFiles(
 
   const exerciseContent = await getExerciseContent(module.id);
 
+  // If this is the first module, create a getting-started guide in the root directory
+  if (isActive && module.id.startsWith('01-')) {
+    const gettingStartedContent = await loadMarkdownTemplate('getting-started') || '';
+    if (gettingStartedContent) {
+      await writeFile(rootUri, 'README.md', gettingStartedContent);
+    }
+  }
+
   // 1. README
   const readmeContent = await generateReadme(module, ext, exerciseContent);
-  await writeFile(moduleDir, 'exercise.md', readmeContent);
+  await writeFile(moduleDir, 'lesson.md', readmeContent);
 
   // 2. scaffold test directory
   const testsDir = vscode.Uri.joinPath(moduleDir, 'tests');
