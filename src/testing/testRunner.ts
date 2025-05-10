@@ -53,23 +53,18 @@ export class TestRunner {
       );
       return null;
     }
-
-    if (typeof moduleId === 'string') {
-      return moduleId;
-    }
+    if (typeof moduleId === 'string') return moduleId;
 
     console.error(
       `[ERROR] Invalid moduleId type: ${JSON.stringify(moduleId)}`
     );
-    if (typeof (moduleId as any).moduleId === 'string') {
-      return (moduleId as any).moduleId;
-    }
-    if (typeof (moduleId as any).id === 'string') {
-      return (moduleId as any).id;
-    }
+    const anyId = moduleId as any;
+    if (typeof anyId.moduleId === 'string') return anyId.moduleId;
+    if (typeof anyId.id === 'string') return anyId.id;
 
-    const keys = Object.keys(moduleId as any);
-    console.log(`[DEBUG] Object keys: ${keys.join(', ')}`);
+    console.log(
+      `[DEBUG] Object keys: ${Object.keys(anyId).join(', ')}`
+    );
     vscode.window.showErrorMessage(
       `Invalid module format: ${JSON.stringify(moduleId)}`
     );
@@ -79,30 +74,26 @@ export class TestRunner {
   private async findTestStructure(
     moduleId: string
   ): Promise<TestStructure | null> {
-    // 1) Try CourseUtils
     try {
       const testFiles = await CourseUtils.findModuleTestFiles(moduleId);
-      if (testFiles.length > 0) {
-        for (const file of testFiles) {
-          if (this.language === 'javascript' && file.endsWith('.js')) {
-            const dir = path.dirname(file);
-            const exercisesDir = path.join(dir, 'exercises');
-            const testsDir = path.join(dir, 'tests');
-            if (fs.existsSync(exercisesDir) && fs.existsSync(testsDir)) {
-              return { type: 'javascriptMulti', moduleDir: dir, masterTestFile: file };
-            }
-            return { type: 'javascriptSingle', testFile: file };
+      for (const file of testFiles) {
+        if (this.language === 'javascript' && file.endsWith('.js')) {
+          const dir = path.dirname(file);
+          const exercisesDir = path.join(dir, 'exercises');
+          const testsDir = path.join(dir, 'tests');
+          if (fs.existsSync(exercisesDir) && fs.existsSync(testsDir)) {
+            return { type: 'javascriptMulti', moduleDir: dir, masterTestFile: file };
           }
-          if (file.endsWith('.json')) {
-            return { type: 'splitExercise', moduleId, exercisesDir: path.dirname(file) };
-          }
+          return { type: 'javascriptSingle', testFile: file };
+        }
+        if (file.endsWith('.json')) {
+          return { type: 'splitExercise', moduleId, exercisesDir: path.dirname(file) };
         }
       }
     } catch (err) {
       console.error('CourseUtils lookup failed:', err);
     }
 
-    // 2) Legacy workspace search
     const courseJsons = await vscode.workspace.findFiles('**/course.json');
     const exerciseJsons = await vscode.workspace.findFiles(
       `**/assets/exercises/${moduleId}/*.json`
@@ -128,72 +119,69 @@ export class TestRunner {
           ) {
             return { type: 'javascriptMulti', moduleDir: dir, masterTestFile: testFile };
           }
-          if (this.language === 'javascript') {
-            return { type: 'javascriptSingle', testFile };
-          }
+          return { type: 'javascriptSingle', testFile };
         }
       }
     }
 
-    // 3) Split exercise fallback
     if (exerciseJsons.length > 0 && this.language === 'javascript') {
       return { type: 'splitExercise', moduleId, exercisesDir: path.dirname(exerciseJsons[0].fsPath) };
     }
-
     return null;
   }
 
   private async executeTests(struct: TestStructure): Promise<boolean> {
-    switch (struct.type) {
-      case 'javascriptSingle':
-        return this.runJavaScriptTests(struct.testFile);
-      case 'javascriptMulti':
-        return this.runJavaScriptMultiTests(
-          struct.moduleDir,
-          struct.masterTestFile
-        );
-      case 'splitExercise':
-        return this.runSplitExerciseTests(
-          struct.moduleId,
-          struct.exercisesDir
-        );
+    if (struct.type === 'javascriptSingle') {
+      return this.runJavaScriptTests(
+        struct.testFile,
+        `📄 Single-file results: ${path.basename(struct.testFile)}`
+      );
     }
+    if (struct.type === 'javascriptMulti') {
+      return this.runJavaScriptMultiTests(
+        struct.moduleDir,
+        struct.masterTestFile,
+        `📦 Module tests in: ${struct.moduleDir}`
+      );
+    }
+    return this.runSplitExerciseTests(
+      struct.moduleId,
+      struct.exercisesDir,
+      `🧩 Split exercises for: ${struct.moduleId}`
+    );
   }
 
-  private async runJavaScriptTests(testFilePath: string): Promise<boolean> {
+  private async runJavaScriptTests(
+    testFilePath: string,
+    headerMessage: string
+  ): Promise<boolean> {
     return new Promise<boolean>(async (resolve) => {
+      const tempFile = path.join(
+        path.dirname(testFilePath),
+        '_temp_runner.js'
+      );
       try {
-        const tempTestFile = path.join(
-          path.dirname(testFilePath),
-          '_temp_test_runner.js'
-        );
         const content = this.mochaAvailable
           ? this.generateMochaRunner(testFilePath)
           : this.generateCustomRunner(testFilePath);
-        await fs.promises.writeFile(tempTestFile, content);
+        await fs.promises.writeFile(tempFile, content);
 
-        const proc = cp.spawn('node', [tempTestFile]);
+        const proc = cp.spawn('node', [tempFile]);
         let output = '';
-        proc.stdout.on('data', (data) => (output += data.toString()));
-        proc.stderr.on('data', (data) => (output += data.toString()));
+        proc.stdout.on('data', (data) => (output += data));
+        proc.stderr.on('data', (data) => (output += data));
 
         proc.on('close', async (code) => {
-          this.showOutput(output);
-          await fs.promises.unlink(tempTestFile).catch(() => {});
-          if (code === 0) {
-            vscode.window.showInformationMessage(
-              '🎉 All tests passed! Ready to move to the next module.'
-            );
-          } else {
-            vscode.window.showWarningMessage(
-              'Some tests failed. Check the Test Results output for details.'
-            );
-          }
+          this.showOutput(output, headerMessage);
+          await fs.promises.unlink(tempFile).catch(() => {});
+          code === 0
+            ? vscode.window.showInformationMessage('✅ Tests passed!')
+            : vscode.window.showWarningMessage('❌ Some tests failed');
           resolve(code === 0);
         });
-      } catch (error: any) {
-        console.error('Error running JS tests:', error);
-        this.showOutput(`Error running tests: ${error.message}`);
+      } catch (err: any) {
+        console.error('JS tests error:', err);
+        this.showOutput(`Error: ${err.message}`, headerMessage);
         resolve(false);
       }
     });
@@ -201,51 +189,46 @@ export class TestRunner {
 
   private async runJavaScriptMultiTests(
     moduleDir: string,
-    masterTestFile: string
+    masterTestFile: string,
+    headerMessage: string
   ): Promise<boolean> {
-    return new Promise<boolean>(async (resolve) => {
-      try {
-        this.outputChannel.show();
-        this.outputChannel.appendLine(`Running tests in ${moduleDir}...`);
+    return new Promise<boolean>((resolve) => {
+      this.outputChannel.clear();
+      this.outputChannel.show();
+      this.outputChannel.appendLine(`
+🔷 ${headerMessage}
+`);
 
-        if (!fs.existsSync(masterTestFile)) {
-          // fall back to generating a master runner as before (omitted for brevity)
-        }
+      const proc = cp.spawn('node', [masterTestFile], {
+        cwd: moduleDir,
+        shell: true
+      });
+      proc.stdout.on('data', (data) =>
+        this.outputChannel.appendLine(data.toString().trim())
+      );
+      proc.stderr.on('data', (data) =>
+        this.outputChannel.appendLine(data.toString().trim())
+      );
 
-        const proc = cp.spawn('node', [masterTestFile], {
-          cwd: moduleDir,
-          shell: true
-        });
-        proc.stdout.on('data', (data) =>
-          this.outputChannel.append(data.toString())
+      proc.on('close', (code) => {
+        this.outputChannel.appendLine(
+          code === 0 ? '\n🎉 All module tests passed!' : `\n⚠️ Module tests failed (${code})`
         );
-        proc.stderr.on('data', (data) =>
-          this.outputChannel.append(data.toString())
-        );
-
-        proc.on('close', (code) => {
-          if (code === 0) {
-            this.outputChannel.appendLine('✅ All tests passed!');
-            resolve(true);
-          } else {
-            this.outputChannel.appendLine(`❌ Tests failed (${code})`);
-            resolve(false);
-          }
-        });
-      } catch (err) {
-        console.error('Error running multi-tests:', err);
-        vscode.window.showErrorMessage(`Error running tests: ${err}`);
-        resolve(false);
-      }
+        resolve(code === 0);
+      });
     });
   }
 
   private async runSplitExerciseTests(
     moduleId: string,
-    exercisesDir: string
+    exercisesDir: string,
+    headerMessage: string
   ): Promise<boolean> {
-    // original implementation unchanged for brevity
-    // ...
+    this.showOutput(
+      `Scanning split exercises in ${exercisesDir}...`,
+      headerMessage
+    );
+    // original logic omitted
     return Promise.resolve(false);
   }
 
@@ -254,14 +237,21 @@ export class TestRunner {
   }
 
   private generateCustomRunner(testFile: string): string {
-    return `// Custom test framework runner\nconst assert = require('assert');\n// setup describe/it globals...\nrequire('${testFile.replace(/\\/g, '\\\\')}');`;
+    return `// Custom test framework runner\nconst assert = require('assert');\nrequire('${testFile.replace(/\\/g, '\\\\')}');`;
   }
 
-  private showOutput(output: string) {
+  /**
+   * Displays formatted output with header and trimmed content
+   */
+  private showOutput(output: string, headerMessage: string) {
     const channel = this.outputChannel;
     channel.clear();
-    channel.appendLine('🧪 TEST RESULTS 🧪');
-    channel.appendLine(output);
+    channel.appendLine(`
+⎯⎯⎯ ${headerMessage} ⎯⎯⎯
+`);
+    output.split(/\r?\n/).forEach(line => {
+      if (line.trim()) channel.appendLine(`  ${line.trim()}`);
+    });
     channel.show(true);
   }
 }
