@@ -4,18 +4,6 @@ import * as cp from 'child_process';
 import * as fs from 'fs';
 import { CourseUtils } from '../utils/courseUtils';
 
-/**
- * Checks if Mocha is available in the extension's node_modules
- */
-function isMochaAvailable(): boolean {
-  try {
-    require.resolve('mocha');
-    return true;
-  } catch {
-    console.log('Mocha not available, using custom test framework');
-    return false;
-  }
-}
 
 type TestStructure =
   | { type: 'javascriptSingle'; testFile: string }
@@ -23,7 +11,6 @@ type TestStructure =
   | { type: 'splitExercise'; moduleId: string; exercisesDir: string };
 
 export class TestRunner {
-  private mochaAvailable = isMochaAvailable();
   private outputChannel = vscode.window.createOutputChannel('Test Results');
 
   constructor(private language: 'javascript' | 'python') {}
@@ -161,9 +148,8 @@ export class TestRunner {
         '_temp_runner.js'
       );
       try {
-        const content = this.mochaAvailable
-          ? this.generateMochaRunner(testFilePath)
-          : this.generateCustomRunner(testFilePath);
+        const content = this.generateMochaRunner(testFilePath)
+
         await fs.promises.writeFile(tempFile, content);
 
         const proc = cp.spawn('node', [tempFile]);
@@ -236,9 +222,6 @@ export class TestRunner {
     return `// Mocha runner\nconst Mocha = require('mocha');\nconst mocha = new Mocha({ reporter: 'spec', timeout: 5000 });\nmocha.addFile('${testFile.replace(/\\/g, '\\\\')}');\nmocha.run(failures => process.exit(failures ? 1 : 0));`;
   }
 
-  private generateCustomRunner(testFile: string): string {
-    return `// Custom test framework runner\nconst assert = require('assert');\nrequire('${testFile.replace(/\\/g, '\\\\')}');`;
-  }
 
   /**
    * Displays formatted output with header and trimmed content

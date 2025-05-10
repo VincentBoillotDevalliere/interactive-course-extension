@@ -1,6 +1,86 @@
 import * as vscode from 'vscode';
 import { discoverAvailableModules } from '../utils/moduleDiscovery';
 import { createModuleFiles } from '../utils/moduleFileGenerator';
+import * as cp from 'child_process';
+import * as fs from 'fs';
+import * as path from 'path';
+
+/**
+ * Installs Mocha in the course folder for running JavaScript tests
+ * @param courseFolderPath The absolute path to the course folder
+ */
+async function installMocha(courseFolderPath: string): Promise<void> {
+  return new Promise<void>(async (resolve, reject) => {
+    // Check if package.json exists
+    const packageJsonPath = path.join(courseFolderPath, 'package.json');
+    let packageJsonExists = false;
+    
+    try {
+      const stats = await fs.promises.stat(packageJsonPath);
+      packageJsonExists = stats.isFile();
+    } catch (err) {
+      // File doesn't exist, we'll create it
+    }
+    
+    // Check if Mocha is already installed
+    if (packageJsonExists) {
+      try {
+        const packageJsonContent = await fs.promises.readFile(packageJsonPath, 'utf8');
+        const packageJson = JSON.parse(packageJsonContent);
+        if (
+          (packageJson.dependencies && packageJson.dependencies.mocha) ||
+          (packageJson.devDependencies && packageJson.devDependencies.mocha)
+        ) {
+          // Mocha is already installed
+          resolve();
+          return;
+        }
+      } catch (err) {
+        // Continue with installation if there was an error reading package.json
+      }
+    }
+    
+    // If package.json doesn't exist, create it
+    if (!packageJsonExists) {
+      const process = cp.spawn('npm', ['init', '-y'], { cwd: courseFolderPath });
+      
+      process.on('close', (initCode) => {
+        if (initCode !== 0) {
+          reject(new Error(`npm init failed with code ${initCode}`));
+          return;
+        }
+        
+        // Continue with Mocha installation
+        installMochaPackage();
+      });
+      
+      process.on('error', (err) => {
+        reject(new Error(`Error initializing npm: ${err.message}`));
+      });
+    } else {
+      // Package.json exists but Mocha isn't installed, proceed with installation
+      installMochaPackage();
+    }
+    
+    function installMochaPackage() {
+      const installProcess = cp.spawn('npm', ['install', '--save-dev', 'mocha'], { cwd: courseFolderPath });
+      
+      installProcess.on('close', (installCode) => {
+        if (installCode !== 0) {
+          reject(new Error(`npm install mocha failed with code ${installCode}`));
+          return;
+        }
+        
+        vscode.window.showInformationMessage('Mocha installed successfully for testing.');
+        resolve();
+      });
+      
+      installProcess.on('error', (err) => {
+        reject(new Error(`Error installing Mocha: ${err.message}`));
+      });
+    }
+  });
+}
 
 export async function createCourse() {
   // 1. Pick language
@@ -52,7 +132,15 @@ export async function createCourse() {
     return;
   }
 
-  // 4. Create (and open) only the first module
+  // 4. Install Mocha for test running
+  try {
+    await installMocha(courseFolderUri.fsPath);
+  } catch (err) {
+    vscode.window.showWarningMessage(`Warning: Could not install Mocha: ${err}. Tests may not run correctly.`);
+    // Continue even if Mocha installation fails
+  }
+
+  // 5. Create (and open) only the first module
   if (modules.length > 0) {
     try {
       await createModuleFiles(courseFolderUri, modules[0], language, true);
@@ -82,6 +170,6 @@ export async function createCourse() {
     );
   }
 
-  // 5. Refresh tree view
+  // 6. Refresh tree view
   vscode.commands.executeCommand('extension.refreshModules');
 }
