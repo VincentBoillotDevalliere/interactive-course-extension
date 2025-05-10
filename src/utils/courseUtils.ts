@@ -105,6 +105,13 @@ export class CourseUtils {
    */
   public static async findModuleTestFiles(moduleId: string): Promise<string[]> {
     if (!moduleId) {
+      console.error('No module ID provided to findModuleTestFiles');
+      return [];
+    }
+    
+    // If moduleId is an object, try to get the id property
+    if (typeof moduleId !== 'string') {
+      console.error(`Invalid moduleId type: ${typeof moduleId}. Expected string.`);
       return [];
     }
     
@@ -134,10 +141,13 @@ export class CourseUtils {
       // Look for tests in exercise files
       const exerciseFiles = await vscode.workspace.findFiles(`**/assets/exercises/${moduleId}/*.json`);
       if (exerciseFiles.length > 0) {
+        console.log(`[DEBUG] Found ${exerciseFiles.length} exercise files for module ${moduleId}`);
         testFiles.push(...exerciseFiles.map(file => file.fsPath));
+      } else {
+        console.log(`[DEBUG] No exercise files found for module ${moduleId}`);
       }
     } catch (error) {
-      console.error('Error finding test files:', error);
+      console.error(`Error finding test files for module ${moduleId}:`, error);
     }
     
     return testFiles;

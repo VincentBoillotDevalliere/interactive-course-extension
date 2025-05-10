@@ -63,7 +63,8 @@ export async function runTests(specificModuleId?: string) {
     
     try {
       const testRunner = new TestRunner(manifest.language);
-      const success = await testRunner.runTests(currentModuleId);
+      // Ensure we're passing the module ID as a string, not the module object
+      const success = await testRunner.runTests(currentModule.id);
       progress.report({ increment: 100, message: "Complete!" });
       
       // Close the status channel as we're done

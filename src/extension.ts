@@ -61,16 +61,52 @@ export function activate(context: vscode.ExtensionContext) {
   
   // Register run module tests command
   context.subscriptions.push(
-    vscode.commands.registerCommand('extension.runModuleTests', async (moduleId) => {
+    vscode.commands.registerCommand('extension.runModuleTests', async (moduleItem) => {
       try {
-        // If moduleId is not provided directly, try to determine it
+        // Extract information from moduleItem based on whether it's an object or a string
+        let moduleId: string | undefined;
+        
+        console.log(`[DEBUG] runModuleTests received item:`, moduleItem);
+        
+        if (typeof moduleItem === 'string') {
+          // Direct string ID
+          moduleId = moduleItem;
+          console.log(`[DEBUG] Using string moduleId: ${moduleId}`);
+        } else if (moduleItem && typeof moduleItem === 'object') {
+          // Handle tree item objects
+          if (moduleItem.moduleId && typeof moduleItem.moduleId === 'string') {
+            moduleId = moduleItem.moduleId;
+            console.log(`[DEBUG] Extracted moduleId from moduleItem.moduleId: ${moduleId}`);
+          } else if (moduleItem.id && typeof moduleItem.id === 'string') {
+            moduleId = moduleItem.id;
+            console.log(`[DEBUG] Extracted moduleId from moduleItem.id: ${moduleId}`);
+          } else if (moduleItem.label && typeof moduleItem.label === 'string' && 
+                     moduleItem.description && typeof moduleItem.description === 'string') {
+            // This is likely a ModuleItem from the tree view
+            moduleId = moduleItem.description.split(' ')[0]; // Extract ID from description
+            console.log(`[DEBUG] Extracted moduleId from description: ${moduleId}`);
+          } else {
+            // Try to inspect object properties to find ID-like fields
+            const keys = Object.keys(moduleItem);
+            console.log(`[DEBUG] Found keys in object: ${keys.join(', ')}`);
+            
+            // Look for contextValue which might have ID format like "active:01-module"
+            if (moduleItem.contextValue && typeof moduleItem.contextValue === 'string' && 
+                moduleItem.contextValue.includes(':')) {
+              moduleId = moduleItem.contextValue.split(':')[1];
+              console.log(`[DEBUG] Extracted moduleId from contextValue: ${moduleId}`);
+            }
+          }
+        }
+        
+        // If we still don't have a moduleId, try to get it from the context
         if (!moduleId) {
           moduleId = await CourseUtils.getCurrentModuleId();
           console.log(`[DEBUG] Determined moduleId from context: ${moduleId}`);
         }
         
         if (moduleId) {
-          // Check if test files exist for this module
+          // Check if test files exist for this module 
           const testFiles = await CourseUtils.findModuleTestFiles(moduleId);
           
           if (testFiles.length > 0) {

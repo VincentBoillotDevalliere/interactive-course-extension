@@ -23,15 +23,44 @@ export class TestRunner {
   
   constructor(private language: string) {}
   
-  public async runTests(moduleId: string): Promise<boolean> {
+  public async runTests(moduleId: string | any): Promise<boolean> {
     try {
-      console.log(`[DEBUG] Finding test files for module ${moduleId}...`);
+      console.log(`[DEBUG] TestRunner.runTests called with moduleId: ${moduleId}, type: ${typeof moduleId}`);
+      
+      // Validate moduleId to avoid errors
+      if (!moduleId) {
+        console.error(`[ERROR] No moduleId passed to runTests`);
+        vscode.window.showErrorMessage(`No test files found for module. ModuleId is undefined.`);
+        return false;
+      }
+      
+      // If we received an object instead of a string, try to extract the ID
+      let moduleIdString: string;
+      if (typeof moduleId === 'object') {
+        console.error(`[ERROR] Object passed to runTests instead of string ID: ${JSON.stringify(moduleId)}`);
+        
+        // Try to extract the ID from common properties
+        if (typeof moduleId.moduleId === 'string') {
+          moduleIdString = moduleId.moduleId;
+        } else if (typeof moduleId.id === 'string') {
+          moduleIdString = moduleId.id;
+        } else {
+          const keys = Object.keys(moduleId);
+          console.log(`[DEBUG] Object keys: ${keys.join(', ')}`);
+          vscode.window.showErrorMessage(`Invalid module format: ${JSON.stringify(moduleId)}`);
+          return false;
+        }
+      } else {
+        moduleIdString = moduleId;
+      }
+      
+      console.log(`[DEBUG] Finding test files for module ${moduleIdString}...`);
       
       // Use CourseUtils to find test files
       const { CourseUtils } = await import('../utils/courseUtils');
-      const testFiles = await CourseUtils.findModuleTestFiles(moduleId);
+      const testFiles = await CourseUtils.findModuleTestFiles(moduleIdString);
       
-      console.log(`[DEBUG] Found ${testFiles.length} potential test files for module ${moduleId}`);
+      console.log(`[DEBUG] Found ${testFiles.length} potential test files for module ${moduleIdString}`);
       
       // If we have test files from CourseUtils, use them
       if (testFiles.length > 0) {
@@ -50,7 +79,7 @@ export class TestRunner {
           } else if (testFile.endsWith('.json')) {
             // Handle JSON exercise files
             const exercisesDir = path.dirname(testFile);
-            return await this.runSplitExerciseTests(moduleId, exercisesDir);
+            return await this.runSplitExerciseTests(moduleIdString, exercisesDir);
           }
         }
       }
@@ -61,7 +90,7 @@ export class TestRunner {
       const files = await vscode.workspace.findFiles('**/course.json');
       
       // Look for the exercises directory structure in the assets
-      const exerciseFiles = await vscode.workspace.findFiles(`**/assets/exercises/${moduleId}/*.json`);
+      const exerciseFiles = await vscode.workspace.findFiles(`**/assets/exercises/${moduleIdString}/*.json`);
       
       // Check for test files in potential course directory structure
       let potentialTestDirectories = [];
@@ -69,8 +98,8 @@ export class TestRunner {
       if (files.length > 0) {
         const courseDir = path.dirname(files[0].fsPath);
         potentialTestDirectories.push(
-          path.join(courseDir, moduleId),
-          path.join(courseDir, 'tests', 'programming-course-javascript', moduleId)
+          path.join(courseDir, moduleIdString),
+          path.join(courseDir, 'tests', 'programming-course-javascript', moduleIdString)
         );
       }
       
@@ -88,13 +117,13 @@ export class TestRunner {
           
           // If we have the multi-file structure
           if (fs.existsSync(exercisesDir) && fs.existsSync(testsDir)) {
-            console.log(`[DEBUG] Using multi-file structure for module ${moduleId}`);
+            console.log(`[DEBUG] Using multi-file structure for module ${moduleIdString}`);
             if (this.language === 'javascript') {
               return await this.runJavaScriptMultiTests(dir, testFilePath);
             } 
           } else {
             // Fall back to the original single-file structure
-            console.log(`[DEBUG] Using single-file structure for module ${moduleId}`);
+            console.log(`[DEBUG] Using single-file structure for module ${moduleIdString}`);
             if (this.language === 'javascript') {
               return await this.runJavaScriptTests(testFilePath);
             } 
@@ -104,16 +133,16 @@ export class TestRunner {
       
       // If we're here, try to use the split exercise structure
       if (exerciseFiles.length > 0) {
-        console.log(`[DEBUG] Found split exercise structure for module ${moduleId}`);
+        console.log(`[DEBUG] Found split exercise structure for module ${moduleIdString}`);
         const exercisesDir = path.dirname(exerciseFiles[0].fsPath);
         
         if (this.language === 'javascript') {
-          return await this.runSplitExerciseTests(moduleId, exercisesDir);
+          return await this.runSplitExerciseTests(moduleIdString, exercisesDir);
         }
       }
       
       // If we've reached here, we couldn't find any test files
-      vscode.window.showErrorMessage(`Could not find any test files for module ${moduleId}.`);
+      vscode.window.showErrorMessage(`Could not find any test files for module ${moduleIdString}.`);
       return false;
     } catch (error) {
       console.error(error);

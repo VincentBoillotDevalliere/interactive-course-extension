@@ -75,7 +75,10 @@
         {
           "command": "extension.runModuleTests",
           "when": "view == courseModules && (viewItem =~ /active|completed/ || viewItem == 'current' || viewItem =~ /^locked/ || viewItem =~ /lockedCurrent/ || viewItem =~ /lockedHighlighted/)",
-          "group": "inline"
+          "group": "inline",
+          "args": {
+            "extractFromContext": true
+          }
         }
       ],
       "editor/context": [

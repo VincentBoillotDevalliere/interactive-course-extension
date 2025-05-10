@@ -18,7 +18,7 @@
 - Do not add new dependencies unless explicitly requested.
 - Do not remove existing tests unless explicitly requested.
 - Before making any changes, show me the plan and ask for confirmation.
-
+- [IMPORTANT] Always update the minimal number of files and lines of code.
 
 
 ## General Coding Principles

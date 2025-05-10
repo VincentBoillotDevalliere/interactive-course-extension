@@ -134,8 +134,12 @@ class ModuleItem extends vscode.TreeItem {
       this.command = {
         command: 'extension.openModule',
         title: 'Open module',
-        arguments: [moduleId]
+        arguments: [moduleId]  // Pass just the string ID
       };
+      
+      // Add test command information as contextValue
+      this.contextValue = `${contextValue}:${moduleId}`;
+      this.tooltip = `${this.tooltip}\nRight-click to run tests`;
     }
   }
 }
