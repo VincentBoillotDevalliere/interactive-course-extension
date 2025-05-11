@@ -1,7 +1,8 @@
 {
-  "name": "formatFullName",
-  "description": "Format a full name from first, middle, and last name variables",
-  "jsTemplate": "function formatFullName(firstName, lastName, middleName = \"\") {\n  // TODO: Return a formatted full name based on the following rules:\n  // - If middleName is provided, return \"firstName middleName lastName\"\n  // - If no middleName is provided, return \"firstName lastName\"\n  // - All parts of the name should have the first letter capitalized,\n  //   regardless of how they were passed in\n  \n}",
-  "jsTest": "    it(\"should format full name correctly with proper capitalization\", () => {\n      assert.strictEqual(formatFullName(\"john\", \"doe\"), \"John Doe\");\n      assert.strictEqual(formatFullName(\"jane\", \"smith\", \"marie\"), \"Jane Marie Smith\");\n      assert.strictEqual(formatFullName(\"ROBERT\", \"JONES\"), \"Robert Jones\");\n      assert.strictEqual(formatFullName(\"sara\", \"WILLIAMS\", \"ann\"), \"Sara Ann Williams\");\n    });",
-  "chapterId": "02-controlFlow"
-}
+      "name": "formatFullName",
+      "description": "Format a full name from first, middle, and last name variables",
+      "hint": "Capitalize with `s.charAt(0).toUpperCase() + s.slice(1).toLowerCase()`, then assemble parts.",
+      "jsTemplate": "function formatFullName(firstName, lastName, middleName = \"\") {\n  // TODO: Return a formatted full name based on the following rules:\n  // - If middleName is provided, return \"firstName middleName lastName\"\n  // - If no middleName is provided, return \"firstName lastName\"\n  // - All parts of the name should have the first letter capitalized,\n  //   regardless of how they were passed in\n  \n}",
+      "jsTest": "    it(\"should format full name correctly with proper capitalization\", () => {\n      assert.strictEqual(formatFullName(\"john\", \"doe\"), \"John Doe\");\n      assert.strictEqual(formatFullName(\"jane\", \"smith\", \"marie\"), \"Jane Marie Smith\");\n      assert.strictEqual(formatFullName(\"ROBERT\", \"JONES\"), \"Robert Jones\");\n      assert.strictEqual(formatFullName(\"sara\", \"WILLIAMS\", \"ann\"), \"Sara Ann Williams\");\n    });",
+      "chapterId": "02-controlFlow"
+    }

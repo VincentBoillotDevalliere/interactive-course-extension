@@ -3,5 +3,7 @@
   "description": "Format a message using template literals",
   "hint": "Use backticks and ${} to embed variables.",
   "jsTemplate": "function formatMessage(username, itemCount, total) {\n  // TODO: Return:\n  // \"Hello, {username}! You have {itemCount} items in your cart. Total: ${total.toFixed(2)}.\"\n}",
-  "jsTest": "    it(\"should format the message correctly\", () => {\n      assert.strictEqual(\n        formatMessage(\"Sam\", 3, 29.995), \n        \"Hello, Sam! You have 3 items in your cart. Total: $30.00.\"\n      );\n    });"
+  "jsTest": "    it(\"should format the message correctly\", () => {\n      assert.strictEqual(\n        formatMessage(\"Sam\", 3, 29.995), \n        \"Hello, Sam! You have 3 items in your cart. Total: $30.00.\"\n      );\n    });",
+    "chapterId": "01-variables-dataTypes"
+
 }

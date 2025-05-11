@@ -3,5 +3,7 @@
   "description": "Convert temperatures between Fahrenheit and Celsius",
   "hint": "Use (celsius * 9/5) + 32 and .toFixed(1).",
   "jsTemplate": "function temperatureConverter(celsius) {\n  // TODO: Convert Celsius to Fahrenheit and return rounded to one decimal\n}",
-  "jsTest": "    it(\"should convert temperatures correctly\", () => {\n      assert.strictEqual(temperatureConverter(0), 32.0);\n      assert.strictEqual(temperatureConverter(100), 212.0);\n      assert.strictEqual(temperatureConverter(25), 77.0);\n    });"
+  "jsTest": "    it(\"should convert temperatures correctly\", () => {\n      assert.strictEqual(temperatureConverter(0), 32.0);\n      assert.strictEqual(temperatureConverter(100), 212.0);\n      assert.strictEqual(temperatureConverter(25), 77.0);\n    });",
+    "chapterId": "01-variables-dataTypes"
+
 }

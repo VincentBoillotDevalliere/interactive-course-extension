@@ -1,7 +1,7 @@
 {
-  "name": "convertTypes",
-  "description": "Convert different types of data based on specified operations",
-  "jsTemplate": "function convertTypes(stringNum, numberValue, booleanValue) {\n  // TODO: Return an object with the following properties:\n  // - stringAsNumber: Convert stringNum to a number\n  // - numberAsString: Convert numberValue to a string\n  // - booleanAsString: Convert booleanValue to a string\n  // - numberAsBoolean: Convert numberValue to a boolean\n  \n}",
-  "jsTest": "    it(\"should correctly convert between different types\", () => {\n      const result = convertTypes(\"42\", 7, true);\n      assert.strictEqual(result.stringAsNumber, 42);\n      assert.strictEqual(result.numberAsString, \"7\");\n      assert.strictEqual(result.booleanAsString, \"true\");\n      assert.strictEqual(result.numberAsBoolean, true);\n      \n      const result2 = convertTypes(\"0\", 0, false);\n      assert.strictEqual(result2.stringAsNumber, 0);\n      assert.strictEqual(result2.numberAsString, \"0\");\n      assert.strictEqual(result2.booleanAsString, \"false\");\n      assert.strictEqual(result2.numberAsBoolean, false);\n    });",
-  "chapterId": "02-controlFlow"
-}
+      "name": "convertTypes",
+      "description": "Convert different types of data based on specified operations",
+      "hint": "`Number(stringNum)`, `String(numberValue)`, `String(booleanValue)`, `Boolean(numberValue)`",
+      "jsTemplate": "function convertTypes(stringNum, numberValue, booleanValue) {\n  // TODO: Return an object with the following properties:\n  // - stringAsNumber: Convert stringNum to a number\n  // - numberAsString: Convert numberValue to a string\n  // - booleanAsString: Convert booleanValue to a string\n  // - numberAsBoolean: Convert numberValue to a boolean\n  \n}",
+      "jsTest": "    it(\"should correctly convert between different types\", () => {\n      const result = convertTypes(\"42\", 7, true);\n      assert.strictEqual(result.stringAsNumber, 42);\n      assert.strictEqual(result.numberAsString, \"7\");\n      assert.strictEqual(result.booleanAsString, \"true\");\n      assert.strictEqual(result.numberAsBoolean, true);\n      \n      const result2 = convertTypes(\"0\", 0, false);\n      assert.strictEqual(result2.stringAsNumber, 0);\n      assert.strictEqual(result2.numberAsString, \"0\");\n      assert.strictEqual(result2.booleanAsString, \"false\");\n      assert.strictEqual(result2.numberAsBoolean, false);\n    });"
+    }

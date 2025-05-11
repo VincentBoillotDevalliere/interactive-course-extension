@@ -1,7 +1,9 @@
-{
-  "name": "calculateRectangleProperties",
-  "description": "Calculate area and perimeter of a rectangle",
-  "jsTemplate": "function calculateRectangleProperties(length, width) {\n  // TODO: Return an object with:\n  // - area: the area of the rectangle (length \u00d7 width)\n  // - perimeter: the perimeter of the rectangle (2 \u00d7 (length + width))\n  // - isSquare: boolean indicating if the rectangle is a square (length === width)\n  \n}",
-  "jsTest": "    it(\"should calculate rectangle properties correctly\", () => {\n      const square = calculateRectangleProperties(5, 5);\n      assert.strictEqual(square.area, 25);\n      assert.strictEqual(square.perimeter, 20);\n      assert.strictEqual(square.isSquare, true);\n      \n      const rectangle = calculateRectangleProperties(4, 6);\n      assert.strictEqual(rectangle.area, 24);\n      assert.strictEqual(rectangle.perimeter, 20);\n      assert.strictEqual(rectangle.isSquare, false);\n    });",
-  "chapterId": "02-controlFlow"
+
+    {
+      "name": "calculateRectangleProperties",
+      "description": "Calculate area and perimeter of a rectangle",
+      "hint": "`area = length * width`, `perimeter = 2 * (length + width)`, `isSquare = length === width`",
+      "jsTemplate": "function calculateRectangleProperties(length, width) {\n  // TODO: Return an object with:\n  // - area: the area of the rectangle (length × width)\n  // - perimeter: the perimeter of the rectangle (2 × (length + width))\n  // - isSquare: boolean indicating if the rectangle is a square (length === width)\n  \n}",
+      "jsTest": "    it(\"should calculate rectangle properties correctly\", () => {\n      const square = calculateRectangleProperties(5, 5);\n      assert.strictEqual(square.area, 25);\n      assert.strictEqual(square.perimeter, 20);\n      assert.strictEqual(square.isSquare, true);\n      \n      const rectangle = calculateRectangleProperties(4, 6);\n      assert.strictEqual(rectangle.area, 24);\n      assert.strictEqual(rectangle.perimeter, 20);\n      assert.strictEqual(rectangle.isSquare, false);\n    });",
+      "chapterId": "02-controlFlow"
 }

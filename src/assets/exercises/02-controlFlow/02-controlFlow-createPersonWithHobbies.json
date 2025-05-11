@@ -1,7 +1,7 @@
 {
-  "name": "createPersonWithHobbies",
-  "description": "Create a person object with name, age, city, and an array of hobbies",
-  "jsTemplate": "function createPersonWithHobbies(name, age, city, hobbies) {\n  // TODO: Create and return a person object with name, age, city properties\n  // and a hobbies array\n  \n}",
-  "jsTest": "    it(\"should create a person object with correct properties including hobbies array\", () => {\n      const hobbies = [\"reading\", \"hiking\", \"coding\"];\n      const person = createPersonWithHobbies(\"Alice\", 25, \"New York\", hobbies);\n      assert.strictEqual(person.name, \"Alice\");\n      assert.strictEqual(person.age, 25);\n      assert.strictEqual(person.city, \"New York\");\n      assert.deepStrictEqual(person.hobbies, hobbies);\n    });",
-  "chapterId": "02-controlFlow"
-}
+      "name": "createPersonWithHobbies",
+      "description": "Create a person object with name, age, city, and an array of hobbies",
+      "hint": "Use an object literal: `return { name, age, city, hobbies };`",
+      "jsTemplate": "function createPersonWithHobbies(name, age, city, hobbies) {\n  // TODO: Create and return a person object with name, age, city properties\n  // and a hobbies array\n  \n}",
+      "jsTest": "    it(\"should create a person object with correct properties including hobbies array\", () => {\n      const hobbies = [\"reading\", \"hiking\", \"coding\"];\n      const person = createPersonWithHobbies(\"Alice\", 25, \"New York\", hobbies);\n      assert.strictEqual(person.name, \"Alice\");\n      assert.strictEqual(person.age, 25);\n      assert.strictEqual(person.city, \"New York\");\n      assert.deepStrictEqual(person.hobbies, hobbies);\n    });"
+    }
