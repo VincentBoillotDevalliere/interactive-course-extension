@@ -1,7 +1,8 @@
-{
-  "name": "fibonacci",
-  "description": "Implement a recursive function to calculate the nth Fibonacci number",
-  "jsTemplate": "function fibonacci(n) {\n  // TODO: Implement a recursive Fibonacci function\n  // F(0) = 0, F(1) = 1, F(n) = F(n-1) + F(n-2) for n > 1\n  \n}",
-  "jsTest": "    it(\"should calculate Fibonacci numbers recursively\", () => {\n      assert.strictEqual(fibonacci(0), 0);\n      assert.strictEqual(fibonacci(1), 1);\n      assert.strictEqual(fibonacci(2), 1);\n      assert.strictEqual(fibonacci(5), 5);\n      assert.strictEqual(fibonacci(8), 21);\n    });",
-  "chapterId": "05-basic-algorithm"
-}
+ {
+      "name": "fibonacci",
+      "description": "Implement a recursive function to calculate the nth Fibonacci number",
+      "hint": "Use base cases F(0)=0 and F(1)=1, then return fibonacci(n-1)+fibonacci(n-2).",
+      "jsTemplate": "function fibonacci(n) {\n  // TODO: Implement a recursive Fibonacci function\n  // F(0) = 0, F(1) = 1, F(n) = F(n-1) + F(n-2) for n > 1\n}",
+      "jsTest": "    it(\"should calculate Fibonacci numbers recursively\", () => {\n      assert.strictEqual(fibonacci(0), 0);\n      assert.strictEqual(fibonacci(1), 1);\n      assert.strictEqual(fibonacci(2), 1);\n      assert.strictEqual(fibonacci(5), 5);\n      assert.strictEqual(fibonacci(8), 21);\n    });",
+      "chapterId": "05-basic-algorithm"
+    }

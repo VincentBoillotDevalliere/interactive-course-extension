@@ -1,7 +1,8 @@
 {
-  "name": "findPairSum",
-  "description": "Implement a brute force algorithm to find a pair of numbers that sum to a target value",
-  "jsTemplate": "function findPairSum(arr, target) {\n  // TODO: Find indices of two numbers that add up to target\n  // Return an array with the two indices, or null if no pair exists\n  \n}",
-  "jsTest": "    it(\"should find a pair of numbers that sum to target\", () => {\n      assert.deepStrictEqual(findPairSum([1, 3, 5], 8), [1, 2]);\n      assert.deepStrictEqual(findPairSum([2, 7, 11, 15], 9), [0, 1]);\n      assert.deepStrictEqual(findPairSum([3, 2, 4], 6), [1, 2]);\n      assert.strictEqual(findPairSum([1, 2, 3], 7), null);\n    });",
-  "chapterId": "05-basic-algorithm"
-}
+      "name": "findPairSum",
+      "description": "Implement a brute force algorithm to find a pair of numbers that sum to a target value",
+      "hint": "Use nested loops: for each index i, loop j = i+1 to end and check if arr[i] + arr[j] === target, then return [i, j].",
+      "jsTemplate": "function findPairSum(arr, target) {\n  // TODO: Find indices of two numbers that add up to target\n  // Return an array with the two indices, or null if no pair exists\n}",
+      "jsTest": "    it(\"should find a pair of numbers that sum to target\", () => {\n      assert.deepStrictEqual(findPairSum([1, 3, 5], 8), [1, 2]);\n      assert.deepStrictEqual(findPairSum([2, 7, 11, 15], 9), [0, 1]);\n      assert.deepStrictEqual(findPairSum([3, 2, 4], 6), [1, 2]);\n      assert.strictEqual(findPairSum([1, 2, 3], 7), null);\n    });",
+      "chapterId": "05-basic-algorithm"
+    }

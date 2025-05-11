@@ -1,7 +1,9 @@
-{
-  "name": "binarySearch",
-  "description": "Implement a binary search algorithm that finds the index of a target in a sorted array",
-  "jsTemplate": "function binarySearch(arr, target) {\n  // TODO: Implement binary search for a sorted array\n  // Return the index of target if found, or -1 if not found\n  \n}",
-  "jsTest": "    it(\"should find elements in a sorted array using binary search\", () => {\n      assert.strictEqual(binarySearch([1, 2, 3, 4, 5], 3), 2);\n      assert.strictEqual(binarySearch([1, 3, 5, 7, 9], 7), 3);\n      assert.strictEqual(binarySearch([1, 3, 5, 7, 9], 6), -1);\n      assert.strictEqual(binarySearch([], 1), -1);\n    });",
-  "chapterId": "05-basic-algorithm"
+ {
+      "name": "binarySearch",
+      "description": "Implement a binary search algorithm that finds the index of a target in a sorted array",
+      "hint": "Maintain low and high pointers; compute mid = Math.floor((low+high)/2), compare arr[mid] to target, then adjust low or high until you find it or pointers cross.",
+      "jsTemplate": "function binarySearch(arr, target) {\n  // TODO: Implement binary search for a sorted array\n  // Return the index of target if found, or -1 if not found\n}",
+      "jsTest": "    it(\"should find elements in a sorted array using binary search\", () => {\n      assert.strictEqual(binarySearch([1, 2, 3, 4, 5], 3), 2);\n      assert.strictEqual(binarySearch([1, 3, 5, 7, 9], 7), 3);\n      assert.strictEqual(binarySearch([1, 3, 5, 7, 9], 6), -1);\n      assert.strictEqual(binarySearch([], 1), -1);\n    });",
+      "chapterId": "05-basic-algorithm"
+    
 }

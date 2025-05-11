@@ -1,7 +1,8 @@
 {
-  "name": "selectionSort",
-  "description": "Implement the selection sort algorithm to sort an array in ascending order",
-  "jsTemplate": "function selectionSort(arr) {\n  // TODO: Implement selection sort\n  // Return the sorted array\n  \n}",
-  "jsTest": "    it(\"should sort arrays using selection sort\", () => {\n      assert.deepStrictEqual(selectionSort([4, 2, 5, 1, 3]), [1, 2, 3, 4, 5]);\n      assert.deepStrictEqual(selectionSort([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5]);\n      assert.deepStrictEqual(selectionSort([5, 4, 3, 2, 1]), [1, 2, 3, 4, 5]);\n      assert.deepStrictEqual(selectionSort([]), []);\n    });",
-  "chapterId": "05-basic-algorithm"
-}
+      "name": "selectionSort",
+      "description": "Implement the selection sort algorithm to sort an array in ascending order",
+      "hint": "Loop through the array, each time find the smallest element in the unsorted portion and swap it with the element at the current index.",
+      "jsTemplate": "function selectionSort(arr) {\n  // TODO: Implement selection sort\n  // Return the sorted array\n}",
+      "jsTest": "    it(\"should sort arrays using selection sort\", () => {\n      assert.deepStrictEqual(selectionSort([4, 2, 5, 1, 3]), [1, 2, 3, 4, 5]);\n      assert.deepStrictEqual(selectionSort([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5]);\n      assert.deepStrictEqual(selectionSort([5, 4, 3, 2, 1]), [1, 2, 3, 4, 5]);\n      assert.deepStrictEqual(selectionSort([]), []);\n    });",
+      "chapterId": "05-basic-algorithm"
+    }

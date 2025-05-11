@@ -1,7 +1,8 @@
 {
-  "name": "findMaxValue",
-  "description": "Write a function to find the maximum value in an array",
-  "jsTemplate": "function findMaxValue(arr) {\n  // TODO: Find and return the maximum value in the array\n  // If the array is empty, return null\n  \n}",
-  "jsTest": "    it(\"should find the maximum value in an array\", () => {\n      assert.strictEqual(findMaxValue([3, 7, 1, 9, 5]), 9);\n      assert.strictEqual(findMaxValue([1, 1, 1, 1]), 1);\n      assert.strictEqual(findMaxValue([-5, -2, -10, -1]), -1);\n      assert.strictEqual(findMaxValue([]), null);\n    });",
-  "chapterId": "05-basic-algorithm"
-}
+      "name": "findMaxValue",
+      "description": "Write a function to find the maximum value in an array",
+      "hint": "Initialize max to null or the first element, then loop through and update if you find a larger value; return null if array is empty.",
+      "jsTemplate": "function findMaxValue(arr) {\n  // TODO: Find and return the maximum value in the array\n  // If the array is empty, return null\n}",
+      "jsTest": "    it(\"should find the maximum value in an array\", () => {\n      assert.strictEqual(findMaxValue([3, 7, 1, 9, 5]), 9);\n      assert.strictEqual(findMaxValue([1, 1, 1, 1]), 1);\n      assert.strictEqual(findMaxValue([-5, -2, -10, -1]), -1);\n      assert.strictEqual(findMaxValue([]), null);\n    });",
+      "chapterId": "05-basic-algorithm"
+    }
