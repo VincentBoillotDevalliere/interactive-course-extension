@@ -1,7 +1,8 @@
 {
-  "name": "reverseArray",
-  "description": "Write a function to reverse an array without using built-in reverse methods",
-  "jsTemplate": "function reverseArray(arr) {\n  // TODO: Return a new array with elements in reverse order\n  // Do not modify the original array\n  // Don't use built-in methods like reverse()\n  \n}",
-  "jsTest": "    it(\"should reverse an array without using built-in methods\", () => {\n      const original = [1, 2, 3, 4, 5];\n      const result = reverseArray(original);\n      \n      assert.deepStrictEqual(result, [5, 4, 3, 2, 1]);\n      assert.deepStrictEqual(original, [1, 2, 3, 4, 5]); // Original should be unchanged\n      \n      assert.deepStrictEqual(reverseArray([]), []);\n      assert.deepStrictEqual(reverseArray([1]), [1]);\n    });",
-  "chapterId": "05-basic-algorithm"
-}
+      "name": "reverseArray",
+      "description": "Write a function to reverse an array without using built-in reverse methods",
+      "hint": "Loop from the end index to 0, pushing each element into a new array; don’t modify the original.",
+      "jsTemplate": "function reverseArray(arr) {\n  // TODO: Return a new array with elements in reverse order\n  // Do not modify the original array\n  // Do not use built-in methods like reverse()\n}",
+      "jsTest": "    it(\"should reverse an array without using built-in methods\", () => {\n      const original = [1, 2, 3, 4, 5];\n      const result = reverseArray(original);\n      assert.deepStrictEqual(result, [5, 4, 3, 2, 1]);\n      assert.deepStrictEqual(original, [1, 2, 3, 4, 5]);\n      assert.deepStrictEqual(reverseArray([]), []);\n      assert.deepStrictEqual(reverseArray([1]), [1]);\n    });",
+      "chapterId": "05-basic-algorithm"
+    }
