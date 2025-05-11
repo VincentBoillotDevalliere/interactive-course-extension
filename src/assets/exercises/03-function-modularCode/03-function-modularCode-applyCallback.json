@@ -1,7 +1,8 @@
 {
-  "name": "applyCallback",
-  "description": "Create a function that applies a callback to a number",
-  "jsTemplate": "function applyCallback(num, callback) {\n  // TODO: Return the result of the callback function when passed the number\n  \n}",
-  "jsTest": "    it(\"should apply the callback to the number\", () => {\n      const double = (x) => x * 2;\n      const square = (x) => x * x;\n      const add10 = (x) => x + 10;\n      \n      assert.strictEqual(applyCallback(5, double), 10);\n      assert.strictEqual(applyCallback(3, square), 9);\n      assert.strictEqual(applyCallback(5, add10), 15);\n    });",
-  "chapterId": "03-functions-modularCode"
-}
+      "name": "applyCallback",
+      "description": "Create a function that applies a callback to a number",
+      "hint": "Call the callback with the number: `return callback(num);`",
+      "jsTemplate": "function applyCallback(num, callback) {\n  // TODO: Return the result of the callback function when passed the number\n}",
+      "jsTest": "    it(\"should apply the callback to the number\", () => {\n      const double = (x) => x * 2;\n      const square = (x) => x * x;\n      const add10 = (x) => x + 10;\n\n      assert.strictEqual(applyCallback(5, double), 10);\n      assert.strictEqual(applyCallback(3, square), 9);\n      assert.strictEqual(applyCallback(5, add10), 15);\n    });",
+      "chapterId": "03-functions-modularCode"
+    }

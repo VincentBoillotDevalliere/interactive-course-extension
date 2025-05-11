@@ -1,7 +1,8 @@
 {
-  "name": "calculateArea",
-  "description": "Create a function that calculates the area of a rectangle",
-  "jsTemplate": "function calculateArea(width, height) {\n  // TODO: Return the area of a rectangle (width * height)\n  \n}",
-  "jsTest": "    it(\"should calculate the area of a rectangle\", () => {\n      assert.strictEqual(calculateArea(5, 4), 20);\n      assert.strictEqual(calculateArea(3, 7), 21);\n      assert.strictEqual(calculateArea(10, 10), 100);\n    });",
-  "chapterId": "03-functions-modularCode"
-}
+      "name": "calculateArea",
+      "description": "Create a function that calculates the area of a rectangle",
+      "hint": "Multiply width and height: `return width * height;`",
+      "jsTemplate": "function calculateArea(width, height) {\n  // TODO: Return the area of a rectangle (width * height)\n}",
+      "jsTest": "    it(\"should calculate the area of a rectangle\", () => {\n      assert.strictEqual(calculateArea(5, 4), 20);\n      assert.strictEqual(calculateArea(3, 7), 21);\n      assert.strictEqual(calculateArea(10, 10), 100);\n    });",
+      "chapterId": "03-functions-modularCode"
+    }

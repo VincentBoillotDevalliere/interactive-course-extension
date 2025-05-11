@@ -1,7 +1,8 @@
 {
-  "name": "createUserObject",
-  "description": "Create a function that returns a user object",
-  "jsTemplate": "function createUserObject(id, name, email) {\n  // TODO: Return an object with properties: id, name, email, and createdAt\n  // createdAt should be the current date as a string\n  \n}",
-  "jsTest": "    it(\"should create a user object with all properties\", () => {\n      const user = createUserObject(1, \"Alice\", \"alice@example.com\");\n      assert.strictEqual(user.id, 1);\n      assert.strictEqual(user.name, \"Alice\");\n      assert.strictEqual(user.email, \"alice@example.com\");\n      assert.ok(typeof user.createdAt === 'string');\n    });",
-  "chapterId": "03-functions-modularCode"
-}
+      "name": "createUserObject",
+      "description": "Create a function that returns a user object",
+      "hint": "Include `createdAt: new Date().toString()` in the returned object",
+      "jsTemplate": "function createUserObject(id, name, email) {\n  // TODO: Return an object with properties: id, name, email, and createdAt\n}",
+      "jsTest": "    it(\"should create a user object with all properties\", () => {\n      const user = createUserObject(1, \"Alice\", \"alice@example.com\");\n      assert.strictEqual(user.id, 1);\n      assert.strictEqual(user.name, \"Alice\");\n      assert.strictEqual(user.email, \"alice@example.com\");\n      assert.ok(typeof user.createdAt === 'string');\n    });",
+      "chapterId": "03-functions-modularCode"
+    }

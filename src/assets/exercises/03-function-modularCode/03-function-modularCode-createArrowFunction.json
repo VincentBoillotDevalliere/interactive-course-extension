@@ -1,7 +1,8 @@
-{
-  "name": "createArrowFunction",
-  "description": "Create an arrow function that adds two numbers",
-  "jsTemplate": "// TODO: Create an arrow function called 'add' that takes two parameters and returns their sum\nconst add = ",
-  "jsTest": "    it(\"should add two numbers using an arrow function\", () => {\n      assert.strictEqual(add(1, 2), 3);\n      assert.strictEqual(add(-1, 5), 4);\n      assert.strictEqual(add(10, 10), 20);\n    });",
-  "chapterId": "03-functions-modularCode"
-}
+ {
+      "name": "createArrowFunction",
+      "description": "Create an arrow function that adds two numbers",
+      "hint": "Define: `const add = (a, b) => a + b;`",
+      "jsTemplate": "// TODO: Create an arrow function called 'add' that takes two parameters and returns their sum\nconst add = ",
+      "jsTest": "    it(\"should add two numbers using an arrow function\", () => {\n      assert.strictEqual(add(1, 2), 3);\n      assert.strictEqual(add(-1, 5), 4);\n      assert.strictEqual(add(10, 10), 20);\n    });",
+      "chapterId": "03-functions-modularCode"
+    }

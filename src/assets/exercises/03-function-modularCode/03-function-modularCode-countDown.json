@@ -1,7 +1,8 @@
 {
-  "name": "countDown",
-  "description": "Create a pure function that returns an array counting down from n to 1",
-  "jsTemplate": "function countDown(n) {\n  // TODO: Return an array that counts down from n to 1\n  // Example: countDown(5) should return [5, 4, 3, 2, 1]\n  // This should be a pure function (don't modify external state)\n  \n}",
-  "jsTest": "    it(\"should return a countdown array from n to 1\", () => {\n      assert.deepStrictEqual(countDown(5), [5, 4, 3, 2, 1]);\n      assert.deepStrictEqual(countDown(3), [3, 2, 1]);\n      assert.deepStrictEqual(countDown(1), [1]);\n      \n      // Test for purity (no side effects)\n      const result1 = countDown(4);\n      const result2 = countDown(4);\n      assert.notStrictEqual(result1, result2); // Should return new arrays, not the same reference\n    });",
-  "chapterId": "03-functions-modularCode"
-}
+      "name": "countDown",
+      "description": "Create a pure function that returns an array counting down from n to 1",
+      "hint": "Use a loop to push values from n down to 1 into a new array",
+      "jsTemplate": "function countDown(n) {\n  // TODO: Return an array that counts down from n to 1\n}",
+      "jsTest": "    it(\"should return a countdown array from n to 1\", () => {\n      assert.deepStrictEqual(countDown(5), [5, 4, 3, 2, 1]);\n      assert.deepStrictEqual(countDown(3), [3, 2, 1]);\n      assert.deepStrictEqual(countDown(1), [1]);\n\n      // Test for purity (no side effects)\n      const result1 = countDown(4);\n      const result2 = countDown(4);\n      assert.notStrictEqual(result1, result2);\n    });",
+      "chapterId": "03-functions-modularCode"
+    }

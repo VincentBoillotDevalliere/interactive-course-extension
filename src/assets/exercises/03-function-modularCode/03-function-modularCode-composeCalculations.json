@@ -1,7 +1,8 @@
 {
-  "name": "composeCalculations",
-  "description": "Create a function that composes multiple calculations",
-  "jsTemplate": "function double(x) {\n  return x * 2;\n}\n\nfunction addFive(x) {\n  return x + 5;\n}\n\nfunction square(x) {\n  return x * x;\n}\n\nfunction composeCalculations(x, operations) {\n  // TODO: Apply each function in the operations array to the input value in sequence\n  // Example: composeCalculations(3, [double, addFive]) should return 11 (double(3) = 6, then addFive(6) = 11)\n  \n}",
-  "jsTest": "    it(\"should correctly compose functions in sequence\", () => {\n      assert.strictEqual(composeCalculations(3, [double, addFive]), 11);       // (3*2)+5 = 11\n      assert.strictEqual(composeCalculations(3, [double, square]), 36);         // (3*2)^2 = 36\n      assert.strictEqual(composeCalculations(3, [addFive, double, square]), 256); // ((3+5)*2)^2 = 256\n      assert.strictEqual(composeCalculations(3, []), 3);                        // No operations = return original\n    });",
-  "chapterId": "03-functions-modularCode"
-}
+      "name": "composeCalculations",
+      "description": "Create a function that composes multiple calculations",
+      "hint": "Iterate operations: `let result = x; operations.forEach(fn => result = fn(result)); return result;`",
+      "jsTemplate": "function double(x) { return x * 2; }\n\nfunction addFive(x) { return x + 5; }\n\nfunction square(x) { return x * x; }\n\nfunction composeCalculations(x, operations) {\n  // TODO: Apply each function in operations to x in sequence\n}",
+      "jsTest": "    it(\"should correctly compose functions in sequence\", () => {\n      assert.strictEqual(composeCalculations(3, [double, addFive]), 11);\n      assert.strictEqual(composeCalculations(3, [double, square]), 36);\n      assert.strictEqual(composeCalculations(3, [addFive, double, square]), 256);\n      assert.strictEqual(composeCalculations(3, []), 3);\n    });",
+      "chapterId": "03-functions-modularCode"
+    }
