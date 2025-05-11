@@ -1,7 +1,0 @@
-{
-  "name": "buildCounter",
-  "description": "Create a counter function that tracks clicks",
-  "jsTemplate": "function buildCounter() {\n  // TODO: Create a counter that starts at 0\n  // Return an object with two methods:\n  // - click(): increments the counter by 1\n  // - getCount(): returns the current count\n}",
-  "jsTest": "    it(\"should build a working counter\", () => {\n      const counter = buildCounter();\n      assert.strictEqual(counter.getCount(), 0);\n      counter.click();\n      assert.strictEqual(counter.getCount(), 1);\n      counter.click();\n      counter.click();\n      assert.strictEqual(counter.getCount(), 3);\n    });",
-  "chapterId": "01-variables-dataTypes"
-}

@@ -39,11 +39,12 @@
       "jsTest": "    it(\"should swap variable values\", () => {\n      assert.deepStrictEqual(swapVariables(5, 10), [10, 5]);\n      assert.deepStrictEqual(swapVariables('hello', 'world'), ['world', 'hello']);\n    });"
     },
     {
-      "name": "buildCounter",
-      "description": "Create a counter function that tracks clicks",
-      "jsTemplate": "function buildCounter() {\n  // TODO: Create a counter that starts at 0\n  // Return an object with two methods:\n  // - click(): increments the counter by 1\n  // - getCount(): returns the current count\n}",
-      "jsTest": "    it(\"should build a working counter\", () => {\n      const counter = buildCounter();\n      assert.strictEqual(counter.getCount(), 0);\n      counter.click();\n      assert.strictEqual(counter.getCount(), 1);\n      counter.click();\n      counter.click();\n      assert.strictEqual(counter.getCount(), 3);\n    });"
-    },
+      "name": "simpleCounter",
+      "description": "Create a simple counter using a global variable",
+      "jsTemplate": "let count = 0;\n\n// TODO: Increase the counter by 1 each time click() is called\nfunction click() {\n  // Hint: use count++\n}\n\n// TODO: Return the current value of the counter\nfunction getCount() {\n  // Hint: return count\n}",
+      "jsTest": "it(\"should start at 0\", () => {\n  assert.strictEqual(getCount(), 0);\n});\nit(\"should increment the counter on each click\", () => {\n  click();\n  assert.strictEqual(getCount(), 1);\n  click();\n  click();\n  assert.strictEqual(getCount(), 3);\n});",
+      "chapterId": "01-variables-dataTypes"
+    },  
     {
       "name": "formatMessage",
       "description": "Format a message using template literals",

@@ -143,7 +143,14 @@ function generateIndexSimplified(
  * Generate main exercise file without importing helper files
  */
 function generateExerciseMainSimplified(exercise: ExerciseFunctions): string {
-  let content = `/**\n * ${exercise.description}\n */\n\n`;
+  let content = `/**\n * ${exercise.description}\n`;
+  
+  // Add hint if available
+  if (exercise.hint) {
+    content += ` * \n * 💡 HINT: ${exercise.hint}\n`;
+  }
+  
+  content += ` */\n\n`;
   content += exercise.jsTemplate + '\n\n';
   content += `module.exports = { ${exercise.name} };\n`;
   return content;

@@ -5,6 +5,7 @@ import * as path from 'path';
 export interface ExerciseFunctions {
   name: string;
   description: string;
+  hint?: string;
   jsTemplate: string;
   jsTest: string;
   additionalFiles?: { fileName: string; description: string; template?: string; dependencies?: string[] }[];

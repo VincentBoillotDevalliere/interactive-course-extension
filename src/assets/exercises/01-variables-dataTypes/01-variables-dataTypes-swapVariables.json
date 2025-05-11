@@ -1,7 +1,7 @@
 {
-  "name": "swapVariables",
-  "description": "Swap the values of two variables without using a third variable",
-  "jsTemplate": "function swapVariables(a, b) {\n  // TODO: Swap the values of a and b without using a temporary variable\n  // Return the swapped values as an array: [newA, newB]\n}",
-  "jsTest": "    it(\"should swap variable values\", () => {\n      assert.deepStrictEqual(swapVariables(5, 10), [10, 5]);\n      assert.deepStrictEqual(swapVariables('hello', 'world'), ['world', 'hello']);\n    });",
-  "chapterId": "01-variables-dataTypes"
-}
+      "name": "swapVariables",
+      "description": "Swap the values of two variables using a temporary variable",
+      "hint": "Use a third variable like `let temp = a; a = b; b = temp;`",
+      "jsTemplate": "function swapVariables(a, b) {\n  // TODO: Swap a and b using a temp variable\n  // Return the swapped values as an array: [a, b]\n}",
+      "jsTest": "    it(\"should swap variable values\", () => {\n      assert.deepStrictEqual(swapVariables(5, 10), [10, 5]);\n      assert.deepStrictEqual(swapVariables('hello', 'world'), ['world', 'hello']);\n    });"
+    }

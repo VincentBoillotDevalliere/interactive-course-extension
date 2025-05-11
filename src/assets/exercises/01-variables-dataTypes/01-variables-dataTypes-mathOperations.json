@@ -1,6 +1,7 @@
 {
   "name": "mathOperations",
   "description": "Perform arithmetic operations and store results",
+  "hint": "For rounding to 2 decimals: multiply by 100, round, then divide by 100 (e.g. Math.round((a/b)*100)/100).",
   "jsTemplate": "function mathOperations(a, b) {\n  // TODO: Perform these operations and store the results in appropriately named variables\n  // 1. Calculate the sum of a and b\n  // 2. Calculate the difference (a minus b)\n  // 3. Calculate the product (a times b)\n  // 4. Calculate the quotient (a divided by b), rounded to 2 decimal places\n  // 5. Calculate the remainder (modulo) of a divided by b\n  \n  // Return results in an object with meaningful property names\n}",
   "jsTest": "    it(\"should perform correct math operations\", () => {\n      const result = mathOperations(10, 3);\n      assert.strictEqual(result.sum, 13);\n      assert.strictEqual(result.difference, 7);\n      assert.strictEqual(result.product, 30);\n      assert.strictEqual(result.quotient, 3.33);\n      assert.strictEqual(result.remainder, 1);\n    });",
   "chapterId": "01-variables-dataTypes"

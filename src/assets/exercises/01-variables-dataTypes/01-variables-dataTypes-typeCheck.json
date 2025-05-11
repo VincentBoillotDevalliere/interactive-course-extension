@@ -1,7 +1,7 @@
 {
-  "name": "typeCheck",
-  "description": "Identify the data type of a value",
-  "jsTemplate": "function typeCheck(value) {\n  // TODO: Return the data type of the value as a string\n  // Possible return values: \"number\", \"string\", \"boolean\", \"object\", \"undefined\", \"null\"\n  // Note: For null values, return \"null\" (not \"object\")\n}",
-  "jsTest": "    it(\"should identify data types correctly\", () => {\n      assert.strictEqual(typeCheck(42), \"number\");\n      assert.strictEqual(typeCheck(\"hello\"), \"string\");\n      assert.strictEqual(typeCheck(true), \"boolean\");\n      assert.strictEqual(typeCheck(null), \"null\");\n      assert.strictEqual(typeCheck(undefined), \"undefined\");\n      assert.strictEqual(typeCheck([]), \"object\");\n    });",
-  "chapterId": "01-variables-dataTypes"
+  "name": "validateInput",
+  "description": "Validate user input based on type and criteria",
+  "hint": "Check each field separately (length, range, includes).",
+  "jsTemplate": "function validateInput(username, age, email) {\n  // TODO: Return an object:\n  // { usernameValid, ageValid, emailValid }\n}",
+  "jsTest": "    it(\"should validate user input correctly\", () => {\n      const valid = validateInput(\"john\", 25, \"john@example.com\");\n      assert.deepStrictEqual(valid, {usernameValid: true, ageValid: true, emailValid: true});\n      const invalid = validateInput(\"jo\", 15, \"johnexample.com\");\n      assert.deepStrictEqual(invalid, {usernameValid: false, ageValid: false, emailValid: false});\n    });"
 }
