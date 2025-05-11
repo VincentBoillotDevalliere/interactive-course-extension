@@ -1,7 +1,8 @@
 {
-  "name": "findMostFrequent",
-  "description": "Find the most frequently occurring element in an array",
-  "jsTemplate": "function findMostFrequent(arr) {\n  // TODO: Return the most frequent element in the array\n  // If there are multiple elements with the same highest frequency, return any one of them\n  // If the array is empty, return null\n  \n}",
-  "jsTest": "    it(\"should find the most frequent element\", () => {\n      assert.strictEqual(findMostFrequent([1, 2, 3, 2, 1, 1]), 1);\n      assert.strictEqual(findMostFrequent([\"a\", \"b\", \"c\", \"b\"]), \"b\");\n      \n      // Test with tied frequencies\n      const result = findMostFrequent([1, 2, 3, 1, 2, 3]);\n      assert.ok(result === 1 || result === 2 || result === 3);\n      \n      assert.strictEqual(findMostFrequent([]), null);\n    });",
-  "chapterId": "04-data-structure"
-}
+      "name": "findMostFrequent",
+      "description": "Find the most frequently occurring element in an array",
+      "hint": "Use an object to count occurrences, then loop through counts to find the max key",
+      "jsTemplate": "function findMostFrequent(arr) {\n  // TODO: Return the most frequent element in the array\n  // If multiple elements tie, return any one\n  // If the array is empty, return null\n}",
+      "jsTest": "    it(\"should find the most frequent element\", () => {\n      assert.strictEqual(findMostFrequent([1, 2, 3, 2, 1, 1]), 1);\n      assert.strictEqual(findMostFrequent([\"a\", \"b\", \"c\", \"b\"]), \"b\");\n      const result = findMostFrequent([1, 2, 3, 1, 2, 3]);\n      assert.ok([1,2,3].includes(result));\n      assert.strictEqual(findMostFrequent([]), null);\n    });",
+      "chapterId": "04-data-structure"
+    }

@@ -1,7 +1,8 @@
-{
-  "name": "findIntersection",
-  "description": "Create a function that finds the intersection of two arrays (common elements)",
-  "jsTemplate": "function findIntersection(arr1, arr2) {\n  // TODO: Return an array containing elements that appear in both arrays\n  // The result should not contain duplicates\n  \n}",
-  "jsTest": "    it(\"should find the intersection of two arrays\", () => {\n      assert.deepStrictEqual(findIntersection([1, 2, 3, 4], [3, 4, 5, 6]).sort(), [3, 4]);\n      assert.deepStrictEqual(findIntersection([\"a\", \"b\", \"c\"], [\"b\", \"c\", \"d\"]).sort(), [\"b\", \"c\"]);\n      assert.deepStrictEqual(findIntersection([1, 1, 2, 2], [2, 2, 3, 3]).sort(), [2]);\n      assert.deepStrictEqual(findIntersection([1, 2], [3, 4]), []);\n    });",
-  "chapterId": "04-data-structure"
-}
+ {
+      "name": "findIntersection",
+      "description": "Create a function that finds the intersection of two arrays (common elements)",
+      "hint": "Filter one array using `includes` on the other, then remove duplicates in the result",
+      "jsTemplate": "function findIntersection(arr1, arr2) {\n  // TODO: Return an array containing elements that appear in both arrays\n  // The result should not contain duplicates\n}",
+      "jsTest": "    it(\"should find the intersection of two arrays\", () => {\n      assert.deepStrictEqual(findIntersection([1, 2, 3, 4], [3, 4, 5, 6]).sort(), [3, 4]);\n      assert.deepStrictEqual(findIntersection([\"a\", \"b\", \"c\"], [\"b\", \"c\", \"d\"]).sort(), [\"b\", \"c\"]);\n      assert.deepStrictEqual(findIntersection([1, 1, 2, 2], [2, 2, 3, 3]).sort(), [2]);\n      assert.deepStrictEqual(findIntersection([1, 2], [3, 4]), []);\n    });",
+      "chapterId": "04-data-structure"
+    }

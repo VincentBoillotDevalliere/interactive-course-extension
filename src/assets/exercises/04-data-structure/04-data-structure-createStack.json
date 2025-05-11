@@ -1,7 +1,8 @@
 {
-  "name": "createStack",
-  "description": "Implement a stack data structure with push, pop, and peek operations",
-  "jsTemplate": "function createStack() {\n  // TODO: Implement a stack data structure\n  // Return an object with methods: push(item), pop(), peek(), and isEmpty()\n  \n}",
-  "jsTest": "    it(\"should implement a stack correctly\", () => {\n      const stack = createStack();\n      \n      assert.strictEqual(stack.isEmpty(), true);\n      \n      stack.push(1);\n      stack.push(2);\n      stack.push(3);\n      \n      assert.strictEqual(stack.isEmpty(), false);\n      assert.strictEqual(stack.peek(), 3);\n      assert.strictEqual(stack.pop(), 3);\n      assert.strictEqual(stack.peek(), 2);\n      assert.strictEqual(stack.pop(), 2);\n      assert.strictEqual(stack.pop(), 1);\n      assert.strictEqual(stack.isEmpty(), true);\n      \n      // Should handle empty stack\n      assert.strictEqual(stack.peek(), undefined);\n      assert.strictEqual(stack.pop(), undefined);\n    });",
-  "chapterId": "04-data-structure"
-}
+      "name": "createStack",
+      "description": "Implement a stack data structure with push, pop, and peek operations",
+      "hint": "Use an internal array: `let items = []; push: items.push(item); pop: items.pop(); peek: items[items.length-1]; isEmpty: items.length===0;`",
+      "jsTemplate": "function createStack() {\n  // TODO: Implement a stack data structure\n  // Return an object with methods: push(item), pop(), peek(), and isEmpty()\n}",
+      "jsTest": "    it(\"should implement a stack correctly\", () => {\n      const stack = createStack();\n      assert.strictEqual(stack.isEmpty(), true);\n      stack.push(1);\n      stack.push(2);\n      stack.push(3);\n      assert.strictEqual(stack.isEmpty(), false);\n      assert.strictEqual(stack.peek(), 3);\n      assert.strictEqual(stack.pop(), 3);\n      assert.strictEqual(stack.peek(), 2);\n      assert.strictEqual(stack.pop(), 2);\n      assert.strictEqual(stack.pop(), 1);\n      assert.strictEqual(stack.isEmpty(), true);\n      assert.strictEqual(stack.peek(), undefined);\n      assert.strictEqual(stack.pop(), undefined);\n    });",
+      "chapterId": "04-data-structure"
+    }

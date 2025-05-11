@@ -1,7 +1,8 @@
 {
-  "name": "createWordFrequencyCounter",
-  "description": "Create a function that counts the frequency of each word in a string",
-  "jsTemplate": "function wordFrequency(text) {\n  // TODO: Return an object with each word as a key and its frequency as the value\n  // Example: wordFrequency(\"hello world hello\") should return {hello: 2, world: 1}\n  \n}",
-  "jsTest": "    it(\"should count word frequencies correctly\", () => {\n      assert.deepStrictEqual(wordFrequency(\"hello world hello\"), {hello: 2, world: 1});\n      assert.deepStrictEqual(wordFrequency(\"the quick brown fox jumps over the lazy dog\"), \n        {the: 2, quick: 1, brown: 1, fox: 1, jumps: 1, over: 1, lazy: 1, dog: 1});\n      assert.deepStrictEqual(wordFrequency(\"\"), {});\n    });",
-  "chapterId": "04-data-structure"
-}
+      "name": "createWordFrequencyCounter",
+      "description": "Create a function that counts the frequency of each word in a string",
+      "hint": "Split the string on spaces and loop through each word, using an object to accumulate counts",
+      "jsTemplate": "function wordFrequency(text) {\n  // TODO: Return an object with each word as a key and its frequency as the value\n  // Example: wordFrequency(\"hello world hello\") should return {hello: 2, world: 1}\n}",
+      "jsTest": "    it(\"should count word frequencies correctly\", () => {\n      assert.deepStrictEqual(wordFrequency(\"hello world hello\"), {hello: 2, world: 1});\n      assert.deepStrictEqual(wordFrequency(\"the quick brown fox jumps over the lazy dog\"), \n        {the: 2, quick: 1, brown: 1, fox: 1, jumps: 1, over: 1, lazy: 1, dog: 1});\n      assert.deepStrictEqual(wordFrequency(\"\"), {});\n    });",
+      "chapterId": "04-data-structure"
+    }

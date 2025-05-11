@@ -1,7 +1,8 @@
-{
-  "name": "removeDuplicates",
-  "description": "Create a function that removes duplicate values from an array",
-  "jsTemplate": "function removeDuplicates(arr) {\n  // TODO: Return a new array with duplicate values removed\n  // Maintain the original order of elements\n  \n}",
-  "jsTest": "    it(\"should remove duplicates while preserving order\", () => {\n      assert.deepStrictEqual(removeDuplicates([1, 2, 2, 3, 4, 4, 5]), [1, 2, 3, 4, 5]);\n      assert.deepStrictEqual(removeDuplicates([\"a\", \"b\", \"a\", \"c\", \"b\"]), [\"a\", \"b\", \"c\"]);\n      assert.deepStrictEqual(removeDuplicates([]), []);\n    });",
-  "chapterId": "04-data-structure"
-}
+ {
+      "name": "removeDuplicates",
+      "description": "Create a function that removes duplicate values from an array",
+      "hint": "Loop through the array and add each element to a new array only if it’s not already included",
+      "jsTemplate": "function removeDuplicates(arr) {\n  // TODO: Return a new array with duplicate values removed\n  // Maintain the original order of elements\n}",
+      "jsTest": "    it(\"should remove duplicates while preserving order\", () => {\n      assert.deepStrictEqual(removeDuplicates([1, 2, 2, 3, 4, 4, 5]), [1, 2, 3, 4, 5]);\n      assert.deepStrictEqual(removeDuplicates([\"a\", \"b\", \"a\", \"c\", \"b\"]), [\"a\", \"b\", \"c\"]);\n      assert.deepStrictEqual(removeDuplicates([]), []);\n    });",
+      "chapterId": "04-data-structure"
+    }

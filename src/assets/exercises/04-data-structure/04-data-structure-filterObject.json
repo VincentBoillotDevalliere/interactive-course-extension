@@ -1,7 +1,8 @@
 {
-  "name": "filterObject",
-  "description": "Create a function that filters an object based on a predicate function",
-  "jsTemplate": "function filterObject(obj, predicate) {\n  // TODO: Return a new object with key-value pairs that satisfy the predicate function\n  // The predicate function takes (key, value) and returns true to keep the pair or false to exclude it\n  \n}",
-  "jsTest": "    it(\"should filter object key-value pairs\", () => {\n      const obj = { a: 1, b: 2, c: 3, d: 4, e: 5 };\n      \n      // Keep only even values\n      const evenValues = filterObject(obj, (key, value) => value % 2 === 0);\n      assert.deepStrictEqual(evenValues, { b: 2, d: 4 });\n      \n      // Keep only keys in first half of alphabet\n      const firstHalfKeys = filterObject(obj, (key) => key < 'c');\n      assert.deepStrictEqual(firstHalfKeys, { a: 1, b: 2 });\n      \n      // Empty object case\n      assert.deepStrictEqual(filterObject({}, () => true), {});\n    });",
-  "chapterId": "04-data-structure"
-}
+      "name": "filterObject",
+      "description": "Create a function that filters an object based on a predicate function",
+      "hint": "Use `for...in` to iterate keys and include pairs where `predicate(key, value)` is true",
+      "jsTemplate": "function filterObject(obj, predicate) {\n  // TODO: Return a new object with key-value pairs that satisfy the predicate\n}",
+      "jsTest": "    it(\"should filter object key-value pairs\", () => {\n      const obj = { a: 1, b: 2, c: 3, d: 4, e: 5 };\n      const evenValues = filterObject(obj, (key, value) => value % 2 === 0);\n      assert.deepStrictEqual(evenValues, { b: 2, d: 4 });\n      const firstHalfKeys = filterObject(obj, (key) => key < 'c');\n      assert.deepStrictEqual(firstHalfKeys, { a: 1, b: 2 });\n      assert.deepStrictEqual(filterObject({}, () => true), {});\n    });",
+      "chapterId": "04-data-structure"
+    }

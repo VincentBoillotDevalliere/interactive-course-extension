@@ -1,7 +1,8 @@
 {
-  "name": "mergeObjects",
-  "description": "Create a function that deeply merges two objects",
-  "jsTemplate": "function deepMerge(obj1, obj2) {\n  // TODO: Merge obj2 into obj1, handling nested objects\n  // Return a new object without modifying the inputs\n  // If both objects have the same key, obj2's value should take precedence\n  \n}",
-  "jsTest": "    it(\"should deeply merge two objects\", () => {\n      const obj1 = { a: 1, b: { c: 2, d: 3 } };\n      const obj2 = { b: { c: 4, e: 5 }, f: 6 };\n      const expected = { a: 1, b: { c: 4, d: 3, e: 5 }, f: 6 };\n      assert.deepStrictEqual(deepMerge(obj1, obj2), expected);\n      \n      // Check that originals weren't modified\n      assert.deepStrictEqual(obj1, { a: 1, b: { c: 2, d: 3 } });\n      assert.deepStrictEqual(obj2, { b: { c: 4, e: 5 }, f: 6 });\n      \n      // Simple case\n      assert.deepStrictEqual(deepMerge({ a: 1 }, { b: 2 }), { a: 1, b: 2 });\n    });",
-  "chapterId": "04-data-structure"
-}
+      "name": "mergeObjects",
+      "description": "Create a function that deeply merges two objects",
+      "hint": "Recursively merge nested objects: copy obj1, then for each key in obj2, if both values are objects call deepMerge, else use obj2's value",
+      "jsTemplate": "function deepMerge(obj1, obj2) {\n  // TODO: Merge obj2 into obj1, handling nested objects\n  // Return a new object without modifying the inputs\n}",
+      "jsTest": "    it(\"should deeply merge two objects\", () => {\n      const obj1 = { a: 1, b: { c: 2, d: 3 } };\n      const obj2 = { b: { c: 4, e: 5 }, f: 6 };\n      const expected = { a: 1, b: { c: 4, d: 3, e: 5 }, f: 6 };\n      assert.deepStrictEqual(deepMerge(obj1, obj2), expected);\n      assert.deepStrictEqual(obj1, { a: 1, b: { c: 2, d: 3 } });\n      assert.deepStrictEqual(obj2, { b: { c: 4, e: 5 }, f: 6 });\n      assert.deepStrictEqual(deepMerge({ a: 1 }, { b: 2 }), { a: 1, b: 2 });\n    });",
+      "chapterId": "04-data-structure"
+    }

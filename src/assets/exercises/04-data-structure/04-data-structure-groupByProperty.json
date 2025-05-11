@@ -1,7 +1,8 @@
 {
-  "name": "groupByProperty",
-  "description": "Create a function that groups objects in an array by a specified property",
-  "jsTemplate": "function groupBy(arr, property) {\n  // TODO: Group objects by the specified property\n  // Return an object with property values as keys and arrays of objects as values\n  \n}",
-  "jsTest": "    it(\"should group objects by property\", () => {\n      const people = [\n        { name: \"Alice\", age: 30 },\n        { name: \"Bob\", age: 25 },\n        { name: \"Charlie\", age: 30 },\n        { name: \"Dave\", age: 25 }\n      ];\n      \n      const groupedByAge = groupBy(people, \"age\");\n      assert.strictEqual(Object.keys(groupedByAge).length, 2);\n      assert.strictEqual(groupedByAge[25].length, 2);\n      assert.strictEqual(groupedByAge[30].length, 2);\n      assert.strictEqual(groupedByAge[25][0].name, \"Bob\");\n      assert.strictEqual(groupedByAge[25][1].name, \"Dave\");\n      assert.strictEqual(groupedByAge[30][0].name, \"Alice\");\n      assert.strictEqual(groupedByAge[30][1].name, \"Charlie\");\n      \n      assert.deepStrictEqual(groupBy([], \"any\"), {});\n    });",
-  "chapterId": "04-data-structure"
-}
+      "name": "groupByProperty",
+      "description": "Create a function that groups objects in an array by a specified property",
+      "hint": "Use `reduce` to collect objects into groups keyed by the given property",
+      "jsTemplate": "function groupBy(arr, property) {\n  // TODO: Group objects by the specified property\n  // Return an object with property values as keys and arrays of objects as values\n}",
+      "jsTest": "    it(\"should group objects by property\", () => {\n      const people = [\n        { name: \"Alice\", age: 30 },\n        { name: \"Bob\", age: 25 },\n        { name: \"Charlie\", age: 30 },\n        { name: \"Dave\", age: 25 }\n      ];\n      const groupedByAge = groupBy(people, \"age\");\n      assert.strictEqual(Object.keys(groupedByAge).length, 2);\n      assert.strictEqual(groupedByAge[25].length, 2);\n      assert.strictEqual(groupedByAge[30].length, 2);\n      assert.strictEqual(groupedByAge[25][0].name, \"Bob\");\n      assert.strictEqual(groupedByAge[25][1].name, \"Dave\");\n      assert.strictEqual(groupedByAge[30][0].name, \"Alice\");\n      assert.strictEqual(groupedByAge[30][1].name, \"Charlie\");\n      assert.deepStrictEqual(groupBy([], \"any\"), {});\n    });",
+      "chapterId": "04-data-structure"
+    }

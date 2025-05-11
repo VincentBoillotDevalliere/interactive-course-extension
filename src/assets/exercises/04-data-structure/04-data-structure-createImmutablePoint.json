@@ -1,7 +1,8 @@
 {
-  "name": "createImmutablePoint",
-  "description": "Create a function that returns an immutable 2D point object",
-  "jsTemplate": "function createPoint(x, y) {\n  // TODO: Return an immutable point object with x and y coordinates\n  // The returned object should not allow its properties to be modified\n  \n}",
-  "jsTest": "    it(\"should create an immutable point object\", () => {\n      const point = createPoint(10, 20);\n      assert.strictEqual(point.x, 10);\n      assert.strictEqual(point.y, 20);\n      \n      // Test immutability\n      try {\n        point.x = 30;\n      } catch(e) {}\n      try {\n        point.y = 40;\n      } catch(e) {}\n      \n      assert.strictEqual(point.x, 10);\n      assert.strictEqual(point.y, 20);\n    });",
-  "chapterId": "04-data-structure"
-}
+      "name": "createImmutablePoint",
+      "description": "Create a function that returns an immutable 2D point object",
+      "hint": "Use `Object.freeze({ x, y })` to prevent modifications",
+      "jsTemplate": "function createPoint(x, y) {\n  // TODO: Return an immutable point object with x and y coordinates\n  // The returned object should not allow its properties to be modified\n}",
+      "jsTest": "    it(\"should create an immutable point object\", () => {\n      const point = createPoint(10, 20);\n      assert.strictEqual(point.x, 10);\n      assert.strictEqual(point.y, 20);\n      try { point.x = 30; } catch(e) {}\n      try { point.y = 40; } catch(e) {}\n      assert.strictEqual(point.x, 10);\n      assert.strictEqual(point.y, 20);\n    });",
+      "chapterId": "04-data-structure"
+    }
