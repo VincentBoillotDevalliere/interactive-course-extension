@@ -2,8 +2,6 @@
   "name": "findMaxValue",
   "description": "Write a function to find the maximum value in an array",
   "jsTemplate": "function findMaxValue(arr) {\n  // TODO: Find and return the maximum value in the array\n  // If the array is empty, return null\n  \n}",
-  "pyTemplate": "def find_max_value(arr):\n    # TODO: Find and return the maximum value in the array\n    # If the array is empty, return None\n    pass",
   "jsTest": "    it(\"should find the maximum value in an array\", () => {\n      assert.strictEqual(findMaxValue([3, 7, 1, 9, 5]), 9);\n      assert.strictEqual(findMaxValue([1, 1, 1, 1]), 1);\n      assert.strictEqual(findMaxValue([-5, -2, -10, -1]), -1);\n      assert.strictEqual(findMaxValue([]), null);\n    });",
-  "pyTest": "    def test_find_max_value(self):\n        self.assertEqual(find_max_value([3, 7, 1, 9, 5]), 9)\n        self.assertEqual(find_max_value([1, 1, 1, 1]), 1)\n        self.assertEqual(find_max_value([-5, -2, -10, -1]), -1)\n        self.assertEqual(find_max_value([]), None)",
   "chapterId": "05-basic-algorithm"
 }

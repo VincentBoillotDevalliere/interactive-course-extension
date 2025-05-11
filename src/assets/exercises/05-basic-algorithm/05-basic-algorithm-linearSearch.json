@@ -2,8 +2,6 @@
   "name": "linearSearch",
   "description": "Implement a linear search algorithm that finds the index of a target value in an array",
   "jsTemplate": "function linearSearch(arr, target) {\n  // TODO: Implement linear search\n  // Return the index of target if found, or -1 if not found\n  \n}",
-  "pyTemplate": "def linear_search(arr, target):\n    # TODO: Implement linear search\n    # Return the index of target if found, or -1 if not found\n    pass",
   "jsTest": "    it(\"should find elements in an array using linear search\", () => {\n      assert.strictEqual(linearSearch([3, 7, 1, 9, 5], 7), 1);\n      assert.strictEqual(linearSearch([3, 7, 1, 9, 5], 5), 4);\n      assert.strictEqual(linearSearch([3, 7, 1, 9, 5], 2), -1);\n      assert.strictEqual(linearSearch([], 1), -1);\n    });",
-  "pyTest": "    def test_linear_search(self):\n        self.assertEqual(linear_search([3, 7, 1, 9, 5], 7), 1)\n        self.assertEqual(linear_search([3, 7, 1, 9, 5], 5), 4)\n        self.assertEqual(linear_search([3, 7, 1, 9, 5], 2), -1)\n        self.assertEqual(linear_search([], 1), -1)",
   "chapterId": "05-basic-algorithm"
 }

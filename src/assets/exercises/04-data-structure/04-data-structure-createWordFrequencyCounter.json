@@ -2,8 +2,6 @@
   "name": "createWordFrequencyCounter",
   "description": "Create a function that counts the frequency of each word in a string",
   "jsTemplate": "function wordFrequency(text) {\n  // TODO: Return an object with each word as a key and its frequency as the value\n  // Example: wordFrequency(\"hello world hello\") should return {hello: 2, world: 1}\n  \n}",
-  "pyTemplate": "def word_frequency(text):\n    # TODO: Return a dictionary with each word as a key and its frequency as the value\n    # Example: word_frequency(\"hello world hello\") should return {\"hello\": 2, \"world\": 1}\n    pass",
   "jsTest": "    it(\"should count word frequencies correctly\", () => {\n      assert.deepStrictEqual(wordFrequency(\"hello world hello\"), {hello: 2, world: 1});\n      assert.deepStrictEqual(wordFrequency(\"the quick brown fox jumps over the lazy dog\"), \n        {the: 2, quick: 1, brown: 1, fox: 1, jumps: 1, over: 1, lazy: 1, dog: 1});\n      assert.deepStrictEqual(wordFrequency(\"\"), {});\n    });",
-  "pyTest": "    def test_word_frequency(self):\n        self.assertEqual(word_frequency(\"hello world hello\"), {\"hello\": 2, \"world\": 1})\n        self.assertEqual(word_frequency(\"the quick brown fox jumps over the lazy dog\"), \n            {\"the\": 2, \"quick\": 1, \"brown\": 1, \"fox\": 1, \"jumps\": 1, \"over\": 1, \"lazy\": 1, \"dog\": 1})\n        self.assertEqual(word_frequency(\"\"), {})",
   "chapterId": "04-data-structure"
 }

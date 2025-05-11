@@ -2,8 +2,6 @@
   "name": "fibonacci",
   "description": "Implement a recursive function to calculate the nth Fibonacci number",
   "jsTemplate": "function fibonacci(n) {\n  // TODO: Implement a recursive Fibonacci function\n  // F(0) = 0, F(1) = 1, F(n) = F(n-1) + F(n-2) for n > 1\n  \n}",
-  "pyTemplate": "def fibonacci(n):\n    # TODO: Implement a recursive Fibonacci function\n    # F(0) = 0, F(1) = 1, F(n) = F(n-1) + F(n-2) for n > 1\n    pass",
   "jsTest": "    it(\"should calculate Fibonacci numbers recursively\", () => {\n      assert.strictEqual(fibonacci(0), 0);\n      assert.strictEqual(fibonacci(1), 1);\n      assert.strictEqual(fibonacci(2), 1);\n      assert.strictEqual(fibonacci(5), 5);\n      assert.strictEqual(fibonacci(8), 21);\n    });",
-  "pyTest": "    def test_fibonacci(self):\n        self.assertEqual(fibonacci(0), 0)\n        self.assertEqual(fibonacci(1), 1)\n        self.assertEqual(fibonacci(2), 1)\n        self.assertEqual(fibonacci(5), 5)\n        self.assertEqual(fibonacci(8), 21)",
   "chapterId": "05-basic-algorithm"
 }

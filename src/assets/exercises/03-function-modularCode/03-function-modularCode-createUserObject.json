@@ -2,8 +2,6 @@
   "name": "createUserObject",
   "description": "Create a function that returns a user object",
   "jsTemplate": "function createUserObject(id, name, email) {\n  // TODO: Return an object with properties: id, name, email, and createdAt\n  // createdAt should be the current date as a string\n  \n}",
-  "pyTemplate": "import datetime\n\ndef create_user_object(id, name, email):\n    # TODO: Return a dictionary with keys: id, name, email, and created_at\n    # created_at should be the current date as a string\n    pass",
   "jsTest": "    it(\"should create a user object with all properties\", () => {\n      const user = createUserObject(1, \"Alice\", \"alice@example.com\");\n      assert.strictEqual(user.id, 1);\n      assert.strictEqual(user.name, \"Alice\");\n      assert.strictEqual(user.email, \"alice@example.com\");\n      assert.ok(typeof user.createdAt === 'string');\n    });",
-  "pyTest": "    def test_create_user_object(self):\n        user = create_user_object(1, \"Alice\", \"alice@example.com\")\n        self.assertEqual(user[\"id\"], 1)\n        self.assertEqual(user[\"name\"], \"Alice\")\n        self.assertEqual(user[\"email\"], \"alice@example.com\")\n        self.assertTrue(isinstance(user[\"created_at\"], str))",
   "chapterId": "03-functions-modularCode"
 }

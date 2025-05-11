@@ -2,8 +2,6 @@
   "name": "stringOperations",
   "description": "Perform common string operations",
   "jsTemplate": "function stringOperations(firstName, lastName) {\n  // TODO: Perform the following string operations:\n  // 1. Create a fullName by concatenating firstName and lastName with a space between\n  // 2. Create an email using the format: firstName.lastName@example.com (all lowercase)\n  // 3. Create a username by taking the first 3 characters of firstName + length of fullName\n  \n  // Return the values in an object: {fullName, email, username}\n}",
-  "pyTemplate": "def stringOperations(firstName, lastName):\n    # TODO: Perform the following string operations:\n    # 1. Create a fullName by concatenating firstName and lastName with a space between\n    # 2. Create an email using the format: firstName.lastName@example.com (all lowercase)\n    # 3. Create a username by taking the first 3 characters of firstName + length of fullName\n    \n    # Return the values in a dictionary: {'fullName': fullName, 'email': email, 'username': username}\n    pass",
   "jsTest": "    it(\"should correctly perform string operations\", () => {\n      const result = stringOperations(\"John\", \"Doe\");\n      assert.strictEqual(result.fullName, \"John Doe\");\n      assert.strictEqual(result.email, \"john.doe@example.com\");\n      assert.strictEqual(result.username, \"Joh8\");\n    });",
-  "pyTest": "    def test_string_operations(self):\n        result = stringOperations(\"John\", \"Doe\")\n        self.assertEqual(result['fullName'], \"John Doe\")\n        self.assertEqual(result['email'], \"john.doe@example.com\")\n        self.assertEqual(result['username'], \"Joh8\")",
   "chapterId": "01-variables-dataTypes"
 }

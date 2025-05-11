@@ -2,8 +2,6 @@
   "name": "createImmutablePoint",
   "description": "Create a function that returns an immutable 2D point object",
   "jsTemplate": "function createPoint(x, y) {\n  // TODO: Return an immutable point object with x and y coordinates\n  // The returned object should not allow its properties to be modified\n  \n}",
-  "pyTemplate": "def create_point(x, y):\n    # TODO: Return an immutable point object with x and y coordinates\n    # In Python, you can use a tuple (x, y) or create a custom immutable class\n    pass",
   "jsTest": "    it(\"should create an immutable point object\", () => {\n      const point = createPoint(10, 20);\n      assert.strictEqual(point.x, 10);\n      assert.strictEqual(point.y, 20);\n      \n      // Test immutability\n      try {\n        point.x = 30;\n      } catch(e) {}\n      try {\n        point.y = 40;\n      } catch(e) {}\n      \n      assert.strictEqual(point.x, 10);\n      assert.strictEqual(point.y, 20);\n    });",
-  "pyTest": "    def test_create_point(self):\n        point = create_point(10, 20)\n        # Access coordinates\n        if isinstance(point, tuple):\n            self.assertEqual(point[0], 10)\n            self.assertEqual(point[1], 20)\n        else:\n            self.assertEqual(point.x, 10)\n            self.assertEqual(point.y, 20)\n        \n        # Test immutability in some way\n        with self.assertRaises(Exception):\n            # This should throw an exception if the object is properly immutable\n            if isinstance(point, tuple):\n                point[0] = 30\n            else:\n                point.x = 30",
   "chapterId": "04-data-structure"
 }

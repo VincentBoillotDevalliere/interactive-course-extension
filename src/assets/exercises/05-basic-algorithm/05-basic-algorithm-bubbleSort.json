@@ -2,8 +2,6 @@
   "name": "bubbleSort",
   "description": "Implement the bubble sort algorithm to sort an array in ascending order",
   "jsTemplate": "function bubbleSort(arr) {\n  // TODO: Implement bubble sort\n  // Return the sorted array\n  \n}",
-  "pyTemplate": "def bubble_sort(arr):\n    # TODO: Implement bubble sort\n    # Return the sorted array\n    pass",
   "jsTest": "    it(\"should sort arrays using bubble sort\", () => {\n      assert.deepStrictEqual(bubbleSort([4, 2, 5, 1, 3]), [1, 2, 3, 4, 5]);\n      assert.deepStrictEqual(bubbleSort([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5]);\n      assert.deepStrictEqual(bubbleSort([5, 4, 3, 2, 1]), [1, 2, 3, 4, 5]);\n      assert.deepStrictEqual(bubbleSort([]), []);\n    });",
-  "pyTest": "    def test_bubble_sort(self):\n        self.assertEqual(bubble_sort([4, 2, 5, 1, 3]), [1, 2, 3, 4, 5])\n        self.assertEqual(bubble_sort([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])\n        self.assertEqual(bubble_sort([5, 4, 3, 2, 1]), [1, 2, 3, 4, 5])\n        self.assertEqual(bubble_sort([]), [])",
   "chapterId": "05-basic-algorithm"
 }

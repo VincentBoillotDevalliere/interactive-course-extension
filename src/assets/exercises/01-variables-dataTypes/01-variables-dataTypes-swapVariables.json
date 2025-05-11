@@ -2,8 +2,6 @@
   "name": "swapVariables",
   "description": "Swap the values of two variables without using a third variable",
   "jsTemplate": "function swapVariables(a, b) {\n  // TODO: Swap the values of a and b without using a temporary variable\n  // Return the swapped values as an array: [newA, newB]\n}",
-  "pyTemplate": "def swapVariables(a, b):\n    # TODO: Swap the values of a and b without using a temporary variable\n    # Return the swapped values as a list: [newA, newB]\n    pass",
   "jsTest": "    it(\"should swap variable values\", () => {\n      assert.deepStrictEqual(swapVariables(5, 10), [10, 5]);\n      assert.deepStrictEqual(swapVariables('hello', 'world'), ['world', 'hello']);\n    });",
-  "pyTest": "    def test_swap_variables(self):\n        self.assertEqual(swapVariables(5, 10), [10, 5])\n        self.assertEqual(swapVariables('hello', 'world'), ['world', 'hello'])",
   "chapterId": "01-variables-dataTypes"
 }

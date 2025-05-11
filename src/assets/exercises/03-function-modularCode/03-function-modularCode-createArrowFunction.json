@@ -2,8 +2,6 @@
   "name": "createArrowFunction",
   "description": "Create an arrow function that adds two numbers",
   "jsTemplate": "// TODO: Create an arrow function called 'add' that takes two parameters and returns their sum\nconst add = ",
-  "pyTemplate": "# Python doesn't have arrow functions, but we can create a lambda function\n# TODO: Create a lambda function called 'add' that takes two parameters and returns their sum\nadd = ",
   "jsTest": "    it(\"should add two numbers using an arrow function\", () => {\n      assert.strictEqual(add(1, 2), 3);\n      assert.strictEqual(add(-1, 5), 4);\n      assert.strictEqual(add(10, 10), 20);\n    });",
-  "pyTest": "    def test_lambda_add(self):\n        self.assertEqual(add(1, 2), 3)\n        self.assertEqual(add(-1, 5), 4)\n        self.assertEqual(add(10, 10), 20)",
   "chapterId": "03-functions-modularCode"
 }

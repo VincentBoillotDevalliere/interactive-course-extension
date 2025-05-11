@@ -2,8 +2,6 @@
   "name": "greetPerson",
   "description": "Create a function that returns a greeting with the person's name",
   "jsTemplate": "function greetPerson(name, timeOfDay) {\n  // TODO: Return a greeting string with format: \"Good [timeOfDay], [name]!\"\n  // Example: greetPerson(\"Alice\", \"morning\") should return \"Good morning, Alice!\"\n  \n}",
-  "pyTemplate": "def greet_person(name, time_of_day):\n    # TODO: Return a greeting string with format: \"Good [time_of_day], [name]!\"\n    # Example: greet_person(\"Alice\", \"morning\") should return \"Good morning, Alice!\"\n    pass",
   "jsTest": "    it(\"should return a proper greeting with name and time of day\", () => {\n      assert.strictEqual(greetPerson(\"Alice\", \"morning\"), \"Good morning, Alice!\");\n      assert.strictEqual(greetPerson(\"Bob\", \"afternoon\"), \"Good afternoon, Bob!\");\n      assert.strictEqual(greetPerson(\"Charlie\", \"evening\"), \"Good evening, Charlie!\");\n    });",
-  "pyTest": "    def test_greet_person(self):\n        self.assertEqual(greet_person(\"Alice\", \"morning\"), \"Good morning, Alice!\")\n        self.assertEqual(greet_person(\"Bob\", \"afternoon\"), \"Good afternoon, Bob!\")\n        self.assertEqual(greet_person(\"Charlie\", \"evening\"), \"Good evening, Charlie!\")",
   "chapterId": "03-functions-modularCode"
 }

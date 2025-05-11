@@ -2,8 +2,6 @@
   "name": "filterAndMap",
   "description": "Use higher-order functions to filter and transform an array",
   "jsTemplate": "function filterAndMap(numbers) {\n  // TODO: Filter out odd numbers, then multiply each remaining even number by 2\n  // Example: filterAndMap([1, 2, 3, 4]) should return [4, 8]\n  \n}",
-  "pyTemplate": "def filter_and_map(numbers):\n    # TODO: Filter out odd numbers, then multiply each remaining even number by 2\n    # Example: filter_and_map([1, 2, 3, 4]) should return [4, 8]\n    pass",
   "jsTest": "    it(\"should filter out odd numbers and double the even ones\", () => {\n      assert.deepStrictEqual(filterAndMap([1, 2, 3, 4]), [4, 8]);\n      assert.deepStrictEqual(filterAndMap([2, 4, 6]), [4, 8, 12]);\n      assert.deepStrictEqual(filterAndMap([1, 3, 5]), []);\n      assert.deepStrictEqual(filterAndMap([]), []);\n    });",
-  "pyTest": "    def test_filter_and_map(self):\n        self.assertEqual(filter_and_map([1, 2, 3, 4]), [4, 8])\n        self.assertEqual(filter_and_map([2, 4, 6]), [4, 8, 12])\n        self.assertEqual(filter_and_map([1, 3, 5]), [])\n        self.assertEqual(filter_and_map([]), [])",
   "chapterId": "03-functions-modularCode"
 }

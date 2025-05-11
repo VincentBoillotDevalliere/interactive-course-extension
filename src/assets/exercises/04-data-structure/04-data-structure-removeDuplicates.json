@@ -2,8 +2,6 @@
   "name": "removeDuplicates",
   "description": "Create a function that removes duplicate values from an array",
   "jsTemplate": "function removeDuplicates(arr) {\n  // TODO: Return a new array with duplicate values removed\n  // Maintain the original order of elements\n  \n}",
-  "pyTemplate": "def remove_duplicates(arr):\n    # TODO: Return a new list with duplicate values removed\n    # Maintain the original order of elements\n    pass",
   "jsTest": "    it(\"should remove duplicates while preserving order\", () => {\n      assert.deepStrictEqual(removeDuplicates([1, 2, 2, 3, 4, 4, 5]), [1, 2, 3, 4, 5]);\n      assert.deepStrictEqual(removeDuplicates([\"a\", \"b\", \"a\", \"c\", \"b\"]), [\"a\", \"b\", \"c\"]);\n      assert.deepStrictEqual(removeDuplicates([]), []);\n    });",
-  "pyTest": "    def test_remove_duplicates(self):\n        self.assertEqual(remove_duplicates([1, 2, 2, 3, 4, 4, 5]), [1, 2, 3, 4, 5])\n        self.assertEqual(remove_duplicates([\"a\", \"b\", \"a\", \"c\", \"b\"]), [\"a\", \"b\", \"c\"])\n        self.assertEqual(remove_duplicates([]), [])",
   "chapterId": "04-data-structure"
 }

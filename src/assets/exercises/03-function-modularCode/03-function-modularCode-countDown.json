@@ -2,8 +2,6 @@
   "name": "countDown",
   "description": "Create a pure function that returns an array counting down from n to 1",
   "jsTemplate": "function countDown(n) {\n  // TODO: Return an array that counts down from n to 1\n  // Example: countDown(5) should return [5, 4, 3, 2, 1]\n  // This should be a pure function (don't modify external state)\n  \n}",
-  "pyTemplate": "def count_down(n):\n    # TODO: Return a list that counts down from n to 1\n    # Example: count_down(5) should return [5, 4, 3, 2, 1]\n    # This should be a pure function (don't modify external state)\n    pass",
   "jsTest": "    it(\"should return a countdown array from n to 1\", () => {\n      assert.deepStrictEqual(countDown(5), [5, 4, 3, 2, 1]);\n      assert.deepStrictEqual(countDown(3), [3, 2, 1]);\n      assert.deepStrictEqual(countDown(1), [1]);\n      \n      // Test for purity (no side effects)\n      const result1 = countDown(4);\n      const result2 = countDown(4);\n      assert.notStrictEqual(result1, result2); // Should return new arrays, not the same reference\n    });",
-  "pyTest": "    def test_count_down(self):\n        self.assertEqual(count_down(5), [5, 4, 3, 2, 1])\n        self.assertEqual(count_down(3), [3, 2, 1])\n        self.assertEqual(count_down(1), [1])\n        \n        # Test for purity (no side effects)\n        result1 = count_down(4)\n        result2 = count_down(4)\n        self.assertIsNot(result1, result2)  # Should return new lists, not the same reference",
   "chapterId": "03-functions-modularCode"
 }

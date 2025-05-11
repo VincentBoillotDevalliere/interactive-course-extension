@@ -2,8 +2,6 @@
   "name": "typeCheck",
   "description": "Identify the data type of a value",
   "jsTemplate": "function typeCheck(value) {\n  // TODO: Return the data type of the value as a string\n  // Possible return values: \"number\", \"string\", \"boolean\", \"object\", \"undefined\", \"null\"\n  // Note: For null values, return \"null\" (not \"object\")\n}",
-  "pyTemplate": "def typeCheck(value):\n    # TODO: Return the data type of the value as a string\n    # Possible return values: \"int\", \"float\", \"str\", \"bool\", \"list\", \"dict\", \"NoneType\"\n    pass",
   "jsTest": "    it(\"should identify data types correctly\", () => {\n      assert.strictEqual(typeCheck(42), \"number\");\n      assert.strictEqual(typeCheck(\"hello\"), \"string\");\n      assert.strictEqual(typeCheck(true), \"boolean\");\n      assert.strictEqual(typeCheck(null), \"null\");\n      assert.strictEqual(typeCheck(undefined), \"undefined\");\n      assert.strictEqual(typeCheck([]), \"object\");\n    });",
-  "pyTest": "    def test_type_check(self):\n        self.assertEqual(typeCheck(42), \"int\")\n        self.assertEqual(typeCheck(3.14), \"float\")\n        self.assertEqual(typeCheck(\"hello\"), \"str\")\n        self.assertEqual(typeCheck(True), \"bool\")\n        self.assertEqual(typeCheck(None), \"NoneType\")\n        self.assertEqual(typeCheck([]), \"list\")\n        self.assertEqual(typeCheck({}), \"dict\")",
   "chapterId": "01-variables-dataTypes"
 }

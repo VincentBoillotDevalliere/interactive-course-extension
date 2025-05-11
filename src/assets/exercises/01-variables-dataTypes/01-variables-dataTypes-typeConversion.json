@@ -2,8 +2,6 @@
   "name": "typeConversion",
   "description": "Convert between different data types",
   "jsTemplate": "function typeConversion(numString, boolValue, floatValue) {\n  // TODO: Perform the following type conversions:\n  // 1. Convert numString (e.g., \"42\") to a number\n  // 2. Convert boolValue (e.g., true) to a string\n  // 3. Convert floatValue (e.g., 3.14) to an integer (removing decimal)\n  \n  // Return the converted values in an array: [convertedNumber, convertedString, convertedInteger]\n}",
-  "pyTemplate": "def typeConversion(numString, boolValue, floatValue):\n    # TODO: Perform the following type conversions:\n    # 1. Convert numString (e.g., \"42\") to a number\n    # 2. Convert boolValue (e.g., True) to a string\n    # 3. Convert floatValue (e.g., 3.14) to an integer (removing decimal)\n    \n    # Return the converted values in a list: [convertedNumber, convertedString, convertedInteger]\n    pass",
   "jsTest": "    it(\"should convert between types correctly\", () => {\n      const result = typeConversion(\"42\", true, 3.14);\n      assert.strictEqual(result[0], 42);\n      assert.strictEqual(result[1], \"true\");\n      assert.strictEqual(result[2], 3);\n    });",
-  "pyTest": "    def test_type_conversion(self):\n        result = typeConversion(\"42\", True, 3.14)\n        self.assertEqual(result[0], 42)\n        self.assertEqual(result[1], \"True\")\n        self.assertEqual(result[2], 3)",
   "chapterId": "01-variables-dataTypes"
 }
