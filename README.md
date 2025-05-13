@@ -1,5 +1,8 @@
 # LearnForge - Interactive Programming Course Extension
 
+<img src="https://raw.githubusercontent.com/VincentBoillotDevalliere/interactive-course-extension/master/assets/icon.png" alt="Learn Forge Extension Logo" width="128" height="128">
+
+
 LearnForge is a comprehensive Visual Studio Code extension designed to create and follow interactive programming courses directly within your code editor. Transform your learning experience with hands-on, progressive exercises and real-time feedback.
 
 ## Features
