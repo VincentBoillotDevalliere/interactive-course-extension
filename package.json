@@ -2,7 +2,7 @@
   "name": "interactive-course-extension",
   "displayName": "LearnForge",
   "description": "A VS Code all-in-one extension to create and follow interactive programming courses.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "publisher": "VincentDevalliere",
   "license": "PROPRIETARY",
   "homepage": "https://github.com/VincentBoillotDevalliere/interactive-course-extension",
