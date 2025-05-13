@@ -50,5 +50,5 @@ Each course is organized into chapters, with each chapter containing:
 
 
 ## Buy Me a Coffee
-If you appreciate the extension and would like to support its development, feel free to buy me a coffee! Your support helps keep the project alive and improving. ☕💖
+If you appreciate the extension and would like to support its development, feel free to [buy me a coffee](https://buymeacoffee.com/vincentboillotdevalliere)! Your support helps keep the project alive and improving. ☕💖
 
