@@ -1,0 +1,8 @@
+{
+  "name": "miniProject",
+  "description": "Mini Project: Analyze an array of words using multiple data structures",
+  "hint": "Use a Set for uniqueness, an object for frequency counts, and an array loop to reverse.",
+  "jsTemplate": "function miniProject(words) {\n  // TODO:\n  // 1. unique: an array of unique words (use a Set)\n  // 2. frequency: an object mapping each word to its count\n  // 3. reversed: the words array in reverse order (without using reverse())\n  // Return: { input: words, unique, frequency, reversed }\n}",
+  "jsTest": "it(\"should analyze the words array correctly\", () => {\n  const input = [\"apple\",\"banana\",\"apple\",\"cherry\",\"banana\"];\n  const result = miniProject(input);\n  assert.deepStrictEqual(result.input, input);\n  assert.deepStrictEqual(result.unique, [\"apple\",\"banana\",\"cherry\"]);\n  assert.deepStrictEqual(result.frequency, { apple: 2, banana: 2, cherry: 1 });\n  assert.deepStrictEqual(result.reversed, [\"banana\",\"cherry\",\"apple\",\"banana\",\"apple\"]);\n\n  const empty = miniProject([]);\n  assert.deepStrictEqual(empty.input, []);\n  assert.deepStrictEqual(empty.unique, []);\n  assert.deepStrictEqual(empty.frequency, {});\n  assert.deepStrictEqual(empty.reversed, []);\n});",
+  "chapterId": "04-data-structure"
+}

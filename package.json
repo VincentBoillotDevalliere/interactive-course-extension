@@ -16,7 +16,7 @@
     "commands": [
       {
         "command": "extension.createCourse",
-        "title": "LearnForge: Create Interactive Course"
+        "title": "LearnForge: Launch Interactive Course"
       },
       {
         "command": "extension.runTests",

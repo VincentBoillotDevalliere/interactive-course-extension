@@ -5,62 +5,82 @@
     {
       "name": "reverseArray",
       "description": "Create a function that reverses an array without using the built-in reverse method",
-      "jsTemplate": "function reverseArray(arr) {\n  // TODO: Return a new array with elements in reverse order\n  // Do not use the built-in reverse() method\n  \n}",
-      "jsTest": "    it(\"should reverse the array elements\", () => {\n      assert.deepStrictEqual(reverseArray([1, 2, 3]), [3, 2, 1]);\n      assert.deepStrictEqual(reverseArray([\"a\", \"b\", \"c\", \"d\"]), [\"d\", \"c\", \"b\", \"a\"]);\n      assert.deepStrictEqual(reverseArray([]), []);\n    });"
+      "hint": "Use a loop from the end of the array to the start and push each element into a new array",
+      "jsTemplate": "function reverseArray(arr) {\n  // TODO: Return a new array with elements in reverse order\n  // Do not use the built-in reverse() method\n}",
+      "jsTest": "    it(\"should reverse the array elements\", () => {\n      assert.deepStrictEqual(reverseArray([1, 2, 3]), [3, 2, 1]);\n      assert.deepStrictEqual(reverseArray([\"a\", \"b\", \"c\", \"d\"]), [\"d\", \"c\", \"b\", \"a\"]);\n      assert.deepStrictEqual(reverseArray([]), []);\n    });",
+      "chapterId": "04-data-structure"
     },
     {
       "name": "createWordFrequencyCounter",
       "description": "Create a function that counts the frequency of each word in a string",
-      "jsTemplate": "function wordFrequency(text) {\n  // TODO: Return an object with each word as a key and its frequency as the value\n  // Example: wordFrequency(\"hello world hello\") should return {hello: 2, world: 1}\n  \n}",
-      "jsTest": "    it(\"should count word frequencies correctly\", () => {\n      assert.deepStrictEqual(wordFrequency(\"hello world hello\"), {hello: 2, world: 1});\n      assert.deepStrictEqual(wordFrequency(\"the quick brown fox jumps over the lazy dog\"), \n        {the: 2, quick: 1, brown: 1, fox: 1, jumps: 1, over: 1, lazy: 1, dog: 1});\n      assert.deepStrictEqual(wordFrequency(\"\"), {});\n    });"
+      "hint": "Split the string on spaces and loop through each word, using an object to accumulate counts",
+      "jsTemplate": "function wordFrequency(text) {\n  // TODO: Return an object with each word as a key and its frequency as the value\n  // Example: wordFrequency(\"hello world hello\") should return {hello: 2, world: 1}\n}",
+      "jsTest": "    it(\"should count word frequencies correctly\", () => {\n      assert.deepStrictEqual(wordFrequency(\"hello world hello\"), {hello: 2, world: 1});\n      assert.deepStrictEqual(wordFrequency(\"the quick brown fox jumps over the lazy dog\"), \n        {the: 2, quick: 1, brown: 1, fox: 1, jumps: 1, over: 1, lazy: 1, dog: 1});\n      assert.deepStrictEqual(wordFrequency(\"\"), {});\n    });",
+      "chapterId": "04-data-structure"
     },
     {
       "name": "removeDuplicates",
       "description": "Create a function that removes duplicate values from an array",
-      "jsTemplate": "function removeDuplicates(arr) {\n  // TODO: Return a new array with duplicate values removed\n  // Maintain the original order of elements\n  \n}",
-      "jsTest": "    it(\"should remove duplicates while preserving order\", () => {\n      assert.deepStrictEqual(removeDuplicates([1, 2, 2, 3, 4, 4, 5]), [1, 2, 3, 4, 5]);\n      assert.deepStrictEqual(removeDuplicates([\"a\", \"b\", \"a\", \"c\", \"b\"]), [\"a\", \"b\", \"c\"]);\n      assert.deepStrictEqual(removeDuplicates([]), []);\n    });"
+      "hint": "Loop through the array and add each element to a new array only if it’s not already included",
+      "jsTemplate": "function removeDuplicates(arr) {\n  // TODO: Return a new array with duplicate values removed\n  // Maintain the original order of elements\n}",
+      "jsTest": "    it(\"should remove duplicates while preserving order\", () => {\n      assert.deepStrictEqual(removeDuplicates([1, 2, 2, 3, 4, 4, 5]), [1, 2, 3, 4, 5]);\n      assert.deepStrictEqual(removeDuplicates([\"a\", \"b\", \"a\", \"c\", \"b\"]), [\"a\", \"b\", \"c\"]);\n      assert.deepStrictEqual(removeDuplicates([]), []);\n    });",
+      "chapterId": "04-data-structure"
     },
     {
       "name": "findIntersection",
       "description": "Create a function that finds the intersection of two arrays (common elements)",
-      "jsTemplate": "function findIntersection(arr1, arr2) {\n  // TODO: Return an array containing elements that appear in both arrays\n  // The result should not contain duplicates\n  \n}",
-      "jsTest": "    it(\"should find the intersection of two arrays\", () => {\n      assert.deepStrictEqual(findIntersection([1, 2, 3, 4], [3, 4, 5, 6]).sort(), [3, 4]);\n      assert.deepStrictEqual(findIntersection([\"a\", \"b\", \"c\"], [\"b\", \"c\", \"d\"]).sort(), [\"b\", \"c\"]);\n      assert.deepStrictEqual(findIntersection([1, 1, 2, 2], [2, 2, 3, 3]).sort(), [2]);\n      assert.deepStrictEqual(findIntersection([1, 2], [3, 4]), []);\n    });"
+      "hint": "Filter one array using `includes` on the other, then remove duplicates in the result",
+      "jsTemplate": "function findIntersection(arr1, arr2) {\n  // TODO: Return an array containing elements that appear in both arrays\n  // The result should not contain duplicates\n}",
+      "jsTest": "    it(\"should find the intersection of two arrays\", () => {\n      assert.deepStrictEqual(findIntersection([1, 2, 3, 4], [3, 4, 5, 6]).sort(), [3, 4]);\n      assert.deepStrictEqual(findIntersection([\"a\", \"b\", \"c\"], [\"b\", \"c\", \"d\"]).sort(), [\"b\", \"c\"]);\n      assert.deepStrictEqual(findIntersection([1, 1, 2, 2], [2, 2, 3, 3]).sort(), [2]);\n      assert.deepStrictEqual(findIntersection([1, 2], [3, 4]), []);\n    });",
+      "chapterId": "04-data-structure"
     },
     {
       "name": "createImmutablePoint",
       "description": "Create a function that returns an immutable 2D point object",
-      "jsTemplate": "function createPoint(x, y) {\n  // TODO: Return an immutable point object with x and y coordinates\n  // The returned object should not allow its properties to be modified\n  \n}",
-      "jsTest": "    it(\"should create an immutable point object\", () => {\n      const point = createPoint(10, 20);\n      assert.strictEqual(point.x, 10);\n      assert.strictEqual(point.y, 20);\n      \n      // Test immutability\n      try {\n        point.x = 30;\n      } catch(e) {}\n      try {\n        point.y = 40;\n      } catch(e) {}\n      \n      assert.strictEqual(point.x, 10);\n      assert.strictEqual(point.y, 20);\n    });"
+      "hint": "Use `Object.freeze({ x, y })` to prevent modifications",
+      "jsTemplate": "function createPoint(x, y) {\n  // TODO: Return an immutable point object with x and y coordinates\n  // The returned object should not allow its properties to be modified\n}",
+      "jsTest": "    it(\"should create an immutable point object\", () => {\n      const point = createPoint(10, 20);\n      assert.strictEqual(point.x, 10);\n      assert.strictEqual(point.y, 20);\n      try { point.x = 30; } catch(e) {}\n      try { point.y = 40; } catch(e) {}\n      assert.strictEqual(point.x, 10);\n      assert.strictEqual(point.y, 20);\n    });",
+      "chapterId": "04-data-structure"
     },
     {
       "name": "groupByProperty",
       "description": "Create a function that groups objects in an array by a specified property",
-      "jsTemplate": "function groupBy(arr, property) {\n  // TODO: Group objects by the specified property\n  // Return an object with property values as keys and arrays of objects as values\n  \n}",
-      "jsTest": "    it(\"should group objects by property\", () => {\n      const people = [\n        { name: \"Alice\", age: 30 },\n        { name: \"Bob\", age: 25 },\n        { name: \"Charlie\", age: 30 },\n        { name: \"Dave\", age: 25 }\n      ];\n      \n      const groupedByAge = groupBy(people, \"age\");\n      assert.strictEqual(Object.keys(groupedByAge).length, 2);\n      assert.strictEqual(groupedByAge[25].length, 2);\n      assert.strictEqual(groupedByAge[30].length, 2);\n      assert.strictEqual(groupedByAge[25][0].name, \"Bob\");\n      assert.strictEqual(groupedByAge[25][1].name, \"Dave\");\n      assert.strictEqual(groupedByAge[30][0].name, \"Alice\");\n      assert.strictEqual(groupedByAge[30][1].name, \"Charlie\");\n      \n      assert.deepStrictEqual(groupBy([], \"any\"), {});\n    });"
+      "hint": "Use `reduce` to collect objects into groups keyed by the given property",
+      "jsTemplate": "function groupBy(arr, property) {\n  // TODO: Group objects by the specified property\n  // Return an object with property values as keys and arrays of objects as values\n}",
+      "jsTest": "    it(\"should group objects by property\", () => {\n      const people = [\n        { name: \"Alice\", age: 30 },\n        { name: \"Bob\", age: 25 },\n        { name: \"Charlie\", age: 30 },\n        { name: \"Dave\", age: 25 }\n      ];\n      const groupedByAge = groupBy(people, \"age\");\n      assert.strictEqual(Object.keys(groupedByAge).length, 2);\n      assert.strictEqual(groupedByAge[25].length, 2);\n      assert.strictEqual(groupedByAge[30].length, 2);\n      assert.strictEqual(groupedByAge[25][0].name, \"Bob\");\n      assert.strictEqual(groupedByAge[25][1].name, \"Dave\");\n      assert.strictEqual(groupedByAge[30][0].name, \"Alice\");\n      assert.strictEqual(groupedByAge[30][1].name, \"Charlie\");\n      assert.deepStrictEqual(groupBy([], \"any\"), {});\n    });",
+      "chapterId": "04-data-structure"
     },
     {
       "name": "mergeObjects",
       "description": "Create a function that deeply merges two objects",
-      "jsTemplate": "function deepMerge(obj1, obj2) {\n  // TODO: Merge obj2 into obj1, handling nested objects\n  // Return a new object without modifying the inputs\n  // If both objects have the same key, obj2's value should take precedence\n  \n}",
-      "jsTest": "    it(\"should deeply merge two objects\", () => {\n      const obj1 = { a: 1, b: { c: 2, d: 3 } };\n      const obj2 = { b: { c: 4, e: 5 }, f: 6 };\n      const expected = { a: 1, b: { c: 4, d: 3, e: 5 }, f: 6 };\n      assert.deepStrictEqual(deepMerge(obj1, obj2), expected);\n      \n      // Check that originals weren't modified\n      assert.deepStrictEqual(obj1, { a: 1, b: { c: 2, d: 3 } });\n      assert.deepStrictEqual(obj2, { b: { c: 4, e: 5 }, f: 6 });\n      \n      // Simple case\n      assert.deepStrictEqual(deepMerge({ a: 1 }, { b: 2 }), { a: 1, b: 2 });\n    });"
+      "hint": "Recursively merge nested objects: copy obj1, then for each key in obj2, if both values are objects call deepMerge, else use obj2's value",
+      "jsTemplate": "function deepMerge(obj1, obj2) {\n  // TODO: Merge obj2 into obj1, handling nested objects\n  // Return a new object without modifying the inputs\n}",
+      "jsTest": "    it(\"should deeply merge two objects\", () => {\n      const obj1 = { a: 1, b: { c: 2, d: 3 } };\n      const obj2 = { b: { c: 4, e: 5 }, f: 6 };\n      const expected = { a: 1, b: { c: 4, d: 3, e: 5 }, f: 6 };\n      assert.deepStrictEqual(deepMerge(obj1, obj2), expected);\n      assert.deepStrictEqual(obj1, { a: 1, b: { c: 2, d: 3 } });\n      assert.deepStrictEqual(obj2, { b: { c: 4, e: 5 }, f: 6 });\n      assert.deepStrictEqual(deepMerge({ a: 1 }, { b: 2 }), { a: 1, b: 2 });\n    });",
+      "chapterId": "04-data-structure"
     },
     {
       "name": "createStack",
       "description": "Implement a stack data structure with push, pop, and peek operations",
-      "jsTemplate": "function createStack() {\n  // TODO: Implement a stack data structure\n  // Return an object with methods: push(item), pop(), peek(), and isEmpty()\n  \n}",
-      "jsTest": "    it(\"should implement a stack correctly\", () => {\n      const stack = createStack();\n      \n      assert.strictEqual(stack.isEmpty(), true);\n      \n      stack.push(1);\n      stack.push(2);\n      stack.push(3);\n      \n      assert.strictEqual(stack.isEmpty(), false);\n      assert.strictEqual(stack.peek(), 3);\n      assert.strictEqual(stack.pop(), 3);\n      assert.strictEqual(stack.peek(), 2);\n      assert.strictEqual(stack.pop(), 2);\n      assert.strictEqual(stack.pop(), 1);\n      assert.strictEqual(stack.isEmpty(), true);\n      \n      // Should handle empty stack\n      assert.strictEqual(stack.peek(), undefined);\n      assert.strictEqual(stack.pop(), undefined);\n    });"
+      "hint": "Use an internal array: `let items = []; push: items.push(item); pop: items.pop(); peek: items[items.length-1]; isEmpty: items.length===0;`",
+      "jsTemplate": "function createStack() {\n  // TODO: Implement a stack data structure\n  // Return an object with methods: push(item), pop(), peek(), and isEmpty()\n}",
+      "jsTest": "    it(\"should implement a stack correctly\", () => {\n      const stack = createStack();\n      assert.strictEqual(stack.isEmpty(), true);\n      stack.push(1);\n      stack.push(2);\n      stack.push(3);\n      assert.strictEqual(stack.isEmpty(), false);\n      assert.strictEqual(stack.peek(), 3);\n      assert.strictEqual(stack.pop(), 3);\n      assert.strictEqual(stack.peek(), 2);\n      assert.strictEqual(stack.pop(), 2);\n      assert.strictEqual(stack.pop(), 1);\n      assert.strictEqual(stack.isEmpty(), true);\n      assert.strictEqual(stack.peek(), undefined);\n      assert.strictEqual(stack.pop(), undefined);\n    });",
+      "chapterId": "04-data-structure"
     },
     {
       "name": "findMostFrequent",
       "description": "Find the most frequently occurring element in an array",
-      "jsTemplate": "function findMostFrequent(arr) {\n  // TODO: Return the most frequent element in the array\n  // If there are multiple elements with the same highest frequency, return any one of them\n  // If the array is empty, return null\n  \n}",
-      "jsTest": "    it(\"should find the most frequent element\", () => {\n      assert.strictEqual(findMostFrequent([1, 2, 3, 2, 1, 1]), 1);\n      assert.strictEqual(findMostFrequent([\"a\", \"b\", \"c\", \"b\"]), \"b\");\n      \n      // Test with tied frequencies\n      const result = findMostFrequent([1, 2, 3, 1, 2, 3]);\n      assert.ok(result === 1 || result === 2 || result === 3);\n      \n      assert.strictEqual(findMostFrequent([]), null);\n    });"
+      "hint": "Use an object to count occurrences, then loop through counts to find the max key",
+      "jsTemplate": "function findMostFrequent(arr) {\n  // TODO: Return the most frequent element in the array\n  // If multiple elements tie, return any one\n  // If the array is empty, return null\n}",
+      "jsTest": "    it(\"should find the most frequent element\", () => {\n      assert.strictEqual(findMostFrequent([1, 2, 3, 2, 1, 1]), 1);\n      assert.strictEqual(findMostFrequent([\"a\", \"b\", \"c\", \"b\"]), \"b\");\n      const result = findMostFrequent([1, 2, 3, 1, 2, 3]);\n      assert.ok([1,2,3].includes(result));\n      assert.strictEqual(findMostFrequent([]), null);\n    });",
+      "chapterId": "04-data-structure"
     },
     {
       "name": "filterObject",
       "description": "Create a function that filters an object based on a predicate function",
-      "jsTemplate": "function filterObject(obj, predicate) {\n  // TODO: Return a new object with key-value pairs that satisfy the predicate function\n  // The predicate function takes (key, value) and returns true to keep the pair or false to exclude it\n  \n}",
-      "jsTest": "    it(\"should filter object key-value pairs\", () => {\n      const obj = { a: 1, b: 2, c: 3, d: 4, e: 5 };\n      \n      // Keep only even values\n      const evenValues = filterObject(obj, (key, value) => value % 2 === 0);\n      assert.deepStrictEqual(evenValues, { b: 2, d: 4 });\n      \n      // Keep only keys in first half of alphabet\n      const firstHalfKeys = filterObject(obj, (key) => key < 'c');\n      assert.deepStrictEqual(firstHalfKeys, { a: 1, b: 2 });\n      \n      // Empty object case\n      assert.deepStrictEqual(filterObject({}, () => true), {});\n    });"
+      "hint": "Use `for...in` to iterate keys and include pairs where `predicate(key, value)` is true",
+      "jsTemplate": "function filterObject(obj, predicate) {\n  // TODO: Return a new object with key-value pairs that satisfy the predicate\n}",
+      "jsTest": "    it(\"should filter object key-value pairs\", () => {\n      const obj = { a: 1, b: 2, c: 3, d: 4, e: 5 };\n      const evenValues = filterObject(obj, (key, value) => value % 2 === 0);\n      assert.deepStrictEqual(evenValues, { b: 2, d: 4 });\n      const firstHalfKeys = filterObject(obj, (key) => key < 'c');\n      assert.deepStrictEqual(firstHalfKeys, { a: 1, b: 2 });\n      assert.deepStrictEqual(filterObject({}, () => true), {});\n    });",
+      "chapterId": "04-data-structure"
     }
   ],
   "resources": {

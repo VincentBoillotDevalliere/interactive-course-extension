@@ -5,48 +5,56 @@
     {
       "name": "createPersonWithHobbies",
       "description": "Create a person object with name, age, city, and an array of hobbies",
+      "hint": "Use an object literal: `return { name, age, city, hobbies };`",
       "jsTemplate": "function createPersonWithHobbies(name, age, city, hobbies) {\n  // TODO: Create and return a person object with name, age, city properties\n  // and a hobbies array\n  \n}",
       "jsTest": "    it(\"should create a person object with correct properties including hobbies array\", () => {\n      const hobbies = [\"reading\", \"hiking\", \"coding\"];\n      const person = createPersonWithHobbies(\"Alice\", 25, \"New York\", hobbies);\n      assert.strictEqual(person.name, \"Alice\");\n      assert.strictEqual(person.age, 25);\n      assert.strictEqual(person.city, \"New York\");\n      assert.deepStrictEqual(person.hobbies, hobbies);\n    });"
     },
     {
       "name": "convertTypes",
       "description": "Convert different types of data based on specified operations",
+      "hint": "`Number(stringNum)`, `String(numberValue)`, `String(booleanValue)`, `Boolean(numberValue)`",
       "jsTemplate": "function convertTypes(stringNum, numberValue, booleanValue) {\n  // TODO: Return an object with the following properties:\n  // - stringAsNumber: Convert stringNum to a number\n  // - numberAsString: Convert numberValue to a string\n  // - booleanAsString: Convert booleanValue to a string\n  // - numberAsBoolean: Convert numberValue to a boolean\n  \n}",
       "jsTest": "    it(\"should correctly convert between different types\", () => {\n      const result = convertTypes(\"42\", 7, true);\n      assert.strictEqual(result.stringAsNumber, 42);\n      assert.strictEqual(result.numberAsString, \"7\");\n      assert.strictEqual(result.booleanAsString, \"true\");\n      assert.strictEqual(result.numberAsBoolean, true);\n      \n      const result2 = convertTypes(\"0\", 0, false);\n      assert.strictEqual(result2.stringAsNumber, 0);\n      assert.strictEqual(result2.numberAsString, \"0\");\n      assert.strictEqual(result2.booleanAsString, \"false\");\n      assert.strictEqual(result2.numberAsBoolean, false);\n    });"
     },
     {
       "name": "updateAddress",
       "description": "Update an address object without modifying the original object",
+      "hint": "Use object spread: `return { ...addressObj, street: streetUpdate, city: cityUpdate };`",
       "jsTemplate": "function updateAddress(addressObj, streetUpdate, cityUpdate) {\n  // TODO: Return a new address object with updated street and city\n  // without modifying the original addressObj\n  // Tip: Don't use direct assignment - create a new object\n  \n}",
       "jsTest": "    it(\"should update address without modifying original object\", () => {\n      const originalAddress = {\n        street: \"123 Main St\",\n        city: \"Boston\",\n        zip: \"02108\"\n      };\n      const originalCopy = {...originalAddress};\n      \n      const updatedAddress = updateAddress(originalAddress, \"456 Park Ave\", \"New York\");\n      \n      // Check that original wasn't modified\n      assert.deepStrictEqual(originalAddress, originalCopy);\n      \n      // Check that new object has correct values\n      assert.strictEqual(updatedAddress.street, \"456 Park Ave\");\n      assert.strictEqual(updatedAddress.city, \"New York\");\n      assert.strictEqual(updatedAddress.zip, \"02108\");\n    });"
     },
     {
       "name": "formatFullName",
       "description": "Format a full name from first, middle, and last name variables",
+      "hint": "Capitalize with `s.charAt(0).toUpperCase() + s.slice(1).toLowerCase()`, then assemble parts.",
       "jsTemplate": "function formatFullName(firstName, lastName, middleName = \"\") {\n  // TODO: Return a formatted full name based on the following rules:\n  // - If middleName is provided, return \"firstName middleName lastName\"\n  // - If no middleName is provided, return \"firstName lastName\"\n  // - All parts of the name should have the first letter capitalized,\n  //   regardless of how they were passed in\n  \n}",
       "jsTest": "    it(\"should format full name correctly with proper capitalization\", () => {\n      assert.strictEqual(formatFullName(\"john\", \"doe\"), \"John Doe\");\n      assert.strictEqual(formatFullName(\"jane\", \"smith\", \"marie\"), \"Jane Marie Smith\");\n      assert.strictEqual(formatFullName(\"ROBERT\", \"JONES\"), \"Robert Jones\");\n      assert.strictEqual(formatFullName(\"sara\", \"WILLIAMS\", \"ann\"), \"Sara Ann Williams\");\n    });"
     },
     {
       "name": "calculateRectangleProperties",
       "description": "Calculate area and perimeter of a rectangle",
-      "jsTemplate": "function calculateRectangleProperties(length, width) {\n  // TODO: Return an object with:\n  // - area: the area of the rectangle (length \u00d7 width)\n  // - perimeter: the perimeter of the rectangle (2 \u00d7 (length + width))\n  // - isSquare: boolean indicating if the rectangle is a square (length === width)\n  \n}",
+      "hint": "`area = length * width`, `perimeter = 2 * (length + width)`, `isSquare = length === width`",
+      "jsTemplate": "function calculateRectangleProperties(length, width) {\n  // TODO: Return an object with:\n  // - area: the area of the rectangle (length × width)\n  // - perimeter: the perimeter of the rectangle (2 × (length + width))\n  // - isSquare: boolean indicating if the rectangle is a square (length === width)\n  \n}",
       "jsTest": "    it(\"should calculate rectangle properties correctly\", () => {\n      const square = calculateRectangleProperties(5, 5);\n      assert.strictEqual(square.area, 25);\n      assert.strictEqual(square.perimeter, 20);\n      assert.strictEqual(square.isSquare, true);\n      \n      const rectangle = calculateRectangleProperties(4, 6);\n      assert.strictEqual(rectangle.area, 24);\n      assert.strictEqual(rectangle.perimeter, 20);\n      assert.strictEqual(rectangle.isSquare, false);\n    });"
     },
     {
       "name": "filterAndTransform",
       "description": "Filter and transform an array of numbers",
-      "jsTemplate": "function filterAndTransform(numbers) {\n  // TODO: Create and return a new array from the input array\n  // that filters out negative numbers and doubles the positive ones\n  // Example: [1, -2, 3, -4, 5] \u2192 [2, 6, 10]\n  \n}",
+      "hint": "Use `numbers.filter(n => n > 0).map(n => n * 2)`",
+      "jsTemplate": "function filterAndTransform(numbers) {\n  // TODO: Create and return a new array from the input array\n  // that filters out negative numbers and doubles the positive ones\n  // Example: [1, -2, 3, -4, 5] → [2, 6, 10]\n  \n}",
       "jsTest": "    it(\"should filter out negative numbers and double the positive ones\", () => {\n      assert.deepStrictEqual(filterAndTransform([1, -2, 3, -4, 5]), [2, 6, 10]);\n      assert.deepStrictEqual(filterAndTransform([-1, -2, -3]), []);\n      assert.deepStrictEqual(filterAndTransform([10, 20, 30]), [20, 40, 60]);\n      assert.deepStrictEqual(filterAndTransform([]), []);\n    });"
     },
     {
       "name": "createCounter",
       "description": "Create a counter object with methods to manipulate the count",
+      "hint": "Use a closure: `let count = initialValue; return { getValue: () => count, increment: () => ++count, decrement: () => --count, reset: () => { count = initialValue; return count; } };`",
       "jsTemplate": "function createCounter(initialValue = 0) {\n  // TODO: Return an object with the following methods:\n  // - getValue(): returns the current count\n  // - increment(): increases count by 1 and returns the new value\n  // - decrement(): decreases count by 1 and returns the new value\n  // - reset(): resets count to initialValue and returns the new value\n  \n}",
       "jsTest": "    it(\"should create a working counter object with correct methods\", () => {\n      const counter = createCounter(5);\n      assert.strictEqual(counter.getValue(), 5);\n      assert.strictEqual(counter.increment(), 6);\n      assert.strictEqual(counter.increment(), 7);\n      assert.strictEqual(counter.decrement(), 6);\n      assert.strictEqual(counter.reset(), 5);\n      \n      const defaultCounter = createCounter();\n      assert.strictEqual(defaultCounter.getValue(), 0);\n      assert.strictEqual(defaultCounter.decrement(), -1);\n    });"
     },
     {
       "name": "mergeAndFilter",
       "description": "Merge two objects and filter properties based on a test function",
+      "hint": "First merge with spread: `{ ...obj1, ...obj2 }`, then loop `for (let key in merged)` and include only if `testFn(merged[key])` returns true.",
       "jsTemplate": "function mergeAndFilter(obj1, obj2, testFn) {\n  // TODO: Create a new object that merges properties from obj1 and obj2\n  // Include only properties where testFn(value) returns true\n  // If both objects have the same property, obj2's value takes precedence\n  \n}",
       "jsTest": "    it(\"should merge objects and filter properties based on test function\", () => {\n      const obj1 = { a: 1, b: -2, c: 3 };\n      const obj2 = { b: 2, d: 4, e: -5 };\n      \n      // Test function that keeps only positive numbers\n      const keepPositive = (value) => value > 0;\n      \n      const result = mergeAndFilter(obj1, obj2, keepPositive);\n      \n      // Should have a, b, c, d but not e (as it's negative)\n      assert.deepStrictEqual(result, { a: 1, b: 2, c: 3, d: 4 });\n      \n      // Test with a different filter (keep even numbers)\n      const keepEven = (value) => value % 2 === 0;\n      const result2 = mergeAndFilter(obj1, obj2, keepEven);\n      assert.deepStrictEqual(result2, { b: 2, d: 4 });\n    });"
     }

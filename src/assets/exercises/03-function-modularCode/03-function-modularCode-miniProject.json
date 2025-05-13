@@ -1,0 +1,8 @@
+{
+  "name": "miniProject",
+  "description": "Mini Project: filter even numbers, square them, and summarize the results",
+  "hint": "Use Array.filter to keep even numbers, Array.map to square them, and build a message with template literals.",
+  "jsTemplate": "function miniProject(nums) {\n  // TODO:\n  // 1. Filter out odd numbers: const evens = nums.filter(n => n % 2 === 0);\n  // 2. Square each even number: const squared = evens.map(n => n * n);\n  // 3. Build a message: `Processed: ${squared.join(',')}`;\n  // 4. Return an object: { input: nums, processed: squared, message }\n}",
+  "jsTest": "it(\"should filter, square, and summarize correctly\", () => {\n  const result = miniProject([1, 2, 3, 4, 5, 6]);\n  assert.deepStrictEqual(result.input, [1, 2, 3, 4, 5, 6]);\n  assert.deepStrictEqual(result.processed, [4, 16, 36]);\n  assert.strictEqual(result.message, \"Processed: 4,16,36\");\n  const empty = miniProject([]);\n  assert.deepStrictEqual(empty.input, []);\n  assert.deepStrictEqual(empty.processed, []);\n  assert.strictEqual(empty.message, \"Processed: \");\n});",
+  "chapterId": "03-functions-modularCode"
+}

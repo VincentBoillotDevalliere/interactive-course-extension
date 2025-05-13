@@ -5,62 +5,82 @@
     {
       "name": "calculateArea",
       "description": "Create a function that calculates the area of a rectangle",
-      "jsTemplate": "function calculateArea(width, height) {\n  // TODO: Return the area of a rectangle (width * height)\n  \n}",
-      "jsTest": "    it(\"should calculate the area of a rectangle\", () => {\n      assert.strictEqual(calculateArea(5, 4), 20);\n      assert.strictEqual(calculateArea(3, 7), 21);\n      assert.strictEqual(calculateArea(10, 10), 100);\n    });"
+      "hint": "Multiply width and height: `return width * height;`",
+      "jsTemplate": "function calculateArea(width, height) {\n  // TODO: Return the area of a rectangle (width * height)\n}",
+      "jsTest": "    it(\"should calculate the area of a rectangle\", () => {\n      assert.strictEqual(calculateArea(5, 4), 20);\n      assert.strictEqual(calculateArea(3, 7), 21);\n      assert.strictEqual(calculateArea(10, 10), 100);\n    });",
+      "chapterId": "03-functions-modularCode"
     },
     {
       "name": "greetPerson",
       "description": "Create a function that returns a greeting with the person's name",
-      "jsTemplate": "function greetPerson(name, timeOfDay) {\n  // TODO: Return a greeting string with format: \"Good [timeOfDay], [name]!\"\n  // Example: greetPerson(\"Alice\", \"morning\") should return \"Good morning, Alice!\"\n  \n}",
-      "jsTest": "    it(\"should return a proper greeting with name and time of day\", () => {\n      assert.strictEqual(greetPerson(\"Alice\", \"morning\"), \"Good morning, Alice!\");\n      assert.strictEqual(greetPerson(\"Bob\", \"afternoon\"), \"Good afternoon, Bob!\");\n      assert.strictEqual(greetPerson(\"Charlie\", \"evening\"), \"Good evening, Charlie!\");\n    });"
+      "hint": "Use template literals: `` `Good ${timeOfDay}, ${name}!` ``",
+      "jsTemplate": "function greetPerson(name, timeOfDay) {\n  // TODO: Return a greeting string with format: \"Good [timeOfDay], [name]!\"\n}",
+      "jsTest": "    it(\"should return a proper greeting with name and time of day\", () => {\n      assert.strictEqual(greetPerson(\"Alice\", \"morning\"), \"Good morning, Alice!\");\n      assert.strictEqual(greetPerson(\"Bob\", \"afternoon\"), \"Good afternoon, Bob!\");\n      assert.strictEqual(greetPerson(\"Charlie\", \"evening\"), \"Good evening, Charlie!\");\n    });",
+      "chapterId": "03-functions-modularCode"
     },
     {
       "name": "createUserObject",
       "description": "Create a function that returns a user object",
-      "jsTemplate": "function createUserObject(id, name, email) {\n  // TODO: Return an object with properties: id, name, email, and createdAt\n  // createdAt should be the current date as a string\n  \n}",
-      "jsTest": "    it(\"should create a user object with all properties\", () => {\n      const user = createUserObject(1, \"Alice\", \"alice@example.com\");\n      assert.strictEqual(user.id, 1);\n      assert.strictEqual(user.name, \"Alice\");\n      assert.strictEqual(user.email, \"alice@example.com\");\n      assert.ok(typeof user.createdAt === 'string');\n    });"
+      "hint": "Include `createdAt: new Date().toString()` in the returned object",
+      "jsTemplate": "function createUserObject(id, name, email) {\n  // TODO: Return an object with properties: id, name, email, and createdAt\n}",
+      "jsTest": "    it(\"should create a user object with all properties\", () => {\n      const user = createUserObject(1, \"Alice\", \"alice@example.com\");\n      assert.strictEqual(user.id, 1);\n      assert.strictEqual(user.name, \"Alice\");\n      assert.strictEqual(user.email, \"alice@example.com\");\n      assert.ok(typeof user.createdAt === 'string');\n    });",
+      "chapterId": "03-functions-modularCode"
     },
     {
       "name": "applyCallback",
       "description": "Create a function that applies a callback to a number",
-      "jsTemplate": "function applyCallback(num, callback) {\n  // TODO: Return the result of the callback function when passed the number\n  \n}",
-      "jsTest": "    it(\"should apply the callback to the number\", () => {\n      const double = (x) => x * 2;\n      const square = (x) => x * x;\n      const add10 = (x) => x + 10;\n      \n      assert.strictEqual(applyCallback(5, double), 10);\n      assert.strictEqual(applyCallback(3, square), 9);\n      assert.strictEqual(applyCallback(5, add10), 15);\n    });"
+      "hint": "Call the callback with the number: `return callback(num);`",
+      "jsTemplate": "function applyCallback(num, callback) {\n  // TODO: Return the result of the callback function when passed the number\n}",
+      "jsTest": "    it(\"should apply the callback to the number\", () => {\n      const double = (x) => x * 2;\n      const square = (x) => x * x;\n      const add10 = (x) => x + 10;\n\n      assert.strictEqual(applyCallback(5, double), 10);\n      assert.strictEqual(applyCallback(3, square), 9);\n      assert.strictEqual(applyCallback(5, add10), 15);\n    });",
+      "chapterId": "03-functions-modularCode"
     },
     {
       "name": "createArrowFunction",
       "description": "Create an arrow function that adds two numbers",
+      "hint": "Define: `const add = (a, b) => a + b;`",
       "jsTemplate": "// TODO: Create an arrow function called 'add' that takes two parameters and returns their sum\nconst add = ",
-      "jsTest": "    it(\"should add two numbers using an arrow function\", () => {\n      assert.strictEqual(add(1, 2), 3);\n      assert.strictEqual(add(-1, 5), 4);\n      assert.strictEqual(add(10, 10), 20);\n    });"
+      "jsTest": "    it(\"should add two numbers using an arrow function\", () => {\n      assert.strictEqual(add(1, 2), 3);\n      assert.strictEqual(add(-1, 5), 4);\n      assert.strictEqual(add(10, 10), 20);\n    });",
+      "chapterId": "03-functions-modularCode"
     },
     {
       "name": "countDown",
       "description": "Create a pure function that returns an array counting down from n to 1",
-      "jsTemplate": "function countDown(n) {\n  // TODO: Return an array that counts down from n to 1\n  // Example: countDown(5) should return [5, 4, 3, 2, 1]\n  // This should be a pure function (don't modify external state)\n  \n}",
-      "jsTest": "    it(\"should return a countdown array from n to 1\", () => {\n      assert.deepStrictEqual(countDown(5), [5, 4, 3, 2, 1]);\n      assert.deepStrictEqual(countDown(3), [3, 2, 1]);\n      assert.deepStrictEqual(countDown(1), [1]);\n      \n      // Test for purity (no side effects)\n      const result1 = countDown(4);\n      const result2 = countDown(4);\n      assert.notStrictEqual(result1, result2); // Should return new arrays, not the same reference\n    });"
+      "hint": "Use a loop to push values from n down to 1 into a new array",
+      "jsTemplate": "function countDown(n) {\n  // TODO: Return an array that counts down from n to 1\n}",
+      "jsTest": "    it(\"should return a countdown array from n to 1\", () => {\n      assert.deepStrictEqual(countDown(5), [5, 4, 3, 2, 1]);\n      assert.deepStrictEqual(countDown(3), [3, 2, 1]);\n      assert.deepStrictEqual(countDown(1), [1]);\n\n      // Test for purity (no side effects)\n      const result1 = countDown(4);\n      const result2 = countDown(4);\n      assert.notStrictEqual(result1, result2);\n    });",
+      "chapterId": "03-functions-modularCode"
     },
     {
       "name": "calculateTotal",
       "description": "Create a function that calculates the total price including tax",
-      "jsTemplate": "function calculateSubtotal(items) {\n  // Helper function that adds up all item prices\n  return items.reduce((sum, item) => sum + item.price, 0);\n}\n\nfunction calculateTotal(items, taxRate) {\n  // TODO: Use the calculateSubtotal helper function to calculate the subtotal\n  // Then multiply by (1 + taxRate) to get the total with tax\n  // Example: if subtotal is 100 and taxRate is 0.1 (10%), total should be 110\n  \n}",
-      "jsTest": "    it(\"should calculate total with tax using helper function\", () => {\n      const items = [\n        { name: 'Item 1', price: 10 },\n        { name: 'Item 2', price: 20 },\n        { name: 'Item 3', price: 30 }\n      ];\n      \n      assert.strictEqual(calculateTotal(items, 0.1), 66); // (10+20+30) * 1.1 = 66\n      assert.strictEqual(calculateTotal(items, 0.2), 72); // (10+20+30) * 1.2 = 72\n      assert.strictEqual(calculateTotal([], 0.1), 0);    // Empty array should return 0\n    });"
+      "hint": "Use the helper: `const subtotal = calculateSubtotal(items); return subtotal * (1 + taxRate);`",
+      "jsTemplate": "function calculateSubtotal(items) {\n  return items.reduce((sum, item) => sum + item.price, 0);\n}\n\nfunction calculateTotal(items, taxRate) {\n  // TODO: Use the calculateSubtotal helper function and apply taxRate\n}",
+      "jsTest": "    it(\"should calculate total with tax using helper function\", () => {\n      const items = [\n        { name: 'Item 1', price: 10 },\n        { name: 'Item 2', price: 20 },\n        { name: 'Item 3', price: 30 }\n      ];\n\n      assert.strictEqual(calculateTotal(items, 0.1), 66);\n      assert.strictEqual(calculateTotal(items, 0.2), 72);\n      assert.strictEqual(calculateTotal([], 0.1), 0);\n    });",
+      "chapterId": "03-functions-modularCode"
     },
     {
       "name": "filterAndMap",
       "description": "Use higher-order functions to filter and transform an array",
-      "jsTemplate": "function filterAndMap(numbers) {\n  // TODO: Filter out odd numbers, then multiply each remaining even number by 2\n  // Example: filterAndMap([1, 2, 3, 4]) should return [4, 8]\n  \n}",
-      "jsTest": "    it(\"should filter out odd numbers and double the even ones\", () => {\n      assert.deepStrictEqual(filterAndMap([1, 2, 3, 4]), [4, 8]);\n      assert.deepStrictEqual(filterAndMap([2, 4, 6]), [4, 8, 12]);\n      assert.deepStrictEqual(filterAndMap([1, 3, 5]), []);\n      assert.deepStrictEqual(filterAndMap([]), []);\n    });"
+      "hint": "Chain: `numbers.filter(n => n % 2 === 0).map(n => n * 2)`",
+      "jsTemplate": "function filterAndMap(numbers) {\n  // TODO: Filter out odd numbers, then double the even ones\n}",
+      "jsTest": "    it(\"should filter out odd numbers and double the even ones\", () => {\n      assert.deepStrictEqual(filterAndMap([1, 2, 3, 4]), [4, 8]);\n      assert.deepStrictEqual(filterAndMap([2, 4, 6]), [4, 8, 12]);\n      assert.deepStrictEqual(filterAndMap([1, 3, 5]), []);\n      assert.deepStrictEqual(filterAndMap([]), []);\n    });",
+      "chapterId": "03-functions-modularCode"
     },
     {
       "name": "composeCalculations",
       "description": "Create a function that composes multiple calculations",
-      "jsTemplate": "function double(x) {\n  return x * 2;\n}\n\nfunction addFive(x) {\n  return x + 5;\n}\n\nfunction square(x) {\n  return x * x;\n}\n\nfunction composeCalculations(x, operations) {\n  // TODO: Apply each function in the operations array to the input value in sequence\n  // Example: composeCalculations(3, [double, addFive]) should return 11 (double(3) = 6, then addFive(6) = 11)\n  \n}",
-      "jsTest": "    it(\"should correctly compose functions in sequence\", () => {\n      assert.strictEqual(composeCalculations(3, [double, addFive]), 11);       // (3*2)+5 = 11\n      assert.strictEqual(composeCalculations(3, [double, square]), 36);         // (3*2)^2 = 36\n      assert.strictEqual(composeCalculations(3, [addFive, double, square]), 256); // ((3+5)*2)^2 = 256\n      assert.strictEqual(composeCalculations(3, []), 3);                        // No operations = return original\n    });"
+      "hint": "Iterate operations: `let result = x; operations.forEach(fn => result = fn(result)); return result;`",
+      "jsTemplate": "function double(x) { return x * 2; }\n\nfunction addFive(x) { return x + 5; }\n\nfunction square(x) { return x * x; }\n\nfunction composeCalculations(x, operations) {\n  // TODO: Apply each function in operations to x in sequence\n}",
+      "jsTest": "    it(\"should correctly compose functions in sequence\", () => {\n      assert.strictEqual(composeCalculations(3, [double, addFive]), 11);\n      assert.strictEqual(composeCalculations(3, [double, square]), 36);\n      assert.strictEqual(composeCalculations(3, [addFive, double, square]), 256);\n      assert.strictEqual(composeCalculations(3, []), 3);\n    });",
+      "chapterId": "03-functions-modularCode"
     },
     {
       "name": "memoize",
       "description": "Create a function that memoizes the results of another function",
-      "jsTemplate": "// This is a function that calculates fibonacci numbers (don't modify this)\nfunction fibonacci(n) {\n  if (n <= 1) return n;\n  return fibonacci(n - 1) + fibonacci(n - 2);\n}\n\nfunction memoize(fn) {\n  // TODO: Create a memoization wrapper for the passed function\n  // The wrapper should cache results for previously used arguments\n  // This will make repeated calls with the same input much faster\n  \n}",
-      "jsTest": "    it(\"should memoize function results\", () => {\n      const memoized_fib = memoize(fibonacci);\n      \n      // First call - should calculate and cache\n      assert.strictEqual(memoized_fib(10), 55);\n      \n      // This is a spy to count function calls\n      let count = 0;\n      function test_fn(x) {\n        count++;\n        return x * 2;\n      }\n      \n      const memoized_test = memoize(test_fn);\n      \n      // First calls with different inputs\n      assert.strictEqual(memoized_test(1), 2);\n      assert.strictEqual(memoized_test(2), 4);\n      assert.strictEqual(count, 2); // Two different calls\n      \n      // Repeat calls should use cache\n      assert.strictEqual(memoized_test(1), 2);\n      assert.strictEqual(memoized_test(2), 4);\n      assert.strictEqual(count, 2); // Count shouldn't increase\n    });"
+      "hint": "Use an object cache: store results by argument key and return cached values when available",
+      "jsTemplate": "function fibonacci(n) {\n  if (n <= 1) return n;\n  return fibonacci(n - 1) + fibonacci(n - 2);\n}\n\nfunction memoize(fn) {\n  // TODO: Return a wrapper that caches fn results in an object\n}",
+      "jsTest": "    it(\"should memoize function results\", () => {\n      const memoized_fib = memoize(fibonacci);\n      assert.strictEqual(memoized_fib(10), 55);\n\n      let count = 0;\n      function test_fn(x) { count++; return x * 2; }\n      const memoized_test = memoize(test_fn);\n      assert.strictEqual(memoized_test(1), 2);\n      assert.strictEqual(memoized_test(2), 4);\n      assert.strictEqual(count, 2);\n      assert.strictEqual(memoized_test(1), 2);\n      assert.strictEqual(memoized_test(2), 4);\n      assert.strictEqual(count, 2);\n    });",
+      "chapterId": "03-functions-modularCode"
     }
   ],
   "resources": {

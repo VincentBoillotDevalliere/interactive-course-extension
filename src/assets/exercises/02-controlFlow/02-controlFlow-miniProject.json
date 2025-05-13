@@ -1,0 +1,8 @@
+{
+  "name": "miniProject",
+  "description": "Mini Project: Generate a grade report from an array of scores",
+  "hint": "Use a loop to iterate over scores and if/else to categorize each one into A, B, C, D, or F, incrementing counts in an object.",
+  "jsTemplate": "function miniProject(scores) {\n  // TODO: Create an object with properties A, B, C, D, F all set to 0\n  // Loop through the scores array:\n  //   if score >= 90 → increment A\n  //   else if score >= 80 → increment B\n  //   else if score >= 70 → increment C\n  //   else if score >= 60 → increment D\n  //   else → increment F\n  // Return the report object\n}",
+  "jsTest": "it(\"should generate correct grade report\", () => {\n  const result = miniProject([95, 85, 75, 65, 55]);\n  assert.deepStrictEqual(result, { A: 1, B: 1, C: 1, D: 1, F: 1 });\n  const empty = miniProject([]);\n  assert.deepStrictEqual(empty, { A: 0, B: 0, C: 0, D: 0, F: 0 });\n});",
+  "chapterId": "02-controlFlow"
+}

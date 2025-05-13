@@ -1,0 +1,8 @@
+{
+    "name": "miniProject",
+    "description": "Mini project: build a simple order summary using variables and template literals",
+    "hint": "Compute total = quantity * price, use `total.toFixed(2)` and a template literal for the message.",
+    "jsTemplate": "function miniProject(item, quantity, price) {\n  // TODO:\n  // 1. Declare a variable `total` to calculate quantity * price\n  // 2. Declare a variable `message` using a template literal:\n  //    `You ordered ${quantity} ${item}(s) for a total of $${total.toFixed(2)}.`\n  // 3. Return an object: { item, quantity, price, total, message }\n}",
+    "jsTest": "    it(\"should build an order summary\", () => {\n      const result = miniProject(\"apple\", 3, 0.5);\n      assert.strictEqual(result.item, \"apple\");\n      assert.strictEqual(result.quantity, 3);\n      assert.strictEqual(result.price, 0.5);\n      assert.strictEqual(result.total, 1.5);\n      assert.strictEqual(result.message, \"You ordered 3 apple(s) for a total of $1.50.\");\n    });",
+    "chapterId": "01-variables-dataTypes"
+}

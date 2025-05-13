@@ -1,0 +1,8 @@
+{
+  "name": "miniProject",
+  "description": "Mini Project: summarize array operations by searching, sorting, and recursion",
+  "hint": "Use linearSearch, bubbleSort, findMaxValue, factorial, and findPairSum to assemble a summary object",
+  "jsTemplate": "function miniProject(arr, target) {\n  // TODO:\n  // 1. const index = linearSearch(arr, target);\n  // 2. const sorted = bubbleSort(arr.slice());\n  // 3. const max = findMaxValue(arr);\n  // 4. const factorialOfMax = factorial(max);\n  // 5. const pairIndices = findPairSum(arr, target);\n  // Return { input: arr, index, sorted, max, factorialOfMax, pairIndices }\n}",
+  "jsTest": "it(\"should produce a correct summary of algorithms applied to the array\", () => {\n  const arr = [3, 1, 4, 2];\n  const result = miniProject(arr, 4);\n  assert.deepStrictEqual(result.input, [3, 1, 4, 2]);\n  assert.strictEqual(result.index, 2);\n  assert.deepStrictEqual(result.sorted, [1, 2, 3, 4]);\n  assert.strictEqual(result.max, 4);\n  assert.strictEqual(result.factorialOfMax, 24);\n  assert.deepStrictEqual(result.pairIndices, [0, 1]);\n});",
+  "chapterId": "05-basic-algorithm"
+}
