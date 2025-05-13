@@ -4,6 +4,12 @@
   "description": "A VS Code all-in-one extension to create and follow interactive programming courses.",
   "version": "0.1.1",
   "publisher": "VincentBoillotDevalliere",
+  "license": "PROPRIETARY",
+  "homepage": "https://github.com/VincentBoillotDevalliere/interactive-course-extension",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/VincentBoillotDevalliere/interactive-course-extension"
+  },
   "engines": {
     "vscode": "^1.60.0"
   },
@@ -12,6 +18,15 @@
     "Other"
   ],
   "main": "./out/extension.js",
+  "activationEvents": [
+    "onCommand:extension.createCourse",
+    "onCommand:extension.runTests",
+    "onCommand:extension.refreshModules",
+    "onCommand:extension.runModuleTests",
+    "onCommand:extension.createNewExercise",
+    "onCommand:extension.createSolutionFile",
+    "onView:courseModules"
+  ],
   "contributes": {
     "commands": [
       {

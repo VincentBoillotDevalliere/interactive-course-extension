@@ -52,3 +52,5 @@ Each course is organized into chapters, with each chapter containing:
 ## Buy Me a Coffee
 If you appreciate the extension and would like to support its development, feel free to [buy me a coffee](https://buymeacoffee.com/vincentboillotdevalliere)! Your support helps keep the project alive and improving. ☕💖
 
+## License 
+This extension is licensed under the [Proprietary](LICENSE)
