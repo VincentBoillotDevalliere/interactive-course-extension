@@ -1,78 +1,54 @@
-# Interactive Course Extension
+# LearnForge - Interactive Programming Course Extension
 
-Une extension VS Code pour créer et suivre des cours interactifs de programmation, conçue spécialement pour les débutants.
+LearnForge is a comprehensive Visual Studio Code extension designed to create and follow interactive programming courses directly within your code editor. Transform your learning experience with hands-on, progressive exercises and real-time feedback.
 
-## Fonctionnalités
+## Features
 
-Cette extension permet de :
+- 🎯 **Interactive Learning Experience**: Follow structured programming courses with hands-on exercises and real-time feedback.
+- 📚 **Progressive Chapter Structure**: Organized learning modules covering fundamental to advanced programming concepts.
+- ✅ **Automated Testing**: Built-in test runner to validate your solutions and track progress.
+- 🔍 **Code Analysis**: Intelligent code highlighting for TODOs and areas requiring attention.
+- 📊 **Progress Tracking**: Visual progress indicators and module status tracking.
+- 🌐 **Multi-Language Support**: Currently supports JavaScript exercises but aim to add new ones.
 
-- 📚 **Créer des cours de programmation** avec plusieurs modules progressifs
-- 🔄 **Suivre la progression** de l'apprentissage à travers les modules
-- ✅ **Valider automatiquement** les exercices via des tests unitaires
-- 📝 **Fournir des explications** détaillées dans chaque leçon
+## Getting Started
 
-L'extension génère pour chaque module :
-- Un fichier `exercise.md` avec l'explication de la leçon
-- Un fichier `main.js` ou `main.py` à compléter par l'apprenant
-- Un fichier de tests unitaires qui vérifie la solution
+1. Install the extension from the VS Code Marketplace
+2. Open the command palette (`Ctrl+Shift+P` / `Cmd+Shift+P`)
+3. Type `LearnForge: Launch Interactive Course` and press Enter
+4. Follow the course creation wizard
 
-![Aperçu de l'extension](images/preview.png)
+## Course Structure
 
-## Comment utiliser cette extension
+Each course is organized into chapters, with each chapter containing:
+- Progressive exercises with clear objectives
+- Step-by-step instructions
+- Interactive code challenges
+- Automated tests for validation
+- Supplementary learning resources
 
-### Pour les formateurs
+### Available Chapters
 
-1. Ouvrez un dossier vide dans VS Code
-2. Exécutez la commande "Create Interactive Course" depuis la palette de commandes
-3. Donnez un nom à votre cours et choisissez le langage (JavaScript ou Python)
-4. Personnalisez les fichiers générés pour adapter le contenu à vos besoins
+- Variables & Data Types
+- Control Flow
+- Functions & Modular Code
+- Data Structures
+- Basic Algorithms
 
-### Pour les apprenants
+## Commands
 
-1. Ouvrez le dossier du cours dans VS Code
-2. Naviguez entre les modules via la vue "Course Explorer" dans la barre d'activité
-3. Lisez les instructions dans le fichier `exercise.md`
-4. Complétez le code dans le fichier `main.js` ou `main.py`
-5. Exécutez les tests via la commande "Run Current Module Tests"
-6. Une fois les tests réussis, vous débloquerez automatiquement le module suivant
+- `LearnForge: Launch Interactive Course` - Start a new course
+- `LearnForge: Run Current Module Tests` - Test your current exercise solution
+- `LearnForge: Refresh Course Modules` - Update the module view
+- `LearnForge: Run Module Tests` - Run tests for a specific module
 
-## Structure des modules
+## Extension Views
 
-Chaque module comprend :
+- **Course Modules**: Tree view showing all available modules and their status
+- **Test Results**: Quick access to test results and validation
+- **Status Bar**: Easy access to run tests for the current module
 
-- **exercise.md** : Explications, objectifs et instructions pour l'exercice
-- **main.js/py** : Fichier de code à compléter par l'apprenant
-- **tests.js/py** : Tests unitaires qui valident la solution
 
-## Structure des fichiers d'extension
+## Buy Me a Coffee
+If you appreciate the extension and would like to support its development, feel free to buy me a coffee! Your support helps keep the project alive and improving. ☕💖
 
-L'extension organise le contenu pédagogique selon la structure suivante :
-
-### Chapitres et exercices
-- `/src/assets/templates/chapters/` - Contient les fichiers Markdown de chaque chapitre
-- `/src/assets/exercises/[chapter-id]/` - Contient les exercices JSON pour chaque chapitre:
-  - `chapter-info.json` - Métadonnées du chapitre (titre, ressources)
-  - `[chapter-id]-[exercise-name].json` - Fichiers individuels d'exercices
-
-Chaque chapitre peut contenir plusieurs exercices, permettant une progression plus granulaire
-de l'apprentissage.
-
-## Langages supportés
-
-- JavaScript
-- Python
-
-D'autres langages pourront être ajoutés dans les versions futures.
-
-## Prérequis
-
-- Visual Studio Code v1.60.0 ou supérieur
-- Node.js (pour les cours JavaScript)
-- Python (pour les cours Python)
-
-## Extension Settings
-
-Cette extension contribue les paramètres suivants :
-
-* `interactiveCourse.autoOpenNextModule`: Ouvre automatiquement le module suivant après avoir complété un module
-* `interactiveCourse.enableAutoCompletion`: Active ou désactive les suggestions d'auto-complétion pour les débutants
