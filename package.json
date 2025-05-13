@@ -3,7 +3,7 @@
   "displayName": "LearnForge",
   "description": "A VS Code all-in-one extension to create and follow interactive programming courses.",
   "version": "0.1.1",
-  "publisher": "yourName",
+  "publisher": "VincentBoillotDevalliere",
   "engines": {
     "vscode": "^1.60.0"
   },
